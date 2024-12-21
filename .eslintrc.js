@@ -26,5 +26,6 @@ module.exports = {
     "jsx-quotes": ["error", "prefer-double"],
     "react/react-in-jsx-scope": "off",
     "no-console": "error",
+    "react/prop-types": "off",
   },
 };
