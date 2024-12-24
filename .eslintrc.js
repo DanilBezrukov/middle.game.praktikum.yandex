@@ -21,7 +21,7 @@ module.exports = {
     "default-case": "error",
     semi: "error",
     "arrow-body-style": ["error", "as-needed"],
-    quotes: ["error", "double"],
+    quotes: "off",
     "max-len": ["error", 100],
     "jsx-quotes": ["error", "prefer-double"],
     "react/react-in-jsx-scope": "off",
