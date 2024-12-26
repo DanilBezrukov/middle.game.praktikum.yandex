@@ -1,5 +1,5 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
-import backgroundImage from "@/assets/background.png";
+import backgroundImage from "../../assets/background.png";
 
 export const LoginPage: React.FC = () => (
   <Box
