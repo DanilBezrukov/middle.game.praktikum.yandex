@@ -1,20 +1,13 @@
-import "./App.css";
+import { RouterProvider } from "react-router-dom";
+import { router } from "@/app/providers";
+import "@/app/style/style.css";
 
 function App() {
-  // **** Закоментировал, пока что нет сервера ***
-
-  // useEffect(() => {
-  //   const fetchServerData = async () => {
-  //     const url = `http://localhost:${__SERVER_PORT__}`;
-  //     const response = await fetch(url);
-  //     const data = await response.json();
-  //     console.log(data);
-  //   };
-  //
-  //   fetchServerData();
-  // }, []);
-
-  return <div className="App">Вот тут будет жить ваше приложение :)</div>;
+  return (
+    <div id="app">
+      <RouterProvider router={router} />
+    </div>
+  );
 }
 
 export default App;
