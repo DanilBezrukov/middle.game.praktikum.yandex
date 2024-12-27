@@ -1,4 +1,6 @@
 import "./App.css";
+import { BrowserRouter } from "react-router-dom";
+import Error400 from "./pages/ErrorPage";
 
 function App() {
   // **** Закоментировал, пока что нет сервера ***
@@ -14,7 +16,13 @@ function App() {
   //   fetchServerData();
   // }, []);
 
-  return <div className="App">Вот тут будет жить ваше приложение :)</div>;
+  return (
+    <BrowserRouter>
+      <div className="App">
+        <Error400></Error400>
+      </div>
+    </BrowserRouter>
+  );
 }
 
 export default App;
