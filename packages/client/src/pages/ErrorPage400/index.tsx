@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Button, Paper, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
 import errorIcon from "@/assets/error404hamster.png";
 import backgroundImage from "@/assets/background.png";
 import styles from "./ErrorPage.module.css";
