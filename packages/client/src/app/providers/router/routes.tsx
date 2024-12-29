@@ -14,7 +14,7 @@ export const routes: RouteObject[] = [
     element: <RegistrationPage />,
   },
   {
-    path: paths.error,
+    path: paths.error4,
     element: <ErrorPage400 />,
   },
   {
