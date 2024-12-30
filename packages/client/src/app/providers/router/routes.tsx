@@ -2,6 +2,7 @@ import type { RouteObject } from "react-router-dom";
 import { LoginPage } from "@/pages/LoginPage";
 import { paths } from "@/app/constants/paths";
 import { RegistrationPage } from "@/pages/RegistrationPage";
+import { ErrorPage400 } from "@/pages/ErrorPage400";
 
 export const routes: RouteObject[] = [
   {
@@ -11,6 +12,10 @@ export const routes: RouteObject[] = [
   {
     path: paths.signUp,
     element: <RegistrationPage />,
+  },
+  {
+    path: paths.error4,
+    element: <ErrorPage400 />,
   },
   {
     path: "/profile",
