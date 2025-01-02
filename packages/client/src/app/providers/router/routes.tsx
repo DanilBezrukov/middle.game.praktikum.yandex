@@ -3,6 +3,8 @@ import { LoginPage } from "@/pages/LoginPage";
 import { paths } from "@/app/constants/paths";
 import { RegistrationPage } from "@/pages/RegistrationPage";
 import { ErrorPage400 } from "@/pages/ErrorPage400";
+import { HomePage } from "@/pages/HomePage";
+import { AuthGuard } from "@/app/providers/router/AuthGuard";
 
 export const routes: RouteObject[] = [
   {
@@ -18,24 +20,44 @@ export const routes: RouteObject[] = [
     element: <ErrorPage400 />,
   },
   {
-    path: "/profile",
-    element: <div>Профиль</div>,
+    path: paths.profile,
+    element: (
+      <AuthGuard>
+        <div>Профиль пользователя</div>
+      </AuthGuard>
+    ),
   },
   {
-    path: "/",
-    element: <div>HomePage</div>,
+    path: paths.homePage,
+    element: (
+      <AuthGuard>
+        <HomePage />
+      </AuthGuard>
+    ),
   },
   {
-    path: "/game",
-    element: <div>Страница игры</div>,
+    path: paths.game,
+    element: (
+      <AuthGuard>
+        <div>Страница игры</div>
+      </AuthGuard>
+    ),
   },
   {
-    path: "/leaderboard",
-    element: <div>Страница лидерборда</div>,
+    path: paths.leaderboard,
+    element: (
+      <AuthGuard>
+        <div>Страница лидерборда</div>
+      </AuthGuard>
+    ),
   },
   {
-    path: "/forum",
-    element: <div>Страница форума</div>,
+    path: paths.forum,
+    element: (
+      <AuthGuard>
+        <div>Страница форума</div>
+      </AuthGuard>
+    ),
   },
   {
     path: "/500",
