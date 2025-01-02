@@ -3,6 +3,8 @@ import { LoginPage } from "@/pages/LoginPage";
 import { paths } from "@/app/constants/paths";
 import { RegistrationPage } from "@/pages/RegistrationPage";
 import { ErrorPage400 } from "@/pages/ErrorPage400";
+import { DevIndexPage } from "@/pages/DevIndexPage/DevIndexPage";
+import { GamePage } from "@/pages/GamePage/GamePage";
 
 export const routes: RouteObject[] = [
   {
@@ -23,11 +25,11 @@ export const routes: RouteObject[] = [
   },
   {
     path: "/",
-    element: <div>HomePage</div>,
+    element: <DevIndexPage />,
   },
   {
     path: "/game",
-    element: <div>Страница игры</div>,
+    element: <GamePage />,
   },
   {
     path: "/leaderboard",
