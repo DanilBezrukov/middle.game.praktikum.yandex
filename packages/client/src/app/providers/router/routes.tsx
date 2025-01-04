@@ -42,6 +42,7 @@ export const routes: RouteObject[] = [
         <div>Страница игры</div>
       </AuthGuard>
     ),
+
   },
   {
     path: paths.leaderboard,
