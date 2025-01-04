@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import { TextField, TextFieldProps } from "@mui/material";
 
-export const UiTextField = forwardRef<HTMLInputElement, TextFieldProps>(
+export const UiTextField = forwardRef<HTMLDivElement, TextFieldProps>(
   ({ ...props }, ref) => (
     <TextField
       ref={ref}
