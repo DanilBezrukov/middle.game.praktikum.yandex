@@ -1,78 +1,103 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
-import backgroundImage from "@/assets/background.png";
+import { paths } from "@/app/constants/paths";
+import {
+  useLazyGetUserInfoQuery,
+  useLoginByLoginMutation,
+} from "@/api/authApi";
+import { ILoginData } from "@/types/types";
+import { Box, TextField, Typography } from "@mui/material";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { UiLayout } from "@/components/ui/UiLayout";
+import { UiPaper } from "@/components/ui/UiPaper";
+import { UiButton } from "@/components/ui/UiButton";
 
-export const LoginPage: React.FC = () => (
-  <Box
-    sx={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      height: "100%",
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundPosition: "center",
-    }}>
-    <Box sx={{ width: 550 }}>
-      <Paper
-        sx={{
-          padding: 3,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 2,
-          width: 650,
-          maxWidth: "100%",
-          height: 500,
-          overflow: "auto",
-          borderRadius: "3%",
-          backdropFilter: "blur(10px)",
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
-        }}
-        elevation={1}
-        component="form">
-        <Typography variant="h3" component="h1" sx={{ margin: "30px" }}>
-          Авторизация
-        </Typography>
-        <TextField
-          label="Логин"
-          variant="outlined"
-          InputProps={{ sx: { borderRadius: 10, width: 400, height: 55 } }}
-        />
-        <TextField
-          label="Пароль"
-          variant="outlined"
-          type="password"
-          InputProps={{ sx: { borderRadius: 10, width: 400, height: 55 } }}
-        />
-        <Button
-          variant="contained"
-          type="submit"
+export const LoginPage: React.FC = () => {
+  const { register, handleSubmit, reset } = useForm<ILoginData>();
+  const navigate = useNavigate();
+  const [loginByLogin, { isError }] = useLoginByLoginMutation();
+  const [getUserInfo] = useLazyGetUserInfoQuery();
+
+  useEffect(() => {
+    getUserInfo()
+      .unwrap()
+      .then(() => {
+        navigate(paths.homePage);
+      });
+  }, []);
+
+  const onSubmit = (data: ILoginData) => {
+    loginByLogin(data)
+      .unwrap()
+      .then(() => {
+        reset();
+        navigate(paths.homePage);
+      })
+      .catch(e => {
+        if (e.status >= 500) {
+          navigate(paths.error);
+        }
+      });
+  };
+
+  return (
+    <UiLayout>
+      <Box sx={{ width: 550 }}>
+        <UiPaper
           sx={{
-            width: 400,
-            height: 55,
-            backgroundColor: "#FFE600",
-            color: "#000",
-            borderRadius: 3,
-            marginTop: "50px",
-            typography: {
-              fontSize: "17px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 2,
+            overflow: "auto",
+            borderRadius: "3%",
+          }}
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}>
+          <Typography variant="h3" component="h1" sx={{ margin: "30px" }}>
+            Авторизация
+          </Typography>
+          <TextField
+            label="Логин"
+            variant="outlined"
+            {...register("login")}
+            InputProps={{ sx: { borderRadius: 10, width: 400, height: 55 } }}
+          />
+          <TextField
+            label="Пароль"
+            variant="outlined"
+            type="password"
+            {...register("password")}
+            InputProps={{ sx: { borderRadius: 10, width: 400, height: 55 } }}
+          />
+          {isError && (
+            <Typography variant="body2" color="error">
+              Неправильный логин или пароль
+            </Typography>
+          )}
+          <UiButton
+            sx={{
+              width: 400,
+              height: 55,
+              marginTop: "50px",
+            }}>
+            Авторизация
+          </UiButton>
+          <Typography
+            variant="body1"
+            sx={{
+              marginTop: 2,
+              textAlign: "center",
+              cursor: "pointer",
+              color: "#000000",
               fontWeight: "bold",
-            },
-          }}>
-          Авторизация
-        </Button>
-        <Typography
-          variant="body1"
-          sx={{
-            marginTop: 2,
-            textAlign: "center",
-            cursor: "pointer",
-            color: "#000000",
-            fontWeight: "bold",
-            textDecoration: "underline",
-          }}>
-          У вас нет аккаунта? Регистрация
-        </Typography>
-      </Paper>
-    </Box>
-  </Box>
-);
+              textDecoration: "underline",
+            }}
+            onClick={() => navigate(paths.signUp)}>
+            У вас нет аккаунта? Регистрация
+          </Typography>
+        </UiPaper>
+      </Box>
+    </UiLayout>
+  );
+};
