@@ -22,6 +22,7 @@ export function HomePage() {
           HOME PAGE
         </Typography>
         <UiButton onClick={handleLogout}>Выход</UiButton>
+        <UiButton onClick={() => navigate(paths.profile)}>Страница Профиля</UiButton>
       </Box>
     </Container>
   );

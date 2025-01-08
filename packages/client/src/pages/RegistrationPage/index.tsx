@@ -1,12 +1,13 @@
 import { paths } from "@/app/constants/paths";
 import { useCreateUserMutation } from "@/api/authApi";
-import { IUser } from "@/types/types";
-import { TextField, Typography, Grid } from "@mui/material";
+import { IUser } from "@/types/auth.interface";
+import { Typography, Grid } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { UiButton } from "@/components/ui/UiButton";
+import { UiTextField } from "@/components/ui/UiTextField";
 
 export const RegistrationPage: React.FC = () => {
   const { register, handleSubmit, reset } = useForm<Omit<IUser, "id">>();
@@ -51,14 +52,14 @@ export const RegistrationPage: React.FC = () => {
         </Typography>
         <Grid container spacing={3}>
           <Grid item xs={6}>
-            <TextField
+            <UiTextField
               label="Имя"
               variant="outlined"
               fullWidth
               {...register("first_name")}
               InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
             />
-            <TextField
+            <UiTextField
               label="Email"
               variant="outlined"
               fullWidth
@@ -66,7 +67,7 @@ export const RegistrationPage: React.FC = () => {
               {...register("email")}
               InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
             />
-            <TextField
+            <UiTextField
               label="Логин"
               variant="outlined"
               fullWidth
@@ -75,21 +76,21 @@ export const RegistrationPage: React.FC = () => {
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
+            <UiTextField
               label="Фамилия"
               variant="outlined"
               fullWidth
               {...register("second_name")}
               InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
             />
-            <TextField
+            <UiTextField
               label="Телефон"
               variant="outlined"
               fullWidth
               {...register("phone")}
               InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
             />
-            <TextField
+            <UiTextField
               label="Пароль"
               variant="outlined"
               fullWidth
@@ -100,10 +101,7 @@ export const RegistrationPage: React.FC = () => {
           </Grid>
         </Grid>
         {isError && (
-          <Typography
-            variant="body2"
-            color="error"
-            sx={{ textAlign: "center" }}>
+          <Typography variant="body2" color="error" sx={{ textAlign: "center" }}>
             Что-то пошло не так
           </Typography>
         )}
