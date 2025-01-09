@@ -4,6 +4,7 @@ import { paths } from "@/app/constants/paths";
 import { RegistrationPage } from "@/pages/RegistrationPage";
 import { ErrorPage400 } from "@/pages/ErrorPage400";
 import { HomePage } from "@/pages/HomePage";
+import { ProfilePage } from "@/pages/ProfilePage";
 import { AuthGuard } from "@/app/providers/router/AuthGuard";
 
 export const routes: RouteObject[] = [
@@ -23,7 +24,7 @@ export const routes: RouteObject[] = [
     path: paths.profile,
     element: (
       <AuthGuard>
-        <div>Профиль пользователя</div>
+        <ProfilePage />
       </AuthGuard>
     ),
   },
@@ -42,7 +43,6 @@ export const routes: RouteObject[] = [
         <div>Страница игры</div>
       </AuthGuard>
     ),
-
   },
   {
     path: paths.leaderboard,

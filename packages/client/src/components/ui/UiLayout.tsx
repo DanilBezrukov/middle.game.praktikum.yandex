@@ -2,16 +2,13 @@ import { FC, ReactNode } from "react";
 import backgroundImage from "@/assets/background.png";
 import { Box, SxProps } from "@mui/material";
 
-export const UiLayout: FC<{ children: ReactNode; sx?: SxProps }> = ({
-  children,
-  sx,
-}) => (
+export const UiLayout: FC<{ children: ReactNode; sx?: SxProps }> = ({ children, sx }) => (
   <Box
     sx={{
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      height: "100vh",
+      minHeight: "100vh",
       backgroundImage: `url(${backgroundImage})`,
       backgroundPosition: "center",
       backdropFilter: "blur(10px)",
