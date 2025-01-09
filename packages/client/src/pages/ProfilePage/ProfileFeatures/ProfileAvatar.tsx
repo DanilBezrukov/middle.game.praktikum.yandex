@@ -5,7 +5,7 @@ import { Avatar, Box, IconButton } from "@mui/material";
 import { useSetProfileAvatarMutation } from "@/api/profileApi";
 import { BASE_URL } from "@/api/baseApi";
 import { useActions, useAppSelector } from "@/hooks";
-import { Message } from "@/components/ui/UiMessage";
+import { UiMessage } from "@/components/ui/UiMessage";
 import { RootState } from "@/store";
 
 export const ProfileAvatar: React.FC = () => {
@@ -19,10 +19,14 @@ export const ProfileAvatar: React.FC = () => {
   const AVATAR_URL = `${BASE_URL}/resources/${avatar}`;
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target?.files) return;
+    const files = event.target?.files;
+
+    if (!files || files.length === 0) {
+      return;
+    }
 
     const formData = new FormData();
-    formData.append("avatar", event.target.files[0]);
+    formData.append("avatar", files[0]);
 
     await profileAvatar(formData).unwrap().then(setProfile);
   };
@@ -43,8 +47,8 @@ export const ProfileAvatar: React.FC = () => {
           </IconButton>
         </label>
       </Box>
-      {isSuccess && <Message title="Успех!" />}
-      {isError && <Message severity="error" title="Что то пошло не так!" />}
+      {isSuccess && <UiMessage title="Успех!" />}
+      {isError && <UiMessage severity="error" title="Что то пошло не так!" />}
     </>
   );
 };

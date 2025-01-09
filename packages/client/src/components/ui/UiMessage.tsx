@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Alert, AlertProps, Snackbar } from "@mui/material";
 
-export const Message: React.FC<AlertProps> = props => {
+export const UiMessage: React.FC<AlertProps> = props => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
 
   const handleMessageClose = () => {

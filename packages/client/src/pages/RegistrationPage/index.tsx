@@ -34,7 +34,6 @@ export const RegistrationPage: React.FC = () => {
         sx={{
           width: "750px",
           padding: 4,
-          borderRadius: 3,
         }}
         component="form"
         onSubmit={handleSubmit(onSubmit)}>
@@ -52,52 +51,14 @@ export const RegistrationPage: React.FC = () => {
         </Typography>
         <Grid container spacing={3}>
           <Grid item xs={6}>
-            <UiTextField
-              label="Имя"
-              variant="outlined"
-              fullWidth
-              {...register("first_name")}
-              InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
-            />
-            <UiTextField
-              label="Email"
-              variant="outlined"
-              fullWidth
-              type="email"
-              {...register("email")}
-              InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
-            />
-            <UiTextField
-              label="Логин"
-              variant="outlined"
-              fullWidth
-              {...register("login")}
-              InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
-            />
+            <UiTextField label="Имя" {...register("first_name")} />
+            <UiTextField label="Email" type="email" {...register("email")} />
+            <UiTextField label="Логин" {...register("login")} />
           </Grid>
           <Grid item xs={6}>
-            <UiTextField
-              label="Фамилия"
-              variant="outlined"
-              fullWidth
-              {...register("second_name")}
-              InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
-            />
-            <UiTextField
-              label="Телефон"
-              variant="outlined"
-              fullWidth
-              {...register("phone")}
-              InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
-            />
-            <UiTextField
-              label="Пароль"
-              variant="outlined"
-              fullWidth
-              type="password"
-              {...register("password")}
-              InputProps={{ sx: { borderRadius: 10 } }}
-            />
+            <UiTextField label="Фамилия" {...register("second_name")} />
+            <UiTextField label="Телефон" {...register("phone")} />
+            <UiTextField label="Пароль" type="password" {...register("password")} />
           </Grid>
         </Grid>
         {isError && (
