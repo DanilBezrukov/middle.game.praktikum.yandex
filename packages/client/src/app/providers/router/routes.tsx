@@ -3,6 +3,7 @@ import { LoginPage } from "@/pages/LoginPage";
 import { paths } from "@/app/constants/paths";
 import { RegistrationPage } from "@/pages/RegistrationPage";
 import { ErrorPage400 } from "@/pages/ErrorPage400";
+import { ErrorPage } from "@/pages/ErrorPage500";
 import { HomePage } from "@/pages/HomePage";
 import { AuthGuard } from "@/app/providers/router/AuthGuard";
 
@@ -42,7 +43,6 @@ export const routes: RouteObject[] = [
         <div>Страница игры</div>
       </AuthGuard>
     ),
-
   },
   {
     path: paths.leaderboard,
@@ -61,8 +61,8 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: "/500",
-    element: <div>Ошибка 500</div>,
+    path: paths.error,
+    element: <ErrorPage />,
   },
   {
     path: "*",
