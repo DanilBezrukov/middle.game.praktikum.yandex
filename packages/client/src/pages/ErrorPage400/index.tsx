@@ -1,21 +1,11 @@
 import React from "react";
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Button, Paper, Typography } from "@mui/material";
 import errorIcon from "@/assets/error404hamster.png";
-import backgroundImage from "@/assets/background.png";
 import styles from "./ErrorPage.module.css";
+import { UiLayout } from "@/components/ui/UiLayout";
 
 export const ErrorPage400: React.FC = () => (
-  <Box
-    sx={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      height: "100vh",
-      backgroundColor: "#f5f5f5",
-      backgroundImage: `url(${backgroundImage})`,
-      textAlign: "center",
-      padding: 3,
-    }}>
+  <UiLayout>
     <Paper
       sx={{
         padding: "70px",
@@ -63,5 +53,5 @@ export const ErrorPage400: React.FC = () => (
         Вернуться
       </Button>
     </Paper>
-  </Box>
+  </UiLayout>
 );

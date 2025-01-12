@@ -1,0 +1,34 @@
+.HomePage_UiPaper {
+  margin-bottom: 20px;
+  padding: 50px 70px !important;
+}
+
+.HomeProfile_Container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.HomeProfile_Buttons {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+.GameDescription {
+  gap: 60px;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.NavigationList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
