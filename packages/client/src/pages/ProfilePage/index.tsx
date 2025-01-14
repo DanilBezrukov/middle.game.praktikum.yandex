@@ -40,7 +40,7 @@ export const ProfilePage: React.FC = () => {
         </>
       ) : (
         <>
-          <ProfilePassword />
+          <ProfilePassword onSuccess={() => setIsEditingPassword(false)} />
           <UiButton
             sx={{
               marginTop: 4,

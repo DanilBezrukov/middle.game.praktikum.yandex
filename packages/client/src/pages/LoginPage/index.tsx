@@ -9,11 +9,19 @@ import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { UiButton } from "@/components/ui/UiButton";
 import { UiTextField } from "@/components/ui/UiTextField";
+import { requiredField } from "@/app/utils/validationUserFields";
 
 export const LoginPage: React.FC = () => {
-  const { register, handleSubmit, reset } = useForm<ILoginData>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ILoginData>({
+    mode: "onBlur",
+  });
   const navigate = useNavigate();
-  const [loginByLogin, { isError }] = useLoginByLoginMutation();
+  const [loginByLogin, { isError: isResponseError }] = useLoginByLoginMutation();
   const [getUserInfo] = useLazyGetUserInfoQuery();
 
   useEffect(() => {
@@ -57,18 +65,22 @@ export const LoginPage: React.FC = () => {
         </Typography>
         <UiTextField
           label="Логин"
-          variant="outlined"
-          {...register("login")}
-          InputProps={{ sx: { borderRadius: 10, width: 400, height: 55 } }}
+          error={Boolean(errors.login)}
+          helperText={errors.login?.message}
+          {...register("login", {
+            required: requiredField,
+          })}
         />
         <UiTextField
           label="Пароль"
-          variant="outlined"
           type="password"
-          {...register("password")}
-          InputProps={{ sx: { borderRadius: 10, width: 400, height: 55 } }}
+          error={Boolean(errors.password)}
+          helperText={errors.password?.message}
+          {...register("password", {
+            required: requiredField,
+          })}
         />
-        {isError && (
+        {isResponseError && (
           <Typography variant="body2" color="error">
             Неправильный логин или пароль
           </Typography>
