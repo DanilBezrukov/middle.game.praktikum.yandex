@@ -12,7 +12,6 @@ import Grid from "@mui/material/Grid2";
 import { PROFILE_FIELDS } from "@/pages/ProfilePage/ProfileFeatures/profileFields";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { apiTranslateResponseErrors } from "@/app/utils/validationUserFields";
-import { Tooltip } from "@mui/material";
 
 export const ProfileInfo: React.FC = () => {
   const [profileInfo, { isSuccess, error: responseError }] = useSetProfileInfoMutation();
