@@ -13,32 +13,32 @@ export const REGISTRATION_FIELDS: IRegistrationFields[] = [
     label: "Email",
     name: "email",
     type: "email",
-    options: rules["email"],
+    options: rules.email,
   },
   {
     label: "Логин",
     name: "login",
-    options: rules["login"],
+    options: rules.login,
   },
   {
     label: "Имя",
     name: "first_name",
-    options: rules["first_name"],
+    options: rules.first_name,
   },
   {
     label: "Фамилия",
     name: "second_name",
-    options: rules["second_name"],
+    options: rules.second_name,
   },
   {
     label: "Телофон",
     name: "phone",
-    options: rules["phone"],
+    options: rules.phone,
   },
   {
     label: "Пароль",
     name: "password",
     type: "password",
-    options: rules["password"],
+    options: rules.password,
   },
 ];
