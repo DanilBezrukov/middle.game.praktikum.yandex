@@ -6,6 +6,7 @@ import { ErrorPage400 } from "@/pages/ErrorPage400";
 import { HomePage } from "@/pages/HomePage";
 import { ProfilePage } from "@/pages/ProfilePage";
 import { AuthGuard } from "@/app/providers/router/AuthGuard";
+import { GamePage } from "@/pages/GamePage/GamePage";
 
 export const routes: RouteObject[] = [
   {
@@ -40,7 +41,7 @@ export const routes: RouteObject[] = [
     path: paths.game,
     element: (
       <AuthGuard>
-        <div>Страница игры</div>
+        <GamePage />
       </AuthGuard>
     ),
   },
