@@ -1,8 +1,7 @@
-import { GameOverScreen } from "@/components/GameOverScreen";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { Box } from "@mui/material";
 import backgroundGame from "@/assets/background-game.png";
-import { GameStartedScreen } from "@/components/GameStartedScreen";
+import { GameScreen } from "@/components/GameScreen/GameScreen";
 
 export function GamePage() {
   return (
@@ -29,8 +28,7 @@ export function GamePage() {
           width: "1200px",
           outline: "6px solid #fff",
         }}>
-        {/*<GameOverScreen />*/}
-        {/*<GameStartedScreen />*/}
+        <GameScreen></GameScreen>
       </Box>
     </UiLayout>
   );

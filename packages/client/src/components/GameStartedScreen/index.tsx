@@ -2,12 +2,13 @@ import { GameTitle } from "@/components/GameTitle";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { Fab, Typography } from "@mui/material";
 
-export function GameStartedScreen() {
+export function GameStartedScreen({ setGameScreen }: { setGameScreen: () => void }) {
   return (
     <>
-      <GameTitle></GameTitle>
+      <GameTitle />
 
       <Fab
+        onClick={setGameScreen}
         sx={{
           color: "rgb(78, 121, 58)",
           backgroundColor: "rgb(254, 252, 214)",

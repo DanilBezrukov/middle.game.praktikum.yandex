@@ -4,10 +4,16 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { GameTitle } from "@/components/GameTitle";
 
-export function GameOverScreen() {
+export function GameOverScreen({
+  setGameScreen,
+  score,
+}: {
+  setGameScreen: () => void;
+  score: number;
+}) {
   return (
     <>
-      <GameTitle></GameTitle>
+      <GameTitle />
 
       <Box
         sx={{
@@ -16,7 +22,7 @@ export function GameOverScreen() {
           textAlign: "center",
           lineHeight: "normal",
         }}>
-        Очки <br /> 56
+        Очки <br /> {score}
       </Box>
 
       <Button
@@ -34,6 +40,7 @@ export function GameOverScreen() {
       </Button>
 
       <Fab
+        onClick={setGameScreen}
         sx={{
           color: "rgb(78, 121, 58)",
           backgroundColor: "rgb(254, 252, 214)",

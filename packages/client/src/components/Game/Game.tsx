@@ -11,8 +11,9 @@ import {
 import { birdConfig, gameImages, settingObstacle } from "@/components/Game/gameConstants";
 import { getScore } from "@/components/Game/gameLogic";
 import { birdJump, updateBirdPosition } from "@/components/Game/bird";
+import "./Game.scss";
 
-export function Game() {
+export function Game({ endGame }: { endGame: (score: number) => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | undefined | null>(null);
 
@@ -75,6 +76,7 @@ export function Game() {
 
       if (checkCollision(bird, obstacle, height)) {
         gameOver = true;
+        endGame(score);
       }
 
       score = getScore(bird, obstacle, score);
