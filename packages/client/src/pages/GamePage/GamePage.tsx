@@ -1,6 +1,8 @@
+import { GameOverScreen } from "@/components/GameOverScreen";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { Box } from "@mui/material";
 import backgroundGame from "@/assets/background-game.png";
+import { GameStartedScreen } from "@/components/GameStartedScreen";
 
 export function GamePage() {
   return (
@@ -27,7 +29,8 @@ export function GamePage() {
           width: "1200px",
           outline: "6px solid #fff",
         }}>
-        Страница игры
+        {/*<GameOverScreen />*/}
+        {/*<GameStartedScreen />*/}
       </Box>
     </UiLayout>
   );
