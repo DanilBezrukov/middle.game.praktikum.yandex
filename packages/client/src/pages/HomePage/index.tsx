@@ -1,12 +1,16 @@
 import { Box, Container, Typography } from "@mui/material";
 import { useLogoutMutation } from "@/api/authApi";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "@/hooks";
 import { paths } from "@/app/constants/paths";
 import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
+import { UiA } from "@/components/ui/UiA";
 import { UiPaper } from "@/components/ui/UiPaper";
-import { ProfileAvatar } from "@/pages/ProfilePage/ProfileFeatures";
+import { UiAvatar } from "@/components/ui/UiAvatar";
 import gameIcon from "@/assets/game-icon.png";
+import { RootState } from "@/store";
+import { IProfile } from "@/types/profile.interface";
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -19,12 +23,13 @@ export function HomePage() {
       .catch(() => navigate(paths.error));
   };
 
+  const selectProfileInfo = (state: RootState) => state.profile.user as IProfile;
+
+  const profile = useAppSelector(selectProfileInfo);
+
   return (
     <UiLayout>
       <Container maxWidth="md">
-        <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
-          HOME PAGE
-        </Typography>
         <UiPaper sx={{ mb: 2, p: { xs: 3, sm: 5 } }}>
           <Box
             sx={{
@@ -33,7 +38,32 @@ export function HomePage() {
               justifyContent: "space-between",
               alignItems: "center",
             }}>
-            <ProfileAvatar />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                gap: 3,
+              }}>
+              <UiAvatar />
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-start",
+                }}>
+                <Typography component="div" variant="h6" sx={{ fontWeight: "bold" }}>
+                  <Box component="span" sx={{ marginRight: 1 }}>
+                    {profile.first_name}
+                  </Box>
+                  <Box component="span">{profile.second_name}</Box>
+                </Typography>
+                <Typography component="div" variant="body2" color="text.secondary">
+                  {profile.login}
+                </Typography>
+              </Box>
+            </Box>
+
             <Box
               sx={{
                 display: "flex",
@@ -58,36 +88,8 @@ export function HomePage() {
                 alignItems: "center",
                 gap: 5,
               }}>
-              <Box
-                component="li"
-                sx={{ textAlign: "center", cursor: "pointer" }}
-                onClick={() => navigate(paths.forum)}>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    mt: 2,
-                    color: "#000",
-                    fontWeight: "bold",
-                    textDecoration: "underline",
-                  }}>
-                  Форум
-                </Typography>
-              </Box>
-              <Box
-                component="li"
-                sx={{ textAlign: "center", cursor: "pointer" }}
-                onClick={() => navigate(paths.leaderboard)}>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    mt: 2,
-                    color: "#000",
-                    fontWeight: "bold",
-                    textDecoration: "underline",
-                  }}>
-                  Лидеры
-                </Typography>
-              </Box>
+              <UiA to={paths.forum}>Форум</UiA>
+              <UiA to={paths.leaderboard}>Лидеры</UiA>
             </Box>
           </nav>
         </UiPaper>
