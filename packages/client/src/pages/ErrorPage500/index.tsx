@@ -2,9 +2,8 @@ import React from "react";
 import { Box, Button, Paper, Typography } from "@mui/material";
 import errorIcon from "@/assets/error-bird.png";
 import backgroundImage from "@/assets/background.png";
-import styles from "./ErrorPage.module.css";
 
-export const ErrorPage: React.FC = () => (
+export const ErrorPage500: React.FC = () => (
   <Box
     sx={{
       display: "flex",
@@ -30,19 +29,48 @@ export const ErrorPage: React.FC = () => (
         backgroundColor: "rgba(255, 255, 255, 0.8)",
       }}
       elevation={1}>
-      <div className={styles.content}>
+      <Box
+        sx={{
+          position: "relative",
+          width: "60%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}>
         <Typography
-          className={styles.heading}
           variant="h1"
-          sx={{ fontSize: "4rem", fontWeight: "bold" }}>
+          sx={{
+            fontSize: "4rem",
+            fontWeight: "bold",
+          }}>
           500
         </Typography>
-        <img src={errorIcon} className={styles.image} alt="Error 500" />
-      </div>
-      <Typography variant="h4" sx={{ fontSize: "32px", fontWeight: "bold" }}>
+        <img
+          src={errorIcon}
+          alt="Error 500"
+          style={{
+            position: "absolute",
+            right: 0,
+            height: "100px",
+            marginRight: "15px",
+          }}
+        />
+      </Box>
+      <Typography
+        variant="h4"
+        sx={{
+          fontSize: "32px",
+          fontWeight: "bold",
+        }}>
         Что-то пошло не так...
       </Typography>
-      <Typography variant="h6" sx={{ fontSize: "18px", marginBottom: 3 }}>
+      <Typography
+        variant="h6"
+        sx={{
+          fontSize: "18px",
+          marginBottom: 3,
+        }}>
         Мы уже в курсе и скоро все починим!
       </Typography>
       <Button

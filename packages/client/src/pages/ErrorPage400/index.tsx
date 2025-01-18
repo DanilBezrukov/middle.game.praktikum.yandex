@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Button, Paper, Typography } from "@mui/material";
 import errorIcon from "@/assets/error404hamster.png";
 import backgroundImage from "@/assets/background.png";
-import styles from "./ErrorPage.module.css";
 
 export const ErrorPage400: React.FC = () => (
   <Box
@@ -30,19 +29,48 @@ export const ErrorPage400: React.FC = () => (
         backgroundColor: "rgba(255, 255, 255, 0.8)",
       }}
       elevation={1}>
-      <div className={styles.content}>
-        <img src={errorIcon} className={styles.image} alt="Error 404" />
+      <Box
+        sx={{
+          position: "relative",
+          width: "60%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}>
+        <img
+          src={errorIcon}
+          alt="Error 404"
+          style={{
+            position: "absolute",
+            left: 0,
+            height: "100px",
+            marginRight: "15px",
+          }}
+        />
         <Typography
-          className={styles.heading}
           variant="h1"
-          sx={{ fontSize: "4rem", fontWeight: "bold" }}>
+          sx={{
+            fontSize: "4rem",
+            fontWeight: "bold",
+          }}>
           404
         </Typography>
-      </div>
-      <Typography variant="h4" sx={{ fontSize: "32px", fontWeight: "bold" }}>
+      </Box>
+      <Typography
+        variant="h4"
+        sx={{
+          fontSize: "32px",
+          fontWeight: "bold",
+        }}>
         Ошибка!
       </Typography>
-      <Typography variant="h6" sx={{ fontSize: "18px", marginBottom: 3 }}>
+      <Typography
+        variant="h6"
+        sx={{
+          fontSize: "18px",
+          marginBottom: 3,
+        }}>
         Кажется, такой страницы нет...
       </Typography>
       <Button

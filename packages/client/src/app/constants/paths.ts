@@ -7,5 +7,4 @@ export const paths = {
   leaderboard: "/leaderboard",
   forum: "/forum",
   error: "/500",
-  error4: "/404",
 };
