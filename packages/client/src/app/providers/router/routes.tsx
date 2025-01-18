@@ -17,6 +17,14 @@ export const routes: RouteObject[] = [
     element: <RegistrationPage />,
   },
   {
+    path: paths.profile,
+    element: (
+      <AuthGuard>
+        <div>Профиль пользователя</div>
+      </AuthGuard>
+    ),
+  },
+  {
     path: paths.homePage,
     element: (
       <AuthGuard>
