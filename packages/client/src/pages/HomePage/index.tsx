@@ -5,7 +5,7 @@ import { useAppSelector } from "@/hooks";
 import { paths } from "@/app/constants/paths";
 import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
-import { UiA } from "@/components/ui/UiA";
+import { UiLink } from "@/components/ui/UiLink";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { UiAvatar } from "@/components/ui/UiAvatar";
 import gameIcon from "@/assets/game-icon.png";
@@ -88,8 +88,8 @@ export function HomePage() {
                 alignItems: "center",
                 gap: 5,
               }}>
-              <UiA to={paths.forum}>Форум</UiA>
-              <UiA to={paths.leaderboard}>Лидеры</UiA>
+              <UiLink to={paths.forum}>Форум</UiLink>
+              <UiLink to={paths.leaderboard}>Лидеры</UiLink>
             </Box>
           </nav>
         </UiPaper>
