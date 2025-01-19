@@ -8,7 +8,7 @@ interface UiLiProps {
   sx?: SxProps<Theme>;
 }
 
-export const UiA: React.FC<UiLiProps> = ({ children, to, sx }) => (
+export const UiLink: React.FC<UiLiProps> = ({ children, to, sx }) => (
   <Box
     component={Link}
     to={to}
@@ -23,7 +23,6 @@ export const UiA: React.FC<UiLiProps> = ({ children, to, sx }) => (
     <Typography
       variant="body1"
       sx={{
-        mt: 2,
         color: "#000",
         fontWeight: "bold",
         textDecoration: "underline",

@@ -1,13 +1,14 @@
 import { Box, Container, Typography } from "@mui/material";
 import { useLogoutMutation } from "@/api/authApi";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "@/hooks";
 import { paths } from "@/app/constants/paths";
 import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiLink } from "@/components/ui/UiLink";
 import { UiPaper } from "@/components/ui/UiPaper";
-import { UiAvatar } from "@/components/ui/UiAvatar";
+import { Avatar } from "@mui/material";
+import { BASE_URL } from "@/api/baseApi";
+import { useAppSelector } from "@/hooks";
 import gameIcon from "@/assets/game-icon.png";
 import { RootState } from "@/store";
 import { IProfile } from "@/types/profile.interface";
@@ -24,8 +25,11 @@ export function HomePage() {
   };
 
   const selectProfileInfo = (state: RootState) => state.profile.user as IProfile;
-
   const profile = useAppSelector(selectProfileInfo);
+
+  const selectProfileAvatar = (state: RootState) => state.profile.user?.avatar;
+  const avatar = useAppSelector(selectProfileAvatar);
+  const AVATAR_URL = avatar ? `${BASE_URL}/resources/${avatar}` : "";
 
   return (
     <UiLayout>
@@ -45,7 +49,7 @@ export function HomePage() {
                 justifyContent: "flex-start",
                 gap: 3,
               }}>
-              <UiAvatar />
+              <Avatar sx={{ width: 120, height: 120 }} alt="User Avatar" src={AVATAR_URL} />;
               <Box
                 sx={{
                   display: "flex",
