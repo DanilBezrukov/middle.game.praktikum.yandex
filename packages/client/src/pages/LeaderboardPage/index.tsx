@@ -22,49 +22,75 @@ const leadersData = [
   { id: 1, name: "Иван Иванов", points: 30, avatar: "https://via.placeholder.com/40" },
   { id: 2, name: "Анна Смирнова", points: 456, avatar: "https://via.placeholder.com/40" },
   { id: 3, name: "Петр Сидоров", points: 3228, avatar: "https://via.placeholder.com/40" },
-  { id: 4, name: "Петр Сидоров", points: 33, avatar: "https://via.placeholder.com/40" },
-  { id: 5, name: "Петр Сидоров", points: 33, avatar: "https://via.placeholder.com/40" },
-  { id: 6, name: "Петр Сидоров", points: 33, avatar: "https://via.placeholder.com/40" },
-  { id: 7, name: "Петр Сидоров", points: 33, avatar: "https://via.placeholder.com/40" },
-  { id: 8, name: "Петр Сидоров", points: 33, avatar: "https://via.placeholder.com/40" },
+  { id: 4, name: "Ольга Фёдорова", points: 33, avatar: "https://via.placeholder.com/40" },
+  { id: 5, name: "Мария Кузнецова", points: 12, avatar: "https://via.placeholder.com/40" },
 ];
 
 export function LeaderboardPage() {
   const [leaders, setLeaders] = useState(leadersData);
   const [order, setOrder] = useState<"asc" | "desc">("desc");
+  const [sortField, setSortField] = useState<"name" | "points">("points");
   const navigate = useNavigate();
 
-  const handleSort = () => {
-    const isAsc = order === "asc";
-    const sortedLeaders = [...leaders].sort((a, b) =>
-      isAsc ? a.points - b.points : b.points - a.points,
-    );
+  const handleSort = (field: "name" | "points") => {
+    const isAsc = sortField === field && order === "asc";
+    const sortedLeaders = [...leaders].sort((a, b) => {
+      if (field === "name") {
+        return isAsc ? a.name.localeCompare(b.name, "ru") : b.name.localeCompare(a.name, "ru");
+      }
+      return isAsc ? a.points - b.points : b.points - a.points;
+    });
+
     setLeaders(sortedLeaders);
     setOrder(isAsc ? "desc" : "asc");
+    setSortField(field);
   };
 
   return (
     <UiLayout>
       <Container maxWidth="md">
-        <UiPaper sx={{ my: 4, textAlign: "center" }}>
-          <Typography variant="h4" component="h1" sx={{ mb: 2, fontWeight: "bold" }}>
+        <UiPaper>
+          <Typography
+            variant="h4"
+            component="h1"
+            sx={{ mb: 2, fontWeight: "bold", textAlign: "center" }}>
             Лидеры
           </Typography>
           <TableContainer
             component={Paper}
             sx={{
-              backgroundColor: "transparent",
-              border: "1px solid black",
-              maxHeight: 500,
-              overflow: "auto",
+              "backgroundColor": "transparent",
+              "border": "1px solid black",
+              "maxHeight": 500,
+              "overflow": "auto",
+              "&::-webkit-scrollbar": {
+                width: "8px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                borderRadius: "4px",
+              },
+              "&::-webkit-scrollbar-thumb:hover": {
+                backgroundColor: "rgba(0, 0, 0, 0.7)",
+              },
             }}>
             <Table>
               <TableHead>
                 <TableRow sx={{ borderBottom: "1px solid black" }}>
                   <TableCell></TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Имя</TableCell>
+                  <TableCell sx={{ fontWeight: "bold" }}>
+                    <TableSortLabel
+                      active={sortField === "name"}
+                      direction={order}
+                      onClick={() => handleSort("name")}>
+                      Имя
+                    </TableSortLabel>
+                  </TableCell>
                   <TableCell sx={{ fontWeight: "bold" }} align="right">
-                    <TableSortLabel active direction={order} onClick={handleSort}>
+                    <TableSortLabel
+                      active={sortField === "points"}
+                      direction={order}
+                      onClick={() => handleSort("points")}>
                       Баллы
                     </TableSortLabel>
                   </TableCell>
@@ -85,10 +111,9 @@ export function LeaderboardPage() {
           </TableContainer>
           <UiButton
             sx={{
-              marginTop: 2,
+              marginTop: 3,
               alignSelf: "center",
               height: "50px",
-              marginBottom: 4,
             }}
             onClick={() => navigate(paths.homePage)}>
             Назад
