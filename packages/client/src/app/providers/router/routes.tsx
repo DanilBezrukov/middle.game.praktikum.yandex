@@ -2,6 +2,7 @@ import type { RouteObject } from "react-router-dom";
 import { LoginPage } from "@/pages/LoginPage";
 import { paths } from "@/app/constants/paths";
 import { RegistrationPage } from "@/pages/RegistrationPage";
+import { LeaderboardPage } from "@/pages/LeaderboardPage";
 import { ErrorPage400 } from "@/pages/ErrorPage400";
 import { HomePage } from "@/pages/HomePage";
 import { ProfilePage } from "@/pages/ProfilePage";
@@ -49,7 +50,7 @@ export const routes: RouteObject[] = [
     path: paths.leaderboard,
     element: (
       <AuthGuard>
-        <div>Страница лидерборда</div>
+        <LeaderboardPage />
       </AuthGuard>
     ),
   },
