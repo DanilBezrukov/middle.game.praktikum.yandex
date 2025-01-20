@@ -1,13 +1,13 @@
 import React from "react";
+import { Box, Typography } from "@mui/material";
 import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
 import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
-import errorIcon from "@/assets/error404hamster.png";
+import errorIcon from "@/assets/error-bird.png";
 
-export const ErrorPage400: React.FC = () => {
+export const ErrorPage500: React.FC = () => {
   const navigate = useNavigate();
 
   return (
@@ -31,24 +31,24 @@ export const ErrorPage400: React.FC = () => {
             justifyContent: "center",
             marginBottom: "20px",
           }}>
-          <img
-            src={errorIcon}
-            alt="Error 400"
-            style={{
-              position: "absolute",
-              left: 0,
-              height: "100px",
-              marginRight: "15px",
-            }}
-          />
           <Typography
             variant="h1"
             sx={{
               fontSize: "4rem",
               fontWeight: "bold",
             }}>
-            404
+            500
           </Typography>
+          <img
+            src={errorIcon}
+            alt="Error 500"
+            style={{
+              position: "absolute",
+              right: 0,
+              height: "100px",
+              marginRight: "15px",
+            }}
+          />
         </Box>
         <Typography
           variant="h4"
@@ -56,7 +56,7 @@ export const ErrorPage400: React.FC = () => {
             fontSize: "32px",
             fontWeight: "bold",
           }}>
-          Ошибка!
+          Что-то пошло не так...
         </Typography>
         <Typography
           variant="h6"
@@ -64,7 +64,7 @@ export const ErrorPage400: React.FC = () => {
             fontSize: "18px",
             marginBottom: 3,
           }}>
-          Кажется, такой страницы нет...
+          Мы уже в курсе и скоро все починим!
         </Typography>
         <UiButton
           sx={{

@@ -4,6 +4,7 @@ import { paths } from "@/app/constants/paths";
 import { RegistrationPage } from "@/pages/RegistrationPage";
 import { LeaderboardPage } from "@/pages/LeaderboardPage";
 import { ErrorPage400 } from "@/pages/ErrorPage400";
+import { ErrorPage500 } from "@/pages/ErrorPage500";
 import { HomePage } from "@/pages/HomePage";
 import { ProfilePage } from "@/pages/ProfilePage";
 import { AuthGuard } from "@/app/providers/router/AuthGuard";
@@ -17,10 +18,6 @@ export const routes: RouteObject[] = [
   {
     path: paths.signUp,
     element: <RegistrationPage />,
-  },
-  {
-    path: paths.error4,
-    element: <ErrorPage400 />,
   },
   {
     path: paths.profile,
@@ -63,11 +60,11 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: "/500",
-    element: <div>Ошибка 500</div>,
+    path: paths.error,
+    element: <ErrorPage500 />,
   },
   {
     path: "*",
-    element: <div>Ошибка 404</div>,
+    element: <ErrorPage400 />,
   },
 ];
