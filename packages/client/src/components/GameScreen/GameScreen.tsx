@@ -11,7 +11,7 @@ const gameScreens = {
 
 type TGameScreen = keyof typeof gameScreens;
 
-export function GameScreen() {
+export function GameScreen({ renderInstruction }: { renderInstruction: () => void }) {
   const [gameScreen, setGameScreen] = useState<TGameScreen>(gameScreens.START);
   const [score, setScore] = useState<number>(0);
 
@@ -27,5 +27,10 @@ export function GameScreen() {
     GAME: <Game endGame={endGame} />,
     END: <GameOverScreen score={score} setGameScreen={startGame} />,
   };
-  return screen[gameScreen];
+  return (
+    <>
+      {screen[gameScreen]}
+      {gameScreen !== gameScreens.GAME && renderInstruction()}
+    </>
+  );
 }
