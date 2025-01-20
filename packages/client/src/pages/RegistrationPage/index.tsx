@@ -1,17 +1,31 @@
 import { paths } from "@/app/constants/paths";
 import { useCreateUserMutation } from "@/api/authApi";
-import { IUser } from "@/types/types";
-import { TextField, Typography, Grid } from "@mui/material";
+import { IUser } from "@/types/auth.interface";
+import { Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { UiButton } from "@/components/ui/UiButton";
+import { UiTextField } from "@/components/ui/UiTextField";
+import Grid from "@mui/material/Grid2";
+import { REGISTRATION_FIELDS } from "@/pages/RegistrationPage/registrationFields";
+import { apiTranslateResponseErrors } from "@/app/utils/validationUserFields";
+import { useEffect } from "react";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export const RegistrationPage: React.FC = () => {
-  const { register, handleSubmit, reset } = useForm<Omit<IUser, "id">>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    setError,
+  } = useForm<Omit<IUser, "id">>({
+    mode: "onBlur",
+  });
   const navigate = useNavigate();
-  const [createUser, { isError }] = useCreateUserMutation();
+  const [createUser, { error: responseError }] = useCreateUserMutation();
 
   const onSubmit = (data: Omit<IUser, "id">) => {
     createUser(data)
@@ -27,13 +41,26 @@ export const RegistrationPage: React.FC = () => {
       });
   };
 
+  useEffect(() => {
+    if (responseError && typeof responseError === "object") {
+      const { data } = responseError as FetchBaseQueryError;
+      const { reason } = data as { reason: string };
+      const { key, message } = apiTranslateResponseErrors(reason);
+
+      if (!key) {
+        setError("root", { message });
+        return;
+      }
+
+      setError(key, { message });
+    }
+  }, [responseError]);
+
   return (
     <UiLayout>
       <UiPaper
         sx={{
           width: "750px",
-          padding: 4,
-          borderRadius: 3,
         }}
         component="form"
         onSubmit={handleSubmit(onSubmit)}>
@@ -43,68 +70,27 @@ export const RegistrationPage: React.FC = () => {
           sx={{
             marginBottom: 3,
             textAlign: "center",
-            fontWeight: "bold",
             color: "#000",
             marginTop: "30px",
           }}>
           Регистрация
         </Typography>
-        <Grid container spacing={3}>
-          <Grid item xs={6}>
-            <TextField
-              label="Имя"
-              variant="outlined"
-              fullWidth
-              {...register("first_name")}
-              InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
-            />
-            <TextField
-              label="Email"
-              variant="outlined"
-              fullWidth
-              type="email"
-              {...register("email")}
-              InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
-            />
-            <TextField
-              label="Логин"
-              variant="outlined"
-              fullWidth
-              {...register("login")}
-              InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Фамилия"
-              variant="outlined"
-              fullWidth
-              {...register("second_name")}
-              InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
-            />
-            <TextField
-              label="Телефон"
-              variant="outlined"
-              fullWidth
-              {...register("phone")}
-              InputProps={{ sx: { borderRadius: 10, marginBottom: "20px" } }}
-            />
-            <TextField
-              label="Пароль"
-              variant="outlined"
-              fullWidth
-              type="password"
-              {...register("password")}
-              InputProps={{ sx: { borderRadius: 10 } }}
-            />
-          </Grid>
+        <Grid container spacing={3} marginTop={8}>
+          {REGISTRATION_FIELDS.map(({ label, name, type = "text", options }) => (
+            <Grid key={name} size={6}>
+              <UiTextField
+                label={label}
+                type={type}
+                error={Boolean(errors[name])}
+                helperText={errors[name]?.message}
+                {...register(name, options)}
+              />
+            </Grid>
+          ))}
         </Grid>
-        {isError && (
-          <Typography
-            variant="body2"
-            color="error"
-            sx={{ textAlign: "center" }}>
-            Что-то пошло не так
+        {errors.root && (
+          <Typography marginTop={4} variant="body2" color="error" sx={{ textAlign: "center" }}>
+            {errors.root.message}
           </Typography>
         )}
         <Grid

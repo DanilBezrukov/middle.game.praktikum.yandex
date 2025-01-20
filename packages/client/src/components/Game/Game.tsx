@@ -1,13 +1,7 @@
 import { useEffect, useRef } from "react";
 import { uploadImg } from "@/app/utils/upload-img";
 import { IBird, IObstacle } from "@/components/Game/type";
-import {
-  drawBackground,
-  drawBird,
-  drawInitialText,
-  drawObstacle,
-  drawScore,
-} from "@/components/Game/gameRenderer";
+import { drawBird, drawInitialText, drawObstacle, drawScore } from "@/components/Game/gameRenderer";
 import {
   addObstacle,
   checkCollision,
@@ -17,8 +11,9 @@ import {
 import { birdConfig, gameImages, settingObstacle } from "@/components/Game/gameConstants";
 import { getScore } from "@/components/Game/gameLogic";
 import { birdJump, updateBirdPosition } from "@/components/Game/bird";
+import "./Game.scss";
 
-export function Game() {
+export function Game({ endGame }: { endGame: (score: number) => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | undefined | null>(null);
 
@@ -66,8 +61,6 @@ export function Game() {
 
     ctx.clearRect(0, 0, width, height);
 
-    drawBackground(ctx, backgroundImage, width, height);
-
     updateBirdPosition(bird, scale);
 
     drawBird(ctx, bird, isFlutterWings ? birdWingsDown : birdWingsUp);
@@ -83,6 +76,7 @@ export function Game() {
 
       if (checkCollision(bird, obstacle, height)) {
         gameOver = true;
+        endGame(score);
       }
 
       score = getScore(bird, obstacle, score);
@@ -106,14 +100,12 @@ export function Game() {
   }
 
   function showReadyScreen(ctx: CanvasRenderingContext2D) {
-    drawBackground(ctx, backgroundImage, ctx.canvas.width, ctx.canvas.height);
     drawInitialText(ctx);
     drawBird(ctx, bird, isFlutterWings ? birdWingsDown : birdWingsUp);
   }
 
   useEffect(() => {
     ctxRef.current = canvasRef.current?.getContext("2d");
-
     if (canvasRef.current) {
       initBirdData = {
         ...birdConfig,
@@ -135,13 +127,11 @@ export function Game() {
   }, []);
 
   return (
-    <div id="game-container">
-      <canvas
-        onClick={handleClick}
-        ref={canvasRef}
-        width="900px"
-        height="600px"
-        id="canvas"></canvas>
-    </div>
+    <canvas
+      onClick={handleClick}
+      ref={canvasRef}
+      width="900px"
+      height="600px"
+      id="canvas-game"></canvas>
   );
 }

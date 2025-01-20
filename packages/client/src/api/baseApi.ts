@@ -6,11 +6,13 @@ export const axiosInstance = axios.create({
   timeout: 5000,
 });
 
+export const BASE_URL = "https://ya-praktikum.tech/api/v2";
+
 export const axiosBaseQuery =
   (
     { baseUrl }: { baseUrl: string } = {
-      baseUrl: "https://ya-praktikum.tech/api/v2",
-    }
+      baseUrl: BASE_URL,
+    },
   ): BaseQueryFn<
     {
       url: string;

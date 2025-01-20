@@ -2,10 +2,13 @@ import type { RouteObject } from "react-router-dom";
 import { LoginPage } from "@/pages/LoginPage";
 import { paths } from "@/app/constants/paths";
 import { RegistrationPage } from "@/pages/RegistrationPage";
+import { LeaderboardPage } from "@/pages/LeaderboardPage";
 import { ErrorPage400 } from "@/pages/ErrorPage400";
 import { ErrorPage500 } from "@/pages/ErrorPage500";
 import { HomePage } from "@/pages/HomePage";
+import { ProfilePage } from "@/pages/ProfilePage";
 import { AuthGuard } from "@/app/providers/router/AuthGuard";
+import { GamePage } from "@/pages/GamePage/GamePage";
 
 export const routes: RouteObject[] = [
   {
@@ -20,7 +23,7 @@ export const routes: RouteObject[] = [
     path: paths.profile,
     element: (
       <AuthGuard>
-        <div>Профиль пользователя</div>
+        <ProfilePage />
       </AuthGuard>
     ),
   },
@@ -36,7 +39,7 @@ export const routes: RouteObject[] = [
     path: paths.game,
     element: (
       <AuthGuard>
-        <div>Страница игры</div>
+        <GamePage />
       </AuthGuard>
     ),
   },
@@ -44,7 +47,7 @@ export const routes: RouteObject[] = [
     path: paths.leaderboard,
     element: (
       <AuthGuard>
-        <div>Страница лидерборда</div>
+        <LeaderboardPage />
       </AuthGuard>
     ),
   },
