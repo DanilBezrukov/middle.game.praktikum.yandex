@@ -7,6 +7,14 @@ import { CssBaseline } from "@mui/material";
 import { Provider } from "react-redux";
 import { store } from "@/store";
 
+import { registerServiceWorker, unregisterServiceWorker } from "@/app/utils/serviceWorker";
+
+if (import.meta.env.PROD) {
+  registerServiceWorker();
+} else {
+  unregisterServiceWorker();
+}
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
@@ -15,5 +23,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <App />
       </ErrorBoundary>
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
