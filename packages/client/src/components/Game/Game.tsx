@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { uploadImg } from "@/app/utils/upload-img";
 import { IBird, IObstacle } from "@/components/Game/type";
 import { drawBird, drawInitialText, drawObstacle, drawScore } from "@/components/Game/gameRenderer";
@@ -31,7 +31,7 @@ export function Game({ endGame }: { endGame: (score: number) => void }) {
 
   let isFlutterWings = true;
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     if (!gameStarted) {
       gameStarted = true;
       lastFrameTime = performance.now();
@@ -40,7 +40,7 @@ export function Game({ endGame }: { endGame: (score: number) => void }) {
       isFlutterWings = !isFlutterWings;
       birdJump(bird);
     }
-  };
+  }, []);
 
   function animate(timestamp: number) {
     const deltaTime = timestamp - lastFrameTime;
