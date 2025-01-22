@@ -3,14 +3,17 @@ export function registerServiceWorker() {
     window.addEventListener("load", () => {
       navigator.serviceWorker.register("/sw.js").then(
         () => {
+          //eslint-disable-next-line no-console
           console.info("ServiceWorker успешно зарегестрирован");
         },
         error => {
+          //eslint-disable-next-line no-console
           console.error(`Ошибка регистрации ServiceWorker: ${error}`);
         },
       );
     });
   } else {
+    //eslint-disable-next-line no-console
     console.warn("ServiceWorker не поддерживается");
   }
 }

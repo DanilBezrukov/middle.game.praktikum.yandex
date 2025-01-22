@@ -25,6 +25,7 @@ module.exports = {
     "max-len": ["error", 100],
     "jsx-quotes": ["error", "prefer-double"],
     "react/react-in-jsx-scope": "off",
+    "no-console": "error",
     "react/prop-types": "off",
   },
 };

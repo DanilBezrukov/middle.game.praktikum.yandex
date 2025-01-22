@@ -10,6 +10,7 @@ this.addEventListener('install', event => {
       .open(CACHE_NAME)
       .then(cache => cache.addAll(URLS))
       .catch(err => {
+        //eslint-disable-next-line no-console
         console.log(err);
         throw err;
       })
@@ -62,6 +63,7 @@ this.addEventListener('fetch', event => {
           });
           return response;
         })
+        //eslint-disable-next-line no-console
         .catch(err => console.error(err));
     })
   );
