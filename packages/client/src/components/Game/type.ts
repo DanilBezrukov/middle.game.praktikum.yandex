@@ -1,3 +1,5 @@
+import { birdTypes } from "@/components/Game/Game";
+
 export interface IBird {
   x: number;
   y: number;
@@ -14,3 +16,5 @@ export interface IObstacle {
   bottom: number;
   registeredScore: boolean;
 }
+
+export type TBirds = keyof typeof birdTypes;
