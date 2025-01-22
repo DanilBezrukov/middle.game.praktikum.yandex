@@ -6,6 +6,8 @@ import { LeaderboardPage } from "@/pages/LeaderboardPage";
 import { ErrorPage400 } from "@/pages/ErrorPage400";
 import { ErrorPage500 } from "@/pages/ErrorPage500";
 import { HomePage } from "@/pages/HomePage";
+import { ForumPage } from "@/pages/ForumPage";
+import { ForumTopicPage } from "@/pages/ForumTopicPage";
 import { ProfilePage } from "@/pages/ProfilePage";
 import { AuthGuard } from "@/app/providers/router/AuthGuard";
 import { GamePage } from "@/pages/GamePage/GamePage";
@@ -55,7 +57,15 @@ export const routes: RouteObject[] = [
     path: paths.forum,
     element: (
       <AuthGuard>
-        <div>Страница форума</div>
+        <ForumPage />,
+      </AuthGuard>
+    ),
+  },
+  {
+    path: paths.forumTopic, // Новый маршрут для темы форума
+    element: (
+      <AuthGuard>
+        <ForumTopicPage />
       </AuthGuard>
     ),
   },
