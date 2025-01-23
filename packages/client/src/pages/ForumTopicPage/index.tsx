@@ -73,7 +73,10 @@ export const ForumTopicPage: React.FC = () => {
   return (
     <UiLayout>
       <Container maxWidth="md">
-        <UiPaper>
+        <UiPaper
+          sx={{
+            py: 4,
+          }}>
           <Typography
             variant="h4"
             component="h1"
@@ -104,8 +107,11 @@ export const ForumTopicPage: React.FC = () => {
 
           <Box
             sx={{
-              "maxHeight": "400px",
+              "maxHeight": "800px",
               "overflowY": "auto",
+              "pr": 2,
+              "wordWrap": "break-word",
+              "overflowWrap": "break-word",
               "&::-webkit-scrollbar": {
                 width: "8px",
               },
@@ -136,6 +142,12 @@ export const ForumTopicPage: React.FC = () => {
                     </Typography>
                     <Typography
                       variant="body2"
+                      sx={{
+                        wordWrap: "break-word",
+                        overflowWrap: "break-word",
+                        whiteSpace: "pre-wrap",
+                        maxWidth: "600px",
+                      }}
                       dangerouslySetInnerHTML={{ __html: comment.message }}
                     />
                   </Box>
