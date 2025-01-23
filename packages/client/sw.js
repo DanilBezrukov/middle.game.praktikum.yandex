@@ -2,7 +2,17 @@ const CACHE_PREFIX = 'flappy-bird';
 const CACHE_VERSION = 1;
 const CACHE_NAME = `${CACHE_PREFIX}-v${CACHE_VERSION}`;
 
-const URLS = ['/index.html', '/assets'];
+const URLS = ['/index.html',
+  '/assets/background.png',
+  '/assets/background-game.png',
+  '/assets/bird-wings-down.png',
+  '/assets/bird-wings-up.png',
+  '/assets/error404hamster.png',
+  '/assets/error-bird.png',
+  '/assets/game-icon.png',
+  '/assets/obstacle-to-game.png',
+  '/assets/fonts/JollyLodger-Regular.woff',
+];
 
 this.addEventListener('install', event => {
   event.waitUntil(
