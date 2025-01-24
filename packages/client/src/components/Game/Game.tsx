@@ -1,7 +1,14 @@
 import { useCallback, useEffect, useRef } from "react";
 import { uploadImg } from "@/app/utils/upload-img";
-import { IBird, IObstacle } from "@/components/Game/type";
-import { drawBird, drawInitialText, drawObstacle, drawScore } from "@/components/Game/gameRenderer";
+import { IBird, IObstacle, TBirds } from "@/components/Game/type";
+import {
+  drawBird,
+  drawInitialText,
+  drawLevel,
+  drawObstacle,
+  drawPauseEffect,
+  drawScore,
+} from "@/components/Game/gameRenderer";
 import {
   addObstacle,
   checkCollision,
@@ -12,8 +19,27 @@ import { birdConfig, gameImages, settingObstacle } from "@/components/Game/gameC
 import { getScore } from "@/components/Game/gameLogic";
 import { birdJump, updateBirdPosition } from "@/components/Game/bird";
 import "./Game.scss";
+import backgroundGameImgPath from "@/assets/background-game.png";
+import obstacleImgPath from "@/assets/obstacle-to-game.png";
+import { birdSkins } from "@/components/Game/birdSkins";
 
-export function Game({ endGame }: { endGame: (score: number) => void }) {
+type GameOptionsType = {
+  initialBird?: TBirds;
+};
+
+export const birdTypes = {
+  YELLOW: "YELLOW",
+  GREEN: "GREEN",
+  RED: "RED",
+} as const;
+
+export function Game({
+  endGame,
+  options = {},
+}: {
+  endGame: (score: number) => void;
+  options: GameOptionsType;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | undefined | null>(null);
 
@@ -24,6 +50,9 @@ export function Game({ endGame }: { endGame: (score: number) => void }) {
   let score = 0;
   let gameOver = false;
   let gameStarted = false;
+  let pause = false;
+  let level = 1;
+  let scoreToNextLevel = 20;
 
   let lastFrameTime = 0;
 
@@ -42,10 +71,24 @@ export function Game({ endGame }: { endGame: (score: number) => void }) {
     }
   }, []);
 
+  function changeSpeed(start: number) {
+    if (score === scoreToNextLevel && level <= 5) {
+      level++;
+      scoreToNextLevel += 20;
+    }
+
+    return start - level * 100;
+  }
+
   function animate(timestamp: number) {
     const deltaTime = timestamp - lastFrameTime;
     lastFrameTime = timestamp;
-    const scale = deltaTime / 1000;
+    const scale = deltaTime / changeSpeed(1100);
+
+    if (pause && ctxRef.current) {
+      drawPauseEffect(ctxRef.current);
+      return;
+    }
 
     updateGame(scale);
 
@@ -85,6 +128,7 @@ export function Game({ endGame }: { endGame: (score: number) => void }) {
     removeObstacle(obstacles, width);
 
     drawScore(ctx, width, score);
+    drawLevel(ctx, width, level, scoreToNextLevel);
   }
 
   function startGame() {
@@ -104,6 +148,18 @@ export function Game({ endGame }: { endGame: (score: number) => void }) {
     drawBird(ctx, bird, isFlutterWings ? birdWingsDown : birdWingsUp);
   }
 
+  function handlerPause(e: KeyboardEvent) {
+    if (!gameStarted) return;
+    const isPauseKey = e.key.codePointAt(0) === 112 || e.key.codePointAt(0) === 1079;
+    if (isPauseKey && !pause) {
+      pause = true;
+    } else if (isPauseKey && pause) {
+      pause = false;
+      lastFrameTime = performance.now();
+      requestAnimationFrame(animate);
+    }
+  }
+
   useEffect(() => {
     ctxRef.current = canvasRef.current?.getContext("2d");
     if (canvasRef.current) {
@@ -116,14 +172,20 @@ export function Game({ endGame }: { endGame: (score: number) => void }) {
       };
     }
 
+    window.addEventListener("keydown", handlerPause);
+
+    const { initialBird = birdTypes.GREEN } = options;
+
     Promise.all([
-      uploadImg("src/assets/background-game.png", backgroundImage),
-      uploadImg("src/assets/bird-wings-down.png", birdWingsDown),
-      uploadImg("src/assets/bird-wings-up.png", birdWingsUp),
-      uploadImg("src/assets/obstacle-to-game.png", treeImage),
+      uploadImg(backgroundGameImgPath, backgroundImage),
+      uploadImg(birdSkins[initialBird].down, birdWingsDown),
+      uploadImg(birdSkins[initialBird].up, birdWingsUp),
+      uploadImg(obstacleImgPath, treeImage),
     ]).then(() => {
       startGame();
     });
+
+    return () => window.removeEventListener("keydown", handlerPause);
   }, []);
 
   return (

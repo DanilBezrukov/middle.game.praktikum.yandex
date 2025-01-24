@@ -1,5 +1,5 @@
 import { IconButton, Stack, Typography } from "@mui/material";
-import { Fullscreen, Mouse } from "@mui/icons-material";
+import { Fullscreen, FullscreenExit, Mouse } from "@mui/icons-material";
 
 export const GameInstruction = ({
   toggleFullScreen,
@@ -13,32 +13,47 @@ export const GameInstruction = ({
     px={3}
     width={"100%"}
     height={75}
-    alignItems={"end"}
+    direction={"row"}
+    alignItems={"start"}
+    justifyContent={"end"}
     position={"absolute"}
     bottom={0}
     left={0}
+    gap={"10px"}
     bgcolor={"rgba(255,255,255,0.5)"}>
-    <Stack direction={"row"} alignItems={"center"}>
-      <Mouse fontSize={"small"} sx={{ mx: 1 }} />
-      <Typography
-        sx={{
-          userSelect: "none",
-        }}>
-        - Левая клавиша мыши для полета
-      </Typography>
+    <Stack gap={"10px"}>
+      <Stack direction={"row"} alignItems={"center"}>
+        <Mouse fontSize={"small"} sx={{ mx: 1 }} />
+        <Typography
+          sx={{
+            userSelect: "none",
+          }}>
+          - Левая клавиша мыши для полета
+        </Typography>
+      </Stack>
     </Stack>
-    <Stack direction={"row"} alignItems={"center"}>
-      <IconButton onClick={toggleFullScreen}>
-        <Fullscreen fontSize={"medium"} />
-      </IconButton>
-      <Typography
-        sx={{
-          userSelect: "none",
-        }}>
-        {isOpenFullScreen
-          ? "Свернуть полноэкранный режим или клавиша (f)"
-          : "Полноэкранный режим или клавиша (f)"}
-      </Typography>
+    <Stack gap={"10px"}>
+      <Stack direction={"row"} alignItems={"center"}>
+        <IconButton sx={{ p: 0 }} onClick={toggleFullScreen}>
+          {isOpenFullScreen ? <FullscreenExit /> : <Fullscreen fontSize={"medium"} />}
+        </IconButton>
+        <Typography
+          sx={{
+            userSelect: "none",
+          }}>
+          {isOpenFullScreen
+            ? "- Свернуть полноэкранный режим или клавиша (f)"
+            : "- Полноэкранный режим или клавиша (f)"}
+        </Typography>
+      </Stack>
+      <Stack direction={"row"} alignItems={"center"}>
+        <Typography
+          sx={{
+            userSelect: "none",
+          }}>
+          Пауза - клавиша (p)
+        </Typography>
+      </Stack>
     </Stack>
   </Stack>
 );
