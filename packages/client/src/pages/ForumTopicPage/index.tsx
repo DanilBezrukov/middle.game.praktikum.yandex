@@ -4,14 +4,12 @@ import { Container, Typography, Box, Avatar, Divider, TextField, IconButton } fr
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { UiButton } from "@/components/ui/UiButton";
-import FormatBoldIcon from "@mui/icons-material/FormatBold";
-import FormatItalicIcon from "@mui/icons-material/FormatItalic";
-import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
+import { UiFormattingToolbar } from "@/components/ui/UiFormattingToolbar";
+
 import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/hooks";
-import { RootState } from "@/store";
-import { IProfile } from "@/types/profile.interface";
+import { selectProfileInfo } from "@/store/selectors/profileSelectors";
 
 const topicData = {
   title: "Как пройти Flappy Bird?",
@@ -23,7 +21,6 @@ const topicData = {
 };
 
 export const ForumTopicPage: React.FC = () => {
-  const selectProfileInfo = (state: RootState) => state.profile.user as IProfile;
   const profile = useAppSelector(selectProfileInfo);
 
   const navigate = useNavigate();
@@ -58,7 +55,7 @@ export const ForumTopicPage: React.FC = () => {
 
   const handleAddComment = () => {
     if (!newComment.trim()) return;
-    const formattedComment = applyFormatting(newComment);
+    const formattedComment = applyFormatting(newComment.trim());
     const newCommentData = {
       id: comments.length + 1,
       avatar: "https://via.placeholder.com/50",
@@ -158,23 +155,7 @@ export const ForumTopicPage: React.FC = () => {
           </Box>
 
           <Box sx={{ mt: 3 }}>
-            <Box sx={{ display: "flex", gap: 1, mb: 1 }}>
-              <IconButton
-                onClick={() => setFormatting(prev => ({ ...prev, bold: !prev.bold }))}
-                color={formatting.bold ? "primary" : "default"}>
-                <FormatBoldIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => setFormatting(prev => ({ ...prev, italic: !prev.italic }))}
-                color={formatting.italic ? "primary" : "default"}>
-                <FormatItalicIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => setFormatting(prev => ({ ...prev, underline: !prev.underline }))}
-                color={formatting.underline ? "primary" : "default"}>
-                <FormatUnderlinedIcon />
-              </IconButton>
-            </Box>
+            <UiFormattingToolbar formatting={formatting} setFormatting={setFormatting} />{" "}
             <TextField
               fullWidth
               placeholder="Оставить сообщение"

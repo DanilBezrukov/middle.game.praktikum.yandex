@@ -12,37 +12,32 @@ import {
   TextField,
   Box,
   Modal,
-  IconButton,
 } from "@mui/material";
 import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
-import FormatBoldIcon from "@mui/icons-material/FormatBold";
-import FormatItalicIcon from "@mui/icons-material/FormatItalic";
-import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
+import { UiFormattingToolbar } from "@/components/ui/UiFormattingToolbar";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/hooks";
-import { RootState } from "@/store";
-import { IProfile } from "@/types/profile.interface";
+import { selectProfileInfo } from "@/store/selectors/profileSelectors";
 
-interface Topic {
+type Topic = {
   id: number;
   title: string;
   description: string;
   author: string;
   messages: number;
   date: string;
-}
+};
 
-interface CreateTopicModalProps {
+type CreateTopicModalProps = {
   open: boolean;
   onClose: () => void;
   onCreate: (newTopic: Omit<Topic, "id" | "messages" | "date">) => void;
-}
+};
 
 const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCreate }) => {
-  const selectProfileInfo = (state: RootState) => state.profile.user as IProfile;
   const profile = useAppSelector(selectProfileInfo);
 
   const [formatting, setFormatting] = useState({ bold: false, italic: false, underline: false });
@@ -52,7 +47,11 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
 
   const handleCreate = () => {
     if (title.trim() && description.trim()) {
-      onCreate({ title, description, author: profile.first_name });
+      onCreate({
+        title: title.trim(),
+        description: description.trim(),
+        author: profile.first_name,
+      });
       setTitle("");
       setDescription("");
       onClose();
@@ -96,23 +95,7 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
             }}
           />
           <Box sx={{ mt: 3 }}>
-            <Box sx={{ display: "flex", gap: 1, mb: 1 }}>
-              <IconButton
-                onClick={() => setFormatting(prev => ({ ...prev, bold: !prev.bold }))}
-                color={formatting.bold ? "primary" : "default"}>
-                <FormatBoldIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => setFormatting(prev => ({ ...prev, italic: !prev.italic }))}
-                color={formatting.italic ? "primary" : "default"}>
-                <FormatItalicIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => setFormatting(prev => ({ ...prev, underline: !prev.underline }))}
-                color={formatting.underline ? "primary" : "default"}>
-                <FormatUnderlinedIcon />
-              </IconButton>
-            </Box>
+            <UiFormattingToolbar formatting={formatting} setFormatting={setFormatting} />{" "}
             <TextField
               fullWidth
               placeholder="Описание"
@@ -146,6 +129,7 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
 export function ForumPage() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [topics, setTopics] = useState<Topic[]>([
     {
       id: 1,
@@ -180,12 +164,11 @@ export function ForumPage() {
       description: "",
     },
   ]);
-
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
   const handleCreateTopic = (newTopic: Omit<Topic, "id" | "messages" | "date">) => {
-    const date = new Date().toISOString().split("T")[0];
+    const date = new Date().toLocaleDateString("ru-RU");
     const id = topics.length ? Math.max(...topics.map(t => t.id)) + 1 : 1;
 
     setTopics(prev => [...prev, { id, ...newTopic, messages: 0, date }]);
