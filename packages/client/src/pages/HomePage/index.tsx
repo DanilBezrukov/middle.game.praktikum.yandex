@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Typography, Avatar } from "@mui/material";
 import { useLogoutMutation } from "@/api/authApi";
 import { useNavigate } from "react-router-dom";
 import { paths } from "@/app/constants/paths";
@@ -6,7 +6,6 @@ import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiLink } from "@/components/ui/UiLink";
 import { UiPaper } from "@/components/ui/UiPaper";
-import { Avatar } from "@mui/material";
 import { BASE_URL } from "@/api/baseApi";
 import { useAppSelector } from "@/hooks";
 import gameIcon from "@/assets/game-icon.png";
@@ -30,6 +29,9 @@ export function HomePage() {
   const selectProfileAvatar = (state: RootState) => state.profile.user?.avatar;
   const avatar = useAppSelector(selectProfileAvatar);
   const AVATAR_URL = avatar ? `${BASE_URL}/resources/${avatar}` : "";
+
+  const leaders = useAppSelector((state: RootState) => state.leaderboard.leaders);
+  const topLeaders = [...leaders].sort((a, b) => b.points - a.points).slice(0, 3);
 
   return (
     <UiLayout>
@@ -79,6 +81,7 @@ export function HomePage() {
             </Box>
           </Box>
         </UiPaper>
+
         <UiPaper sx={{ mb: 2, p: { xs: 3, sm: 5 } }}>
           <nav>
             <Box
@@ -97,6 +100,7 @@ export function HomePage() {
             </Box>
           </nav>
         </UiPaper>
+
         <UiPaper sx={{ mb: 2, p: { xs: 3, sm: 5 } }}>
           <Box
             sx={{
@@ -119,6 +123,33 @@ export function HomePage() {
             </Typography>
           </Box>
           <UiButton onClick={() => navigate(paths.game)}>Играть</UiButton>
+        </UiPaper>
+
+        {/* Блок с топ-3 лидерами */}
+        <UiPaper sx={{ mb: 2, p: { xs: 3, sm: 5 } }}>
+          <Typography component="h4" variant="h6" sx={{ mb: 2 }}>
+            Топ-3 Лидеров
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}>
+            {topLeaders.map((leader, index) => (
+              <Box
+                key={leader.id}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 3,
+                }}>
+                <Avatar src={leader.avatar} alt={leader.name} />
+                <Typography>{`${index + 1}. ${leader.name} — ${leader.points} очков`}</Typography>
+              </Box>
+            ))}
+          </Box>
         </UiPaper>
       </Container>
     </UiLayout>

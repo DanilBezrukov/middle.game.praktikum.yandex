@@ -1,3 +1,5 @@
+import React, { useEffect } from "react";
+import { useAppSelector, useActions } from "@/hooks"; // Кастомные хуки
 import {
   Container,
   Typography,
@@ -15,22 +17,25 @@ import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { paths } from "@/app/constants/paths";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const leadersData = [
-  { id: 1, name: "Иван Иванов", points: 30, avatar: "https://via.placeholder.com/40" },
-  { id: 2, name: "Анна Смирнова", points: 456, avatar: "https://via.placeholder.com/40" },
-  { id: 3, name: "Петр Сидоров", points: 3228, avatar: "https://via.placeholder.com/40" },
-  { id: 4, name: "Ольга Фёдорова", points: 33, avatar: "https://via.placeholder.com/40" },
-  { id: 5, name: "Мария Кузнецова", points: 12, avatar: "https://via.placeholder.com/40" },
-];
+import { RootState } from "@/store";
 
 export function LeaderboardPage() {
-  const [leaders, setLeaders] = useState(leadersData);
-  const [order, setOrder] = useState<"asc" | "desc">("desc");
-  const [sortField, setSortField] = useState<"name" | "points">("points");
+  const leaders = useAppSelector((state: RootState) => state.leaderboard.leaders);
+  const { setLeaders } = useActions();
   const navigate = useNavigate();
+  const [order, setOrder] = React.useState<"asc" | "desc">("desc");
+  const [sortField, setSortField] = React.useState<"name" | "points">("points");
+
+  useEffect(() => {
+    setLeaders([
+      { id: 1, name: "Иван Иванов", points: 30, avatar: "https://via.placeholder.com/40" },
+      { id: 2, name: "Анна Смирнова", points: 456, avatar: "https://via.placeholder.com/40" },
+      { id: 3, name: "Петр Сидоров", points: 3228, avatar: "https://via.placeholder.com/40" },
+      { id: 4, name: "Ольга Фёдорова", points: 33, avatar: "https://via.placeholder.com/40" },
+      { id: 5, name: "Мария Кузнецова", points: 12, avatar: "https://via.placeholder.com/40" },
+    ]);
+  }, [setLeaders]);
 
   const handleSort = (field: "name" | "points") => {
     const isAsc = sortField === field && order === "asc";
@@ -41,7 +46,7 @@ export function LeaderboardPage() {
       return isAsc ? a.points - b.points : b.points - a.points;
     });
 
-    setLeaders(sortedLeaders);
+    setLeaders(sortedLeaders); // Обновляем данные в слайсе
     setOrder(isAsc ? "desc" : "asc");
     setSortField(field);
   };
