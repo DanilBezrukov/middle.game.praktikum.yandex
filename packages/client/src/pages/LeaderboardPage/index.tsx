@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useAppSelector, useActions } from "@/hooks"; // Кастомные хуки
+import { useAppSelector, useActions } from "@/hooks";
 import {
   Container,
   Typography,
@@ -46,7 +46,7 @@ export function LeaderboardPage() {
       return isAsc ? a.points - b.points : b.points - a.points;
     });
 
-    setLeaders(sortedLeaders); // Обновляем данные в слайсе
+    setLeaders(sortedLeaders);
     setOrder(isAsc ? "desc" : "asc");
     setSortField(field);
   };

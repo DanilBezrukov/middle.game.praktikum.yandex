@@ -125,7 +125,6 @@ export function HomePage() {
           <UiButton onClick={() => navigate(paths.game)}>Играть</UiButton>
         </UiPaper>
 
-        {/* Блок с топ-3 лидерами */}
         <UiPaper sx={{ mb: 2, p: { xs: 3, sm: 5 } }}>
           <Typography component="h4" variant="h6" sx={{ mb: 2 }}>
             Топ-3 Лидеров
