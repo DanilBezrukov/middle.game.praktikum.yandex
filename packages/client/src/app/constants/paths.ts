@@ -6,5 +6,6 @@ export const paths = {
   game: "/game",
   leaderboard: "/leaderboard",
   forum: "/forum",
+  forumTopic: "/forum/:id",
   error: "/500",
 };
