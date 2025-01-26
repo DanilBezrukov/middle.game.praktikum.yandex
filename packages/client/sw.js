@@ -2,79 +2,68 @@ const CACHE_PREFIX = 'flappy-bird';
 const CACHE_VERSION = 1;
 const CACHE_NAME = `${CACHE_PREFIX}-v${CACHE_VERSION}`;
 
-const URLS = ['/index.html',
-  '/assets/background.png',
-  '/assets/background-game.png',
-  '/assets/bird-wings-down.png',
-  '/assets/bird-wings-up.png',
-  '/assets/error404hamster.png',
-  '/assets/error-bird.png',
-  '/assets/game-icon.png',
-  '/assets/obstacle-to-game.png',
-  '/assets/fonts/JollyLodger-Regular.woff',
+
+const URLS = [
+  '/index.html',
+  'src/assets/background.png',
+  'src/assets/background-game.png',
+  'src/assets/error404hamster.png',
+  'src/assets/error-bird.png',
+  'src/assets/game-icon.png',
+  'src/assets/obstacle-to-game.png',
+  'src/assets/fonts/JollyLodger-Regular.woff',
+  'src/assets/birds/bird-wings-down.png',
+  'src/assets/birds/bird-wings-down-v2.png',
+  'src/assets/birds/bird-wings-down-v3.png',
+  'src/assets/birds/bird-wings-up.png',
+  'src/assets/birds/bird-wings-up-v2.png',
+  'src/assets/birds/bird-wings-up-v3.png',
 ];
 
-this.addEventListener('install', event => {
-  event.waitUntil(
-    caches
-      .open(CACHE_NAME)
-      .then(cache => cache.addAll(URLS))
-      .catch(err => {
-        //eslint-disable-next-line no-console
-        console.log(err);
-        throw err;
-      })
-  );
-});
 
-this.addEventListener('activate', event => {
+this.addEventListener('install', event => {
+  //eslint-disable-next-line no-console
+  console.log("Service Worker: Установлен");
   event.waitUntil(
-    caches.keys().then(cacheNames =>
-      Promise.all(
-        cacheNames.map(cacheName =>
-          cacheName.indexOf(CACHE_PREFIX) === 0
-            ? caches.delete(cacheName)
-            : undefined
-        )
-      )
-    )
+    caches.open(CACHE_NAME).then(cache => {
+      //eslint-disable-next-line no-console
+      console.log("Кэширование файлов...");
+      return Promise.all(URLS.map(url =>
+        fetch(url).then(response => {
+          if (!response.ok) {
+            //eslint-disable-next-line no-console
+            console.error(`Не удалось загрузить файл: ${url}`);
+            throw new Error(`Не удалось загрузить файл: ${url}`);
+          }
+          return cache.put(url, response);
+        })
+      ));
+    })
   );
 });
 
 this.addEventListener('fetch', event => {
-  const { url } = event.request;
-  if (
-    url.startsWith('chrome-extension') ||
-    url.includes('extension') ||
-    !(url.indexOf('http') === 0)
-  )
-    return;
-
+  //eslint-disable-next-line no-console
+  console.log("Service Worker: Запрос кэширования", event.request.url);
   event.respondWith(
-    caches.match(event.request).then(response => {
-      if (response) {
-        return response;
-      }
+    caches.match(event.request).then(response => response || fetch(event.request))
+  );
+});
 
-      const fetchRequest = event.request.clone();
-      return fetch(fetchRequest)
-        .then(response => {
-          if (
-            !response ||
-            response.status !== 200 ||
-            response.type !== 'basic'
-          ) {
-            return response;
+this.addEventListener('activate', event => {
+  //eslint-disable-next-line no-console
+  console.log("Service Worker: Активирован");
+  event.waitUntil(
+    caches.keys().then(cacheNames =>
+      Promise.all(
+        cacheNames.map(cache => {
+          if (cache !== CACHE_NAME) {
+            //eslint-disable-next-line no-console
+            console.log("Service Worker: Удаление старого кэша", cache);
+            return caches.delete(cache);
           }
-
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, responseToCache);
-          });
-          return response;
         })
-        //eslint-disable-next-line no-console
-        .catch(err => console.error(err));
-    })
+      )
+    )
   );
 });
