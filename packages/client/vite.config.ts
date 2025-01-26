@@ -18,4 +18,16 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      input: {
+        app: "./index.html",
+        sw: "./sw.js",
+      },
+      output: {
+        entryFileNames: assetInfo =>
+          assetInfo.name === "sw" ? "[name].js" : "assets/js/[name]-[hash].js",
+      },
+    },
+  },
 });
