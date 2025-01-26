@@ -24,6 +24,8 @@ export const leaderboardApi = createApi({
       queryFn: async () => {
         try {
           const response = await fetch("https://ya-praktikum.tech/api/v2/leaderboard");
+          //Прокидываются через ошибку фейковые данные, а затем возвращается массив выше.
+          //API будет подключен в следующих спринтах
           if (!response.ok) throw new Error("Failed to fetch leaderboard");
           const data: Leaderboard[] = await response.json();
           return { data };
