@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useAppSelector, useActions } from "@/hooks";
+import React from "react";
+import { useActions } from "@/hooks";
 import {
   Container,
   Typography,
@@ -18,24 +18,14 @@ import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
-import { RootState } from "@/store";
+import { useGetLeaderboardQuery } from "@/api/leaderboardApi";
 
 export function LeaderboardPage() {
-  const leaders = useAppSelector((state: RootState) => state.leaderboard.leaders);
+  const { data: leaders = [] } = useGetLeaderboardQuery();
   const { setLeaders } = useActions();
   const navigate = useNavigate();
   const [order, setOrder] = React.useState<"asc" | "desc">("desc");
   const [sortField, setSortField] = React.useState<"name" | "points">("points");
-
-  useEffect(() => {
-    setLeaders([
-      { id: 1, name: "Иван Иванов", points: 30, avatar: "https://via.placeholder.com/40" },
-      { id: 2, name: "Анна Смирнова", points: 456, avatar: "https://via.placeholder.com/40" },
-      { id: 3, name: "Петр Сидоров", points: 3228, avatar: "https://via.placeholder.com/40" },
-      { id: 4, name: "Ольга Фёдорова", points: 33, avatar: "https://via.placeholder.com/40" },
-      { id: 5, name: "Мария Кузнецова", points: 12, avatar: "https://via.placeholder.com/40" },
-    ]);
-  }, [setLeaders]);
 
   const handleSort = (field: "name" | "points") => {
     const isAsc = sortField === field && order === "asc";

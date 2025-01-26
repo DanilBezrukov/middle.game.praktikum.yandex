@@ -10,6 +10,7 @@ import { BASE_URL } from "@/api/baseApi";
 import { useAppSelector } from "@/hooks";
 import gameIcon from "@/assets/game-icon.png";
 import { RootState } from "@/store";
+import { useGetLeaderboardQuery } from "@/api/leaderboardApi";
 import { IProfile } from "@/types/profile.interface";
 
 export function HomePage() {
@@ -30,13 +31,13 @@ export function HomePage() {
   const avatar = useAppSelector(selectProfileAvatar);
   const AVATAR_URL = avatar ? `${BASE_URL}/resources/${avatar}` : "";
 
-  const leaders = useAppSelector((state: RootState) => state.leaderboard.leaders);
+  const { data: leaders = [] } = useGetLeaderboardQuery();
   const topLeaders = [...leaders].sort((a, b) => b.points - a.points).slice(0, 3);
 
   return (
     <UiLayout>
       <Container maxWidth="md">
-        <UiPaper sx={{ mb: 2, p: { xs: 3, sm: 5 } }}>
+        <UiPaper sx={{ mt: 3, mb: 2, p: { xs: 3, sm: 5 } }}>
           <Box
             sx={{
               display: "flex",
@@ -51,7 +52,7 @@ export function HomePage() {
                 justifyContent: "flex-start",
                 gap: 3,
               }}>
-              <Avatar sx={{ width: 120, height: 120 }} alt="User Avatar" src={AVATAR_URL} />;
+              <Avatar sx={{ width: 120, height: 120 }} alt="User Avatar" src={AVATAR_URL} />
               <Box
                 sx={{
                   display: "flex",

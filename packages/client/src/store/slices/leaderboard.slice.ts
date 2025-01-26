@@ -18,18 +18,6 @@ const leaderboardSlice = createSlice({
     setLeaders(state, action: PayloadAction<Leader[]>) {
       state.leaders = action.payload;
     },
-    addLeader(state, action: PayloadAction<Leader>) {
-      state.leaders.push(action.payload);
-    },
-    updateLeader(state, action: PayloadAction<Leader>) {
-      const index = state.leaders.findIndex(leader => leader.id === action.payload.id);
-      if (index !== -1) {
-        state.leaders[index] = action.payload;
-      }
-    },
-    removeLeader(state, action: PayloadAction<number>) {
-      state.leaders = state.leaders.filter(leader => leader.id !== action.payload);
-    },
   },
 });
 
