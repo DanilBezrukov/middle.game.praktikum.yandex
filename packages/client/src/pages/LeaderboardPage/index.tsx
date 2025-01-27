@@ -17,6 +17,7 @@ import { UiPaper } from "@/components/ui/UiPaper";
 import { paths } from "@/app/constants/paths";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 
 const leadersData = [
   { id: 1, name: "Иван Иванов", points: 30, avatar: "https://via.placeholder.com/40" },
@@ -26,7 +27,7 @@ const leadersData = [
   { id: 5, name: "Мария Кузнецова", points: 12, avatar: "https://via.placeholder.com/40" },
 ];
 
-export function LeaderboardPage() {
+export const LeaderboardPage = withAuthGuard(() => {
   const [leaders, setLeaders] = useState(leadersData);
   const [order, setOrder] = useState<"asc" | "desc">("desc");
   const [sortField, setSortField] = useState<"name" | "points">("points");
@@ -122,4 +123,4 @@ export function LeaderboardPage() {
       </Container>
     </UiLayout>
   );
-}
+});

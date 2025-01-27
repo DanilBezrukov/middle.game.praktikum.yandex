@@ -12,8 +12,9 @@ import { useAppSelector } from "@/hooks";
 import gameIcon from "@/assets/game-icon.png";
 import { RootState } from "@/store";
 import { IProfile } from "@/types/profile.interface";
+import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 
-export function HomePage() {
+export const HomePage = withAuthGuard(() => {
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
 
@@ -123,4 +124,4 @@ export function HomePage() {
       </Container>
     </UiLayout>
   );
-}
+});

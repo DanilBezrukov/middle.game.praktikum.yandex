@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Typography, Box, Avatar, Divider, TextField, IconButton } from "@mui/material";
+import { Container, Typography, Box, Avatar, Divider, TextField } from "@mui/material";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { UiButton } from "@/components/ui/UiButton";
@@ -10,6 +10,7 @@ import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/hooks";
 import { selectProfileInfo } from "@/store/selectors/profileSelectors";
+import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 
 const topicData = {
   title: "Как пройти Flappy Bird?",
@@ -20,7 +21,7 @@ const topicData = {
   description: "Поделитесь вашими секретами прохождения Flappy Bird!",
 };
 
-export const ForumTopicPage: React.FC = () => {
+export const ForumTopicPage = withAuthGuard(() => {
   const profile = useAppSelector(selectProfileInfo);
 
   const navigate = useNavigate();
@@ -201,4 +202,4 @@ export const ForumTopicPage: React.FC = () => {
       </Container>
     </UiLayout>
   );
-};
+});

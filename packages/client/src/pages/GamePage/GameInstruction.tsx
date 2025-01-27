@@ -1,4 +1,4 @@
-import { IconButton, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { Fullscreen, FullscreenExit, Mouse, Pause, VolumeUp } from "@mui/icons-material";
 
 export const GameInstruction = ({ isOpenFullScreen }: { isOpenFullScreen: boolean }) => (

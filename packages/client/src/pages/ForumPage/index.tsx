@@ -21,6 +21,7 @@ import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/hooks";
 import { selectProfileInfo } from "@/store/selectors/profileSelectors";
+import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 
 type Topic = {
   id: number;
@@ -126,7 +127,7 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
   );
 };
 
-export function ForumPage() {
+export const ForumPage = withAuthGuard(() => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -284,4 +285,4 @@ export function ForumPage() {
       />
     </UiLayout>
   );
-}
+});
