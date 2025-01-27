@@ -11,4 +11,5 @@ export const selectProfileInfo = (state: RootState): IProfile =>
     login: "",
     phone: "",
     avatar: undefined,
+    display_name: "",
   };
