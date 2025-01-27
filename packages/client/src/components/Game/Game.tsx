@@ -22,7 +22,8 @@ import "./Game.scss";
 import backgroundGameImgPath from "@/assets/background-game.png";
 import obstacleImgPath from "@/assets/obstacle-to-game.png";
 import { birdSkins } from "@/components/Game/birdSkins";
-
+import useSound from "@/hooks/useSound";
+import windsSound from "@/assets/sounds/wing-flap-1-6434_a3LUleD4.mp3";
 type GameOptionsType = {
   initialBird?: TBirds;
 };
@@ -42,6 +43,7 @@ export function Game({
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | undefined | null>(null);
+  const { play: windSound } = useSound({ url: windsSound, volume: 1 });
 
   let initBirdData: IBird;
 
@@ -69,6 +71,8 @@ export function Game({
       isFlutterWings = !isFlutterWings;
       birdJump(bird);
     }
+
+    windSound();
   }, []);
 
   function changeSpeed(start: number) {

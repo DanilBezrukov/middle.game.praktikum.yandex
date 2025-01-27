@@ -8,7 +8,7 @@ import { GameInstruction } from "@/pages/GamePage/GameInstruction";
 
 export function GamePage() {
   const ref = useRef<HTMLElement>(null);
-  const { toggleFullScreen, isOpenFullScreen } = useFullscreen({ refElement: ref });
+  const { isOpenFullScreen } = useFullscreen({ refElement: ref });
 
   return (
     <UiLayout
@@ -37,12 +37,7 @@ export function GamePage() {
           outline: "6px solid #fff",
         }}>
         <GameScreen
-          renderInstruction={() => (
-            <GameInstruction
-              isOpenFullScreen={isOpenFullScreen}
-              toggleFullScreen={toggleFullScreen}
-            />
-          )}
+          renderInstruction={() => <GameInstruction isOpenFullScreen={isOpenFullScreen} />}
         />
       </Box>
     </UiLayout>
