@@ -14,10 +14,6 @@ export const PROFILE_FIELDS: IProfileFields[] = [
     options: rules.login,
   },
   {
-    name: "display_name",
-    label: "Никнейм",
-  },
-  {
     name: "phone",
     label: "Телефон",
     options: rules.phone,
