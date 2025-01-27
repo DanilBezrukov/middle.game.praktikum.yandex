@@ -1,13 +1,7 @@
 import { IconButton, Stack, Typography } from "@mui/material";
-import { Fullscreen, FullscreenExit, Mouse } from "@mui/icons-material";
+import { Fullscreen, FullscreenExit, Mouse, Pause, VolumeUp } from "@mui/icons-material";
 
-export const GameInstruction = ({
-  toggleFullScreen,
-  isOpenFullScreen,
-}: {
-  toggleFullScreen: () => void;
-  isOpenFullScreen: boolean;
-}) => (
+export const GameInstruction = ({ isOpenFullScreen }: { isOpenFullScreen: boolean }) => (
   <Stack
     py={1}
     px={3}
@@ -31,12 +25,33 @@ export const GameInstruction = ({
           - Левая клавиша мыши для полета
         </Typography>
       </Stack>
+      <Stack direction={"row"} alignItems={"center"}>
+        <VolumeUp fontSize={"small"} sx={{ mx: 1 }} />
+        <Typography
+          sx={{
+            userSelect: "none",
+          }}>
+          - Включить/выключить музыку (m)
+        </Typography>
+      </Stack>
     </Stack>
     <Stack gap={"10px"}>
       <Stack direction={"row"} alignItems={"center"}>
-        <IconButton sx={{ p: 0 }} onClick={toggleFullScreen}>
-          {isOpenFullScreen ? <FullscreenExit /> : <Fullscreen fontSize={"medium"} />}
-        </IconButton>
+        <Pause sx={{ mx: 1 }} />
+        <Typography
+          sx={{
+            userSelect: "none",
+          }}>
+          - Пауза (p)
+        </Typography>
+      </Stack>
+      <Stack direction={"row"} alignItems={"center"}>
+        {isOpenFullScreen ? (
+          <FullscreenExit sx={{ mx: 1 }} />
+        ) : (
+          <Fullscreen fontSize={"medium"} sx={{ mx: 1 }} />
+        )}
+
         <Typography
           sx={{
             userSelect: "none",
@@ -44,14 +59,6 @@ export const GameInstruction = ({
           {isOpenFullScreen
             ? "- Свернуть полноэкранный режим или клавиша (f)"
             : "- Полноэкранный режим или клавиша (f)"}
-        </Typography>
-      </Stack>
-      <Stack direction={"row"} alignItems={"center"}>
-        <Typography
-          sx={{
-            userSelect: "none",
-          }}>
-          Пауза - клавиша (p)
         </Typography>
       </Stack>
     </Stack>
