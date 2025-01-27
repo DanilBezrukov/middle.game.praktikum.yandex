@@ -9,7 +9,6 @@ import { HomePage } from "@/pages/HomePage";
 import { ForumPage } from "@/pages/ForumPage";
 import { ForumTopicPage } from "@/pages/ForumTopicPage";
 import { ProfilePage } from "@/pages/ProfilePage";
-import { AuthGuard } from "@/app/providers/router/AuthGuard";
 import { GamePage } from "@/pages/GamePage/GamePage";
 
 export const routes: RouteObject[] = [
@@ -23,51 +22,27 @@ export const routes: RouteObject[] = [
   },
   {
     path: paths.profile,
-    element: (
-      <AuthGuard>
-        <ProfilePage />
-      </AuthGuard>
-    ),
+    element: <ProfilePage />,
   },
   {
     path: paths.homePage,
-    element: (
-      <AuthGuard>
-        <HomePage />
-      </AuthGuard>
-    ),
+    element: <HomePage />,
   },
   {
     path: paths.game,
-    element: (
-      <AuthGuard>
-        <GamePage />
-      </AuthGuard>
-    ),
+    element: <GamePage />,
   },
   {
     path: paths.leaderboard,
-    element: (
-      <AuthGuard>
-        <LeaderboardPage />
-      </AuthGuard>
-    ),
+    element: <LeaderboardPage />,
   },
   {
     path: paths.forum,
-    element: (
-      <AuthGuard>
-        <ForumPage />,
-      </AuthGuard>
-    ),
+    element: <ForumPage />,
   },
   {
     path: paths.forumTopic, // Новый маршрут для темы форума
-    element: (
-      <AuthGuard>
-        <ForumTopicPage />
-      </AuthGuard>
-    ),
+    element: <ForumTopicPage />,
   },
   {
     path: paths.error,

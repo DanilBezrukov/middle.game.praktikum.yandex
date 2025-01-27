@@ -6,8 +6,9 @@ import { ProfilePassword } from "./ProfileFeatures";
 import { UiButton } from "@/components/ui/UiButton";
 import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
+import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 
-export const ProfilePage: React.FC = () => {
+export const ProfilePage = withAuthGuard(() => {
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -67,4 +68,4 @@ export const ProfilePage: React.FC = () => {
       </UiButton>
     </UiLayout>
   );
-};
+});

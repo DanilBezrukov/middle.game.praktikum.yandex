@@ -18,9 +18,10 @@ import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
+import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 import { useGetLeaderboardQuery } from "@/api/leaderboardApi";
 
-export function LeaderboardPage() {
+export const LeaderboardPage = withAuthGuard(() => {
   const { data: leaders = [] } = useGetLeaderboardQuery();
   const { setLeaders } = useActions();
   const navigate = useNavigate();
@@ -117,4 +118,4 @@ export function LeaderboardPage() {
       </Container>
     </UiLayout>
   );
-}
+});

@@ -5,8 +5,9 @@ import { GameScreen } from "@/components/GameScreen/GameScreen";
 import { useRef } from "react";
 import { useFullscreen } from "@/hooks";
 import { GameInstruction } from "@/pages/GamePage/GameInstruction";
+import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 
-export function GamePage() {
+export const GamePage = withAuthGuard(() => {
   const ref = useRef<HTMLElement>(null);
   const { isOpenFullScreen } = useFullscreen({ refElement: ref });
 
@@ -42,4 +43,4 @@ export function GamePage() {
       </Box>
     </UiLayout>
   );
-}
+});

@@ -1,9 +1,7 @@
 import { IUser } from "./auth.interface";
 import { RegisterOptions } from "react-hook-form";
 
-export type IProfile = Omit<IUser, "password"> & {
-  display_name: string;
-};
+export type IProfile = Omit<IUser, "password">;
 
 export type IProfilePassword = {
   oldPassword: string;
