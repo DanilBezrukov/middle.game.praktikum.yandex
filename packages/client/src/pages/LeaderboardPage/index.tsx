@@ -1,3 +1,5 @@
+import React from "react";
+import { useActions } from "@/hooks";
 import {
   Container,
   Typography,
@@ -15,22 +17,15 @@ import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { paths } from "@/app/constants/paths";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const leadersData = [
-  { id: 1, name: "Иван Иванов", points: 30, avatar: "https://via.placeholder.com/40" },
-  { id: 2, name: "Анна Смирнова", points: 456, avatar: "https://via.placeholder.com/40" },
-  { id: 3, name: "Петр Сидоров", points: 3228, avatar: "https://via.placeholder.com/40" },
-  { id: 4, name: "Ольга Фёдорова", points: 33, avatar: "https://via.placeholder.com/40" },
-  { id: 5, name: "Мария Кузнецова", points: 12, avatar: "https://via.placeholder.com/40" },
-];
+import { useGetLeaderboardQuery } from "@/api/leaderboardApi";
 
 export function LeaderboardPage() {
-  const [leaders, setLeaders] = useState(leadersData);
-  const [order, setOrder] = useState<"asc" | "desc">("desc");
-  const [sortField, setSortField] = useState<"name" | "points">("points");
+  const { data: leaders = [] } = useGetLeaderboardQuery();
+  const { setLeaders } = useActions();
   const navigate = useNavigate();
+  const [order, setOrder] = React.useState<"asc" | "desc">("desc");
+  const [sortField, setSortField] = React.useState<"name" | "points">("points");
 
   const handleSort = (field: "name" | "points") => {
     const isAsc = sortField === field && order === "asc";
