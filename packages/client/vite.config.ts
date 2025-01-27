@@ -19,6 +19,7 @@ export default defineConfig({
   },
   plugins: [react()],
   build: {
+    manifest: true,
     rollupOptions: {
       input: {
         app: "./index.html",
