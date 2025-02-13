@@ -19,7 +19,7 @@
     "packages/*"
   ],
   "engines": {
-    "node": "16.20.2"
+    "node": "^18.0.0"
   },
   "devDependencies": {
     "@evilmartians/lefthook": "^1.3.9",
