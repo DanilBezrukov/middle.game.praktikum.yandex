@@ -11,7 +11,7 @@
     "test": "jest ."
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=16"
   },
   "dependencies": {
     "cors": "^2.8.5",
