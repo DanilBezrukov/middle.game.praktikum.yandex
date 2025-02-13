@@ -10,7 +10,7 @@
     "test": "jest ./"
   },
   "engines": {
-    "node": ">=18"
+    "node": "16.20.2"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
