@@ -10,6 +10,7 @@
     "test": "lerna run test",
     "lint": "lerna run lint",
     "format": "lerna run format",
+    "preview:client": "lerna run preview --scope client",
     "preview": "lerna run preview",
     "prepare": "husky"
   },
