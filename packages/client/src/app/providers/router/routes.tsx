@@ -10,6 +10,7 @@ import { ForumPage } from "@/pages/ForumPage";
 import { ForumTopicPage } from "@/pages/ForumTopicPage";
 import { ProfilePage } from "@/pages/ProfilePage";
 import { GamePage } from "@/pages/GamePage/GamePage";
+import { SocialAuthPage } from "@/pages/SocialAuthPage";
 
 export const routes: RouteObject[] = [
   {
@@ -47,6 +48,10 @@ export const routes: RouteObject[] = [
   {
     path: paths.error,
     element: <ErrorPage500 />,
+  },
+  {
+    path: paths.socialAuthPage,
+    element: <SocialAuthPage />,
   },
   {
     path: "*",

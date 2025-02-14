@@ -8,4 +8,5 @@ export const paths = {
   forum: "/forum",
   forumTopic: "/forum/:id",
   error: "/500",
+  socialAuthPage: "/oauth",
 };
