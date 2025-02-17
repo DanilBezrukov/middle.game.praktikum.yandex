@@ -4,9 +4,10 @@ import "@/app/style/style.css";
 
 function App() {
   return (
-    <div data-testid="app" id="app">
-      <RouterProvider router={router} />
-    </div>
+    <div>Базовая настройка ssr без роутинга </div>
+    // <div data-testid="app" id="app">
+    //   <RouterProvider router={router} />
+    // </div>
   );
 }
 
