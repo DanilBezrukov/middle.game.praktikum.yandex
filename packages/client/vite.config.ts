@@ -19,6 +19,7 @@ export default defineConfig({
   },
   plugins: [react()],
   build: {
+    outDir: path.join(__dirname, "dist/client"),
     manifest: true,
     rollupOptions: {
       input: {
@@ -28,6 +29,7 @@ export default defineConfig({
       output: {
         entryFileNames: assetInfo =>
           assetInfo.name === "sw" ? "[name].js" : "assets/js/[name]-[hash].js",
+        format: "cjs",
       },
     },
   },
