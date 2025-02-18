@@ -1,7 +1,13 @@
 import { paths } from "@/app/constants/paths";
-import { useLazyGetUserInfoQuery, useLoginByLoginMutation } from "@/api/authApi";
+import {
+  getYandexRedirectUrl,
+  useLazyGetUserInfoQuery,
+  useLoginByLoginMutation,
+  useLoginByYandexMutation,
+} from "@/api/authApi";
 import { ILoginData } from "@/types/auth.interface";
-import { Typography } from "@mui/material";
+import { SvgIcon, Typography } from "@mui/material";
+import { YandexIcon } from "@/components/ui/YandexIcon";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +29,7 @@ export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [loginByLogin, { isError: isResponseError }] = useLoginByLoginMutation();
   const [getUserInfo] = useLazyGetUserInfoQuery();
+  const [loginByYandex] = useLoginByYandexMutation();
 
   useEffect(() => {
     getUserInfo()
@@ -43,6 +50,18 @@ export const LoginPage: React.FC = () => {
         if (e.status >= 500) {
           navigate(paths.error);
         }
+      });
+  };
+
+  const onLoginByYandex = () => {
+    loginByYandex()
+      .unwrap()
+      .then(res => {
+        window.open(getYandexRedirectUrl(res.service_id), "_blank");
+      })
+      .catch(error => {
+        // eslint-disable-next-line no-console
+        console.error("Error during Yandex login:", error);
       });
   };
 
@@ -92,6 +111,20 @@ export const LoginPage: React.FC = () => {
             marginTop: "50px",
           }}>
           Авторизация
+        </UiButton>
+        <UiButton
+          sx={{
+            width: 400,
+            height: 55,
+            color: "#FFFFFF",
+            backgroundColor: "#000000",
+            textTransform: "uppercase",
+          }}
+          onClick={onLoginByYandex}>
+          <SvgIcon style={{ marginRight: "10px" }}>
+            <YandexIcon />
+          </SvgIcon>
+          Авторизация через Яндекс
         </UiButton>
         <Typography
           variant="body1"
