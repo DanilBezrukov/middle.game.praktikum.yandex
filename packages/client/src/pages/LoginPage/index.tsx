@@ -118,12 +118,13 @@ export const LoginPage: React.FC = () => {
             height: 55,
             color: "#FFFFFF",
             backgroundColor: "#000000",
+            textTransform: "uppercase",
           }}
           onClick={onLoginByYandex}>
           <SvgIcon style={{ marginRight: "10px" }}>
             <YandexIcon />
-          </SvgIcon>{" "}
-          АВТОРИЗАЦИЯ ЧЕРЕЗ ЯНДЕКС
+          </SvgIcon>
+          Авторизация через Яндекс
         </UiButton>
         <Typography
           variant="body1"
