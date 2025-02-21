@@ -55,7 +55,7 @@ export const LeaderboardPage = withAuthGuard(() => {
     const sortedLeaders: Leader[] = data.map((entry: LeaderData) => ({
       id: entry.id,
       name: entry.name,
-      points: entry.ppBirdScore, // преобразуем ppBirdScore в points
+      points: entry.ppBirdScore,
     }));
 
     setLeaders(sortedLeaders);

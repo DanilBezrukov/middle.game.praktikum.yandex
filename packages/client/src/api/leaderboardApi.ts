@@ -17,7 +17,7 @@ export const leaderboardApi = createApi({
         url: "/leaderboard",
         method: "POST",
         data,
-        withCredentials: true, // Добавлено
+        withCredentials: true,
       }),
     }),
     getLeaderboard: builder.query<
@@ -32,7 +32,7 @@ export const leaderboardApi = createApi({
         url: "/leaderboard/all",
         method: "POST",
         data: params,
-        withCredentials: true, // Добавлено
+        withCredentials: true,
       }),
     }),
   }),
