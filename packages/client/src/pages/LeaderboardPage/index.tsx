@@ -20,22 +20,43 @@ import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 import { useGetLeaderboardQuery } from "@/api/leaderboardApi";
+import { Leader } from "@/store/slices/leaderboard.slice";
+
+type LeaderData = {
+  id: number;
+  name: string;
+  ppBirdScore: number;
+};
+
+type LeaderboardResponse = {
+  data: LeaderData;
+};
 
 export const LeaderboardPage = withAuthGuard(() => {
-  const { data: leaders = [] } = useGetLeaderboardQuery();
+  const { data = [] } = useGetLeaderboardQuery({
+    ratingFieldName: "ppBirdScore",
+    cursor: 0,
+    limit: 50,
+  });
+
+  const leaders: LeaderData[] = data.map((entry: LeaderboardResponse) => ({
+    id: entry.data.id,
+    name: entry.data.name,
+    ppBirdScore: entry.data.ppBirdScore,
+  }));
+
   const { setLeaders } = useActions();
   const navigate = useNavigate();
   const [order, setOrder] = React.useState<"asc" | "desc">("desc");
-  const [sortField, setSortField] = React.useState<"name" | "points">("points");
+  const [sortField, setSortField] = React.useState<"name" | "ppBirdScore">("ppBirdScore");
 
-  const handleSort = (field: "name" | "points") => {
+  const handleSort = (field: "name" | "ppBirdScore") => {
     const isAsc = sortField === field && order === "asc";
-    const sortedLeaders = [...leaders].sort((a, b) => {
-      if (field === "name") {
-        return isAsc ? a.name.localeCompare(b.name, "ru") : b.name.localeCompare(a.name, "ru");
-      }
-      return isAsc ? a.points - b.points : b.points - a.points;
-    });
+    const sortedLeaders: Leader[] = data.map((entry: LeaderData) => ({
+      id: entry.id,
+      name: entry.name,
+      points: entry.ppBirdScore, // преобразуем ppBirdScore в points
+    }));
 
     setLeaders(sortedLeaders);
     setOrder(isAsc ? "desc" : "asc");
@@ -59,9 +80,7 @@ export const LeaderboardPage = withAuthGuard(() => {
               "border": "1px solid black",
               "maxHeight": 500,
               "overflow": "auto",
-              "&::-webkit-scrollbar": {
-                width: "8px",
-              },
+              "&::-webkit-scrollbar": { width: "8px" },
               "&::-webkit-scrollbar-thumb": {
                 backgroundColor: "rgba(0, 0, 0, 0.5)",
                 borderRadius: "4px",
@@ -73,7 +92,6 @@ export const LeaderboardPage = withAuthGuard(() => {
             <Table>
               <TableHead>
                 <TableRow sx={{ borderBottom: "1px solid black" }}>
-                  <TableCell></TableCell>
                   <TableCell sx={{ fontWeight: "bold" }}>
                     <TableSortLabel
                       active={sortField === "name"}
@@ -84,33 +102,26 @@ export const LeaderboardPage = withAuthGuard(() => {
                   </TableCell>
                   <TableCell sx={{ fontWeight: "bold" }} align="right">
                     <TableSortLabel
-                      active={sortField === "points"}
+                      active={sortField === "ppBirdScore"}
                       direction={order}
-                      onClick={() => handleSort("points")}>
+                      onClick={() => handleSort("ppBirdScore")}>
                       Баллы
                     </TableSortLabel>
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {leaders.map(leader => (
+                {leaders.map((leader: LeaderData) => (
                   <TableRow key={leader.id} sx={{ borderBottom: "1px solid black" }}>
-                    <TableCell>
-                      <Avatar src={leader.avatar} alt={leader.name} />
-                    </TableCell>
                     <TableCell>{leader.name}</TableCell>
-                    <TableCell align="right">{leader.points}</TableCell>
+                    <TableCell align="right">{leader.ppBirdScore}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
           <UiButton
-            sx={{
-              marginTop: 3,
-              alignSelf: "center",
-              height: "50px",
-            }}
+            sx={{ marginTop: 3, alignSelf: "center", height: "50px" }}
             onClick={() => navigate(paths.homePage)}>
             Назад
           </UiButton>
