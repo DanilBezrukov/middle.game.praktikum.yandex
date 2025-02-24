@@ -1,8 +1,5 @@
-import React from "react";
+import React, { lazy, useEffect, useState } from "react";
 import { IconButton, Box } from "@mui/material";
-import FormatBoldIcon from "@mui/icons-material/FormatBold";
-import FormatItalicIcon from "@mui/icons-material/FormatItalic";
-import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
 
 interface UiFormattingToolbarProps {
   formatting: {
@@ -22,22 +19,39 @@ interface UiFormattingToolbarProps {
 export const UiFormattingToolbar: React.FC<UiFormattingToolbarProps> = ({
   formatting,
   setFormatting,
-}) => (
-  <Box sx={{ display: "flex", gap: 1, mb: 1 }}>
-    <IconButton
-      onClick={() => setFormatting(prev => ({ ...prev, bold: !prev.bold }))}
-      color={formatting.bold ? "primary" : "default"}>
-      <FormatBoldIcon />
-    </IconButton>
-    <IconButton
-      onClick={() => setFormatting(prev => ({ ...prev, italic: !prev.italic }))}
-      color={formatting.italic ? "primary" : "default"}>
-      <FormatItalicIcon />
-    </IconButton>
-    <IconButton
-      onClick={() => setFormatting(prev => ({ ...prev, underline: !prev.underline }))}
-      color={formatting.underline ? "primary" : "default"}>
-      <FormatUnderlinedIcon />
-    </IconButton>
-  </Box>
-);
+}) => {
+  const [FormatBoldIcon, setFormatBoldIcon] = useState(<></>);
+  const [FormatItalicIcon, setFormatItalicIcon] = useState(<></>);
+  const [FormatUnderlinedIcon, setFormatUnderlinedIcon] = useState(<></>);
+  const setIcons = async () => {
+    const { FormatBold, FormatItalic, FormatUnderlined } = await import("@mui/icons-material");
+
+    setFormatBoldIcon(<FormatBold />);
+    setFormatItalicIcon(<FormatItalic />);
+    setFormatUnderlinedIcon(<FormatUnderlined />);
+  };
+
+  useEffect(() => {
+    setIcons().then();
+  }, []);
+
+  return (
+    <Box sx={{ display: "flex", gap: 1, mb: 1 }}>
+      <IconButton
+        onClick={() => setFormatting(prev => ({ ...prev, bold: !prev.bold }))}
+        color={formatting.bold ? "primary" : "default"}>
+        {FormatBoldIcon}
+      </IconButton>
+      <IconButton
+        onClick={() => setFormatting(prev => ({ ...prev, italic: !prev.italic }))}
+        color={formatting.italic ? "primary" : "default"}>
+        {FormatItalicIcon}
+      </IconButton>
+      <IconButton
+        onClick={() => setFormatting(prev => ({ ...prev, underline: !prev.underline }))}
+        color={formatting.underline ? "primary" : "default"}>
+        {FormatUnderlinedIcon}
+      </IconButton>
+    </Box>
+  );
+};

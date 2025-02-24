@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { RegisterOptions, useForm } from "react-hook-form";
 import { IProfilePassword } from "@/types/profile.interface";
 import { useSetProfilePasswordMutation } from "@/api/profileApi";
 import { UiMessage } from "@/components/ui/UiMessage";
@@ -50,7 +50,7 @@ export const ProfilePassword: React.FC<{ onSuccess: () => void }> = ({ onSuccess
             type="password"
             error={Boolean(errors.newPassword)}
             helperText={errors.newPassword?.message}
-            {...register("newPassword", rules["password"])}
+            {...register("newPassword", rules.password as RegisterOptions<IProfilePassword>)}
           />
         </Grid>
       </Grid>

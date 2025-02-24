@@ -13,6 +13,7 @@ import { REGISTRATION_FIELDS } from "@/pages/RegistrationPage/registrationFields
 import { apiTranslateResponseErrors } from "@/app/utils/validationUserFields";
 import { useEffect } from "react";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { IProfile } from "@/types/profile.interface";
 
 export const RegistrationPage: React.FC = () => {
   const {

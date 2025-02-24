@@ -8,10 +8,10 @@ import { RootState } from "@/store";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { UiTextField } from "@/components/ui/UiTextField";
 import { UiButton } from "@/components/ui/UiButton";
-import Grid from "@mui/material/Grid2";
 import { PROFILE_FIELDS } from "@/pages/ProfilePage/ProfileFeatures/profileFields";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { apiTranslateResponseErrors } from "@/app/utils/validationUserFields";
+import { Box } from "@mui/material";
 
 export const ProfileInfo: React.FC = () => {
   const [profileInfo, { isSuccess, error: responseError }] = useSetProfileInfoMutation();
@@ -26,9 +26,11 @@ export const ProfileInfo: React.FC = () => {
     handleSubmit,
     formState: { errors, isDirty },
     setError,
+    watch,
   } = useForm<IProfile>({
     mode: "onBlur",
     defaultValues: profile,
+    values: profile,
   });
 
   useEffect(() => {
@@ -58,20 +60,21 @@ export const ProfileInfo: React.FC = () => {
         padding: 4,
       }}
       onSubmit={onSubmit}>
-      <Grid container spacing={4}>
+      <Box display={"grid"} gridTemplateColumns={"1fr 1fr"} gap={"35px"}>
         {PROFILE_FIELDS.map(({ name, label, options, type = "text" }) => (
-          <Grid key={name} size={6}>
+          <Box key={name}>
             <UiTextField
               label={label}
               variant="standard"
               type={type}
+              focused={!!watch(name)}
               error={Boolean(errors[name])}
               helperText={errors[name]?.message}
               {...register(name, options)}
             />
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </Box>
       <UiButton
         variant="contained"
         type="submit"

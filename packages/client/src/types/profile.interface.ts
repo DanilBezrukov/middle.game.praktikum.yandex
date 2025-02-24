@@ -12,5 +12,5 @@ export type IProfileFields = {
   label: string;
   name: keyof Omit<IProfile, "id">;
   type?: string;
-  options?: RegisterOptions;
+  options?: RegisterOptions<IProfile>;
 };

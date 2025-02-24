@@ -13,6 +13,7 @@ import { RootState } from "@/store";
 import { useGetLeaderboardQuery } from "@/api/leaderboardApi";
 import { IProfile } from "@/types/profile.interface";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
+import { useEffect } from "react";
 
 export const HomePage = withAuthGuard(() => {
   const navigate = useNavigate();

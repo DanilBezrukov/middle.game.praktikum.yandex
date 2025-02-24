@@ -64,11 +64,14 @@ export const authApi = createApi({
         },
       }),
     }),
-    getUserInfo: builder.query<IUser, void>({
-      query: () => ({
+    getUserInfo: builder.query<IUser, { cookie?: string } | void>({
+      query: params => ({
         url: "/auth/user",
         withCredentials: true,
         method: "GET",
+        headers: {
+          cookie: params ? params.cookie : undefined,
+        },
       }),
     }),
     logout: builder.mutation<void, void>({

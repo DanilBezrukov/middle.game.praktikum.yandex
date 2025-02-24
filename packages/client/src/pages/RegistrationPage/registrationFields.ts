@@ -6,7 +6,7 @@ export type IRegistrationFields = {
   label: string;
   name: keyof Omit<IUser, "id">;
   type?: string;
-  options?: RegisterOptions;
+  options?: RegisterOptions<IUser>;
 };
 export const REGISTRATION_FIELDS: IRegistrationFields[] = [
   {

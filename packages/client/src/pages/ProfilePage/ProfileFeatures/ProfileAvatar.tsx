@@ -43,7 +43,11 @@ export const ProfileAvatar: React.FC = () => {
         />
         <label htmlFor="profile-avatar">
           <IconButton component="span">
-            <Avatar sx={{ width: 120, height: 120 }} alt="Avatar" src={AVATAR_URL} />
+            <Avatar
+              sx={{ width: 120, height: 120 }}
+              alt="Avatar"
+              src={avatar ? AVATAR_URL : undefined}
+            />
           </IconButton>
         </label>
       </Box>

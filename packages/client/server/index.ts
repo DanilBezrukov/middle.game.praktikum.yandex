@@ -3,6 +3,9 @@ dotenv.config();
 
 import express from "express";
 import path from "path";
+import cookiesParser from "cookie-parser";
+
+import { createProxyMiddleware, fixRequestBody } from "http-proxy-middleware";
 
 import fs from "fs/promises";
 import { createServer as createViteServer, ViteDevServer } from "vite";
@@ -15,6 +18,8 @@ const manifestPath = path.join(clientPath, "dist", "server", ".vite", "manifest.
 
 async function createServer() {
   const app = express();
+  app.use(cookiesParser());
+
   let vite: ViteDevServer | undefined;
   if (isDev) {
     vite = await createViteServer({
@@ -27,11 +32,25 @@ async function createServer() {
     app.use(express.static(path.join(clientPath, "dist/client"), { index: false }));
   }
 
+  app.use(
+    "/api/v2",
+    createProxyMiddleware({
+      changeOrigin: true,
+      cookieDomainRewrite: {
+        "*": "",
+      },
+      timeout: 5000,
+      proxyTimeout: 5000,
+      onProxyReq: fixRequestBody,
+      target: "https://ya-praktikum.tech",
+    }),
+  );
+
   app.get("*", async (req, res, next) => {
     const url = req.originalUrl;
 
     try {
-      let render: () => Promise<string>;
+      let render: (req: express.Request) => Promise<{ appHtml: string; initialState: unknown }>;
       let template: string;
 
       if (vite) {
@@ -48,15 +67,20 @@ async function createServer() {
         render = (await import(pathToServer)).render;
       }
 
-      const appHtml = await render();
+      const { appHtml, initialState } = await render(req);
 
-      const html = template.replace(`<!--ssr-outlet-->`, appHtml);
+      const html = template
+        .replace(`<!--ssr-outlet-->`, appHtml)
+        .replace(
+          `<!--ssr-initial-state-->`,
+          `<script>window.APP_INITIAL_STATE = ${JSON.stringify(initialState)}</script>`,
+        );
 
       res.status(200).set({ "Content-Type": "text/html" }).end(html);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
-      vite.ssrFixStacktrace(e as Error);
+      isDev && vite.ssrFixStacktrace(e as Error);
       next(e);
     }
   });

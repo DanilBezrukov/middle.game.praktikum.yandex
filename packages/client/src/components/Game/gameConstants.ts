@@ -10,6 +10,12 @@ export const birdConfig = {
   gravity: 1000,
 };
 
+if (import.meta.env.SSR) {
+  class Image {}
+  // @ts-ignore
+  global.Image = Image;
+}
+
 export const gameImages = {
   backgroundImage: new Image(),
   birdWingsDown: new Image(),

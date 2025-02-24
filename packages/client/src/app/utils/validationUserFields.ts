@@ -1,4 +1,6 @@
 import { RegisterOptions } from "react-hook-form";
+import { IProfile } from "@/types/profile.interface";
+import { IUser } from "@/types/auth.interface";
 
 export const requiredField = "Поле не может быть пустым";
 
@@ -24,7 +26,7 @@ const phonePattern = /^\+?\d{10,15}$/;
 
 type RulesType = Record<
   "email" | "login" | "first_name" | "second_name" | "phone" | "password",
-  RegisterOptions
+  RegisterOptions<IProfile>
 >;
 export const rules: RulesType = {
   email: {
