@@ -9,7 +9,7 @@ import { store } from "@/store";
 
 import { registerServiceWorker, unregisterServiceWorker } from "@/app/utils/serviceWorker";
 
-if (!import.meta.env.PROD) {
+if (import.meta.env.PROD) {
   registerServiceWorker();
 } else {
   unregisterServiceWorker();
