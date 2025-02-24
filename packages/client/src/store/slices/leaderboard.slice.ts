@@ -1,10 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type Leader = {
+export type Leader = {
   id: number;
   name: string;
   points: number;
-  avatar: string;
 };
 
 const initialState: { leaders: Leader[] } = {
