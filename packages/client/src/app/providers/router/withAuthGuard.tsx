@@ -30,11 +30,7 @@ export const withAuthGuard = <Props extends object = object>(
       return <Navigate to={paths.signIn} />;
     }
 
-    if (isSuccess) {
-      return <BaseComponent {...props} />;
-    }
-
-    return null;
+    return <BaseComponent {...props} />;
   };
 
   // Добавление displayName для отладки

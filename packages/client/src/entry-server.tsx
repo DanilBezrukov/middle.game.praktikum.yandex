@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom/server";
 import {
   createStaticHandler,
@@ -19,6 +18,7 @@ import { profileActions } from "@/store";
 
 export const render = async (req: express.Request) => {
   const { query, dataRoutes } = createStaticHandler(routes);
+
   const fetchRequest = createFetchRequest(req);
   const context = await query(fetchRequest);
 

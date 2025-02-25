@@ -14,7 +14,7 @@ const port = process.env.PORT || 80;
 const clientPath = path.join(__dirname, "..");
 const isDev = process.env.NODE_ENV === "development";
 
-const manifestPath = path.join(clientPath, "dist", "server", ".vite", "manifest.json");
+const manifestPath = path.join(clientPath, "dist", "server", "manifest.json");
 
 async function createServer() {
   const app = express();
@@ -76,7 +76,7 @@ async function createServer() {
           `<script>window.APP_INITIAL_STATE = ${JSON.stringify(initialState)}</script>`,
         );
 
-      res.status(200).set({ "Content-Type": "text/html" }).end(html);
+      res.status(200).set({ "Content-Type": "text/html" }).send(html);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);

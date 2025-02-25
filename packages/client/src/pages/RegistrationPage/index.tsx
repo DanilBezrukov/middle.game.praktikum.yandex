@@ -1,19 +1,17 @@
 import { paths } from "@/app/constants/paths";
 import { useCreateUserMutation } from "@/api/authApi";
 import { IUser } from "@/types/auth.interface";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { UiButton } from "@/components/ui/UiButton";
 import { UiTextField } from "@/components/ui/UiTextField";
-import Grid from "@mui/material/Grid2";
 import { REGISTRATION_FIELDS } from "@/pages/RegistrationPage/registrationFields";
 import { apiTranslateResponseErrors } from "@/app/utils/validationUserFields";
 import { useEffect } from "react";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
-import { IProfile } from "@/types/profile.interface";
 
 export const RegistrationPage: React.FC = () => {
   const {
@@ -76,9 +74,9 @@ export const RegistrationPage: React.FC = () => {
           }}>
           Регистрация
         </Typography>
-        <Grid container spacing={3} marginTop={8}>
+        <Box display={"grid"} gridTemplateColumns={"1fr 1fr"} gap={"30px"}>
           {REGISTRATION_FIELDS.map(({ label, name, type = "text", options }) => (
-            <Grid key={name} size={6}>
+            <Box key={name}>
               <UiTextField
                 label={label}
                 type={type}
@@ -86,29 +84,29 @@ export const RegistrationPage: React.FC = () => {
                 helperText={errors[name]?.message}
                 {...register(name, options)}
               />
-            </Grid>
+            </Box>
           ))}
-        </Grid>
+        </Box>
         {errors.root && (
           <Typography marginTop={4} variant="body2" color="error" sx={{ textAlign: "center" }}>
             {errors.root.message}
           </Typography>
         )}
-        <Grid
-          container
-          justifyContent="center"
+        <Box
+          width={"100%"}
           sx={{
             marginTop: "50px",
           }}>
           <UiButton
             sx={{
+              margin: "0 auto",
               width: 400,
               height: 55,
               borderRadius: 3,
             }}>
             Зарегистрироваться
           </UiButton>
-        </Grid>
+        </Box>
         <Typography
           variant="body1"
           sx={{

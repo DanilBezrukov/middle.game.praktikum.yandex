@@ -24,18 +24,20 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  ssr: {
+    format: "cjs",
+  },
   build: {
     outDir: path.join(__dirname, "dist/client"),
     manifest: true,
     rollupOptions: {
       input: {
-        app: "./index.html",
+        index: "./index.html",
         sw: "./sw.js",
       },
       output: {
         entryFileNames: assetInfo =>
           assetInfo.name === "sw" ? "[name].js" : "assets/js/[name]-[hash].js",
-        format: "cjs",
       },
     },
   },

@@ -37,7 +37,7 @@ const vite_1 = require("vite");
 const port = process.env.PORT || 80;
 const clientPath = path_1.default.join(__dirname, "..");
 const isDev = process.env.NODE_ENV === "development";
-const manifestPath = path_1.default.join(clientPath, "dist", "server", ".vite", "manifest.json");
+const manifestPath = path_1.default.join(clientPath, "dist", "server", "manifest.json");
 async function createServer() {
     const app = (0, express_1.default)();
     app.use((0, cookie_parser_1.default)());
@@ -86,7 +86,7 @@ async function createServer() {
             const html = template
                 .replace(`<!--ssr-outlet-->`, appHtml)
                 .replace(`<!--ssr-initial-state-->`, `<script>window.APP_INITIAL_STATE = ${JSON.stringify(initialState)}</script>`);
-            res.status(200).set({ "Content-Type": "text/html" }).end(html);
+            res.status(200).set({ "Content-Type": "text/html" }).send(html);
         }
         catch (e) {
             // eslint-disable-next-line no-console

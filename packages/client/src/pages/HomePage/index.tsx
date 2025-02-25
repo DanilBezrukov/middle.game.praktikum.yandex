@@ -13,7 +13,6 @@ import { RootState } from "@/store";
 import { useGetLeaderboardQuery } from "@/api/leaderboardApi";
 import { IProfile } from "@/types/profile.interface";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
-import { useEffect } from "react";
 
 export const HomePage = withAuthGuard(() => {
   const navigate = useNavigate();
@@ -63,12 +62,12 @@ export const HomePage = withAuthGuard(() => {
                 }}>
                 <Typography component="div" variant="h6" sx={{ fontWeight: "bold" }}>
                   <Box component="span" sx={{ marginRight: 1 }}>
-                    {profile.first_name}
+                    {profile?.first_name}
                   </Box>
-                  <Box component="span">{profile.second_name}</Box>
+                  <Box component="span">{profile?.second_name}</Box>
                 </Typography>
                 <Typography component="div" variant="body2" color="text.secondary">
-                  {profile.login}
+                  {profile?.login}
                 </Typography>
               </Box>
             </Box>
