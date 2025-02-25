@@ -24,6 +24,10 @@ import obstacleImgPath from "@/assets/obstacle-to-game.png";
 import { birdSkins } from "@/components/Game/birdSkins";
 import useSound from "@/hooks/useSound";
 import windsSound from "@/assets/sounds/wing-flap-1-6434_a3LUleD4.mp3";
+import { useSubmitLeaderboardMutation, useGetLeaderboardQuery } from "@/api/leaderboardApi";
+import { useAppSelector } from "@/hooks";
+import { selectProfileInfo } from "@/store/selectors/profileSelectors";
+
 type GameOptionsType = {
   initialBird?: TBirds;
 };
@@ -45,8 +49,15 @@ export function Game({
   const ctxRef = useRef<CanvasRenderingContext2D | undefined | null>(null);
   const { play: windSound } = useSound({ url: windsSound, volume: 1 });
 
-  let initBirdData: IBird;
+  const profile = useAppSelector(selectProfileInfo);
+  const [submitLeaderboard] = useSubmitLeaderboardMutation();
+  const { data: leaderboard } = useGetLeaderboardQuery({
+    ratingFieldName: "ppBirdScore",
+    cursor: 0,
+    limit: 10,
+  });
 
+  let initBirdData: IBird;
   let bird: IBird;
   let obstacles: IObstacle[] = [];
   let score = 0;
@@ -55,11 +66,8 @@ export function Game({
   let pause = false;
   let level = 1;
   let scoreToNextLevel = 20;
-
   let lastFrameTime = 0;
-
   const { backgroundImage, birdWingsDown, birdWingsUp, treeImage } = gameImages;
-
   let isFlutterWings = true;
 
   const handleClick = useCallback(() => {
@@ -71,16 +79,23 @@ export function Game({
       isFlutterWings = !isFlutterWings;
       birdJump(bird);
     }
-
     windSound();
   }, []);
+
+  const handleGameOver = (score: number) => {
+    submitLeaderboard({
+      data: { name: profile.first_name, ppBirdScore: score },
+      ratingFieldName: "ppBirdScore",
+      teamName: "pixelPioneers",
+    });
+    endGame(score);
+  };
 
   function changeSpeed(start: number) {
     if (score === scoreToNextLevel && level <= 5) {
       level++;
       scoreToNextLevel += 20;
     }
-
     return start - level * 100;
   }
 
@@ -109,28 +124,24 @@ export function Game({
     ctx.clearRect(0, 0, width, height);
 
     updateBirdPosition(bird, scale);
-
     drawBird(ctx, bird, isFlutterWings ? birdWingsDown : birdWingsUp);
-
     addObstacle(obstacles, width, height);
 
     for (let i = 0; i < obstacles.length; i++) {
       const obstacle = obstacles[i];
 
       moveObstacle(obstacle, scale);
-
       drawObstacle(ctx, obstacle, treeImage, settingObstacle.width, height);
 
       if (checkCollision(bird, obstacle, height)) {
         gameOver = true;
-        endGame(score);
+        handleGameOver(score);
       }
 
       score = getScore(bird, obstacle, score);
     }
 
     removeObstacle(obstacles, width);
-
     drawScore(ctx, width, score);
     drawLevel(ctx, width, level, scoreToNextLevel);
   }

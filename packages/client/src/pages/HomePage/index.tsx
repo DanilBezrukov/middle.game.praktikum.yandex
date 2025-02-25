@@ -14,6 +14,22 @@ import { useGetLeaderboardQuery } from "@/api/leaderboardApi";
 import { IProfile } from "@/types/profile.interface";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 
+type Leader = {
+  id: number;
+  name: string;
+  points: number;
+  avatar?: string;
+};
+
+type LeaderboardResponse = {
+  data: {
+    id: number;
+    name: string;
+    ppBirdScore: number;
+    avatar?: string;
+  };
+};
+
 export const HomePage = withAuthGuard(() => {
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
@@ -32,8 +48,18 @@ export const HomePage = withAuthGuard(() => {
   const avatar = useAppSelector(selectProfileAvatar);
   const AVATAR_URL = avatar ? `${BASE_URL}/resources/${avatar}` : "";
 
-  const { data: leaders = [] } = useGetLeaderboardQuery();
-  const topLeaders = [...leaders].sort((a, b) => b.points - a.points).slice(0, 3);
+  const { data = [] } = useGetLeaderboardQuery({
+    ratingFieldName: "ppBirdScore",
+    cursor: 0,
+    limit: 3,
+  });
+
+  const topLeaders: Leader[] = data.map((entry: LeaderboardResponse) => ({
+    id: entry.data.id,
+    name: entry.data.name,
+    points: entry.data.ppBirdScore,
+    avatar: entry.data.avatar || "",
+  }));
 
   return (
     <UiLayout>
@@ -146,7 +172,6 @@ export const HomePage = withAuthGuard(() => {
                   alignItems: "center",
                   gap: 3,
                 }}>
-                <Avatar src={leader.avatar} alt={leader.name} />
                 <Typography>{`${index + 1}. ${leader.name} — ${leader.points} очков`}</Typography>
               </Box>
             ))}
