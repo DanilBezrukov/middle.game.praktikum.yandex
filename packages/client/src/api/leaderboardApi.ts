@@ -26,12 +26,16 @@ export const leaderboardApi = createApi({
         ratingFieldName: string;
         cursor: number;
         limit: number;
+        cookie?: string;
       }
     >({
       query: params => ({
         url: "/leaderboard/all",
         method: "POST",
         data: params,
+        headers: {
+          cookie: params?.cookie ? params.cookie : undefined,
+        },
         withCredentials: true,
       }),
     }),

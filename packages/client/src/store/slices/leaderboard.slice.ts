@@ -1,12 +1,16 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export type Leader = {
+export type LeaderData = {
   id: number;
   name: string;
-  points: number;
+  ppBirdScore: number;
 };
 
-const initialState: { leaders: Leader[] } = {
+export type LeaderboardResponse = {
+  data: LeaderData;
+};
+
+const initialState: { leaders: LeaderboardResponse[] } = {
   leaders: [],
 };
 
@@ -14,7 +18,7 @@ const leaderboardSlice = createSlice({
   name: "leaderboard",
   initialState,
   reducers: {
-    setLeaders(state, action: PayloadAction<Leader[]>) {
+    setLeaders(state, action: PayloadAction<LeaderboardResponse[]>) {
       state.leaders = action.payload;
     },
   },

@@ -10,25 +10,8 @@ import { BASE_URL } from "@/api/baseApi";
 import { useAppSelector } from "@/hooks";
 import gameIcon from "@/assets/game-icon.png";
 import { RootState } from "@/store";
-import { useGetLeaderboardQuery } from "@/api/leaderboardApi";
 import { IProfile } from "@/types/profile.interface";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
-
-type Leader = {
-  id: number;
-  name: string;
-  points: number;
-  avatar?: string;
-};
-
-type LeaderboardResponse = {
-  data: {
-    id: number;
-    name: string;
-    ppBirdScore: number;
-    avatar?: string;
-  };
-};
 
 export const HomePage = withAuthGuard(() => {
   const navigate = useNavigate();
@@ -48,18 +31,14 @@ export const HomePage = withAuthGuard(() => {
   const avatar = useAppSelector(selectProfileAvatar);
   const AVATAR_URL = avatar ? `${BASE_URL}/resources/${avatar}` : "";
 
-  const { data = [] } = useGetLeaderboardQuery({
-    ratingFieldName: "ppBirdScore",
-    cursor: 0,
-    limit: 3,
-  });
+  const leaders = useAppSelector(state => state.leaderboard.leaders);
 
-  const topLeaders: Leader[] = data.map((entry: LeaderboardResponse) => ({
-    id: entry.data.id,
-    name: entry.data.name,
-    points: entry.data.ppBirdScore,
-    avatar: entry.data.avatar || "",
-  }));
+  const topLeaders = leaders
+    .filter((_, idx) => idx < 3)
+    .map(entry => ({
+      name: entry.data.name,
+      points: entry.data.ppBirdScore,
+    }));
 
   return (
     <UiLayout>
@@ -165,7 +144,7 @@ export const HomePage = withAuthGuard(() => {
             }}>
             {topLeaders.map((leader, index) => (
               <Box
-                key={leader.id}
+                key={index}
                 sx={{
                   display: "flex",
                   flexDirection: "row",

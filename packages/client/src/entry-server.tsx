@@ -14,7 +14,7 @@ import { CssBaseline } from "@mui/material";
 import { authApi } from "@/api/authApi";
 import { profileApi } from "@/api/profileApi";
 import { leaderboardApi } from "@/api/leaderboardApi";
-import { profileActions } from "@/store";
+import { leaderboardActions, profileActions } from "@/store";
 
 export const render = async (req: express.Request) => {
   const { query, dataRoutes } = createStaticHandler(routes);
@@ -38,16 +38,26 @@ export const render = async (req: express.Request) => {
   });
 
   const { setProfile } = profileActions;
+  const { setLeaders } = leaderboardActions;
 
   const cookie = Object.entries(req.cookies)
     .map(([key, val]) => `${key}=${val}`)
     .join(";");
 
-  await store.dispatch(leaderboardApi.endpoints.getLeaderboard.initiate());
-
   await store
     .dispatch(authApi.endpoints.getUserInfo.initiate({ cookie }))
     .then(res => res.data && store.dispatch(setProfile(res.data)));
+
+  await store
+    .dispatch(
+      leaderboardApi.endpoints.getLeaderboard.initiate({
+        cookie,
+        ratingFieldName: "ppBirdScore",
+        cursor: 0,
+        limit: 50,
+      }),
+    )
+    .then(res => res.data && store.dispatch(setLeaders(res.data)));
 
   return {
     appHtml: ReactDOM.renderToString(

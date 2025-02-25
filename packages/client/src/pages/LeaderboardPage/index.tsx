@@ -1,17 +1,16 @@
 import React from "react";
-import { useActions } from "@/hooks";
+import { useActions, useAppSelector } from "@/hooks";
 import {
   Container,
-  Typography,
+  Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Avatar,
-  Paper,
   TableSortLabel,
+  Typography,
 } from "@mui/material";
 import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
@@ -19,28 +18,13 @@ import { UiPaper } from "@/components/ui/UiPaper";
 import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
-import { useGetLeaderboardQuery } from "@/api/leaderboardApi";
-import { Leader } from "@/store/slices/leaderboard.slice";
-
-type LeaderData = {
-  id: number;
-  name: string;
-  ppBirdScore: number;
-};
-
-type LeaderboardResponse = {
-  data: LeaderData;
-};
+import { LeaderboardResponse, LeaderData } from "@/store/slices/leaderboard.slice";
 
 export const LeaderboardPage = withAuthGuard(() => {
-  const { data = [] } = useGetLeaderboardQuery({
-    ratingFieldName: "ppBirdScore",
-    cursor: 0,
-    limit: 50,
-  });
+  const data = useAppSelector(state => state.leaderboard.leaders);
 
-  const leaders: LeaderData[] = data.map((entry: LeaderboardResponse) => ({
-    id: entry.data.id,
+  const leaders: LeaderData[] = data.map((entry, id) => ({
+    id,
     name: entry.data.name,
     ppBirdScore: entry.data.ppBirdScore,
   }));
@@ -52,11 +36,30 @@ export const LeaderboardPage = withAuthGuard(() => {
 
   const handleSort = (field: "name" | "ppBirdScore") => {
     const isAsc = sortField === field && order === "asc";
-    const sortedLeaders: Leader[] = data.map((entry: LeaderData) => ({
-      id: entry.id,
-      name: entry.name,
-      points: entry.ppBirdScore,
-    }));
+
+    const sortedLeaders: LeaderboardResponse[] = leaders
+      .sort((a, b) => {
+        const valueA = a[field];
+        const valueB = b[field];
+
+        if (typeof valueA === "number" && typeof valueB === "number") {
+          return isAsc ? valueB - valueA : valueA - valueB;
+        }
+
+        if (typeof valueA === "string" && typeof valueB === "string") {
+          const comparison = valueA.localeCompare(valueB, undefined, { sensitivity: "base" });
+          return isAsc ? comparison : -comparison;
+        }
+
+        return 0;
+      })
+      .map((entry: LeaderData, id) => ({
+        data: {
+          id,
+          name: entry.name,
+          ppBirdScore: entry.ppBirdScore,
+        },
+      }));
 
     setLeaders(sortedLeaders);
     setOrder(isAsc ? "desc" : "asc");
