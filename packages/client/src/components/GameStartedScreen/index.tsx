@@ -1,12 +1,11 @@
 import { GameTitle } from "@/components/GameTitle";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { Fab, Typography } from "@mui/material";
+import { PlayArrow } from "@mui/icons-material";
 
 export function GameStartedScreen({ setGameScreen }: { setGameScreen: () => void }) {
   return (
     <>
       <GameTitle />
-
       <Fab
         onClick={setGameScreen}
         sx={{
@@ -16,7 +15,7 @@ export function GameStartedScreen({ setGameScreen }: { setGameScreen: () => void
           width: "180px",
           border: "2px solid currentColor",
         }}>
-        <PlayArrowIcon
+        <PlayArrow
           sx={{
             height: "70px",
             width: "70px",

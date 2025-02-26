@@ -1,8 +1,6 @@
 import React from "react";
-import { IconButton, Box } from "@mui/material";
-import FormatBoldIcon from "@mui/icons-material/FormatBold";
-import FormatItalicIcon from "@mui/icons-material/FormatItalic";
-import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
+import { Box, IconButton } from "@mui/material";
+import { FormatBold, FormatItalic, FormatUnderlined } from "@mui/icons-material";
 
 interface UiFormattingToolbarProps {
   formatting: {
@@ -27,17 +25,17 @@ export const UiFormattingToolbar: React.FC<UiFormattingToolbarProps> = ({
     <IconButton
       onClick={() => setFormatting(prev => ({ ...prev, bold: !prev.bold }))}
       color={formatting.bold ? "primary" : "default"}>
-      <FormatBoldIcon />
+      <FormatBold />
     </IconButton>
     <IconButton
       onClick={() => setFormatting(prev => ({ ...prev, italic: !prev.italic }))}
       color={formatting.italic ? "primary" : "default"}>
-      <FormatItalicIcon />
+      <FormatItalic />
     </IconButton>
     <IconButton
       onClick={() => setFormatting(prev => ({ ...prev, underline: !prev.underline }))}
       color={formatting.underline ? "primary" : "default"}>
-      <FormatUnderlinedIcon />
+      <FormatUnderlined />
     </IconButton>
   </Box>
 );

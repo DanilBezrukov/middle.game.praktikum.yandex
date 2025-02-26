@@ -1,3 +1,8 @@
+if (import.meta.env.SSR) {
+  class Audio {}
+  // @ts-ignore
+  global.Audio = Audio;
+}
 const useSound = ({ url, volume, loop }: { url: string; volume?: number; loop?: boolean }) => {
   const audio = new Audio(url);
   audio.volume = volume || 1;

@@ -1,4 +1,4 @@
-import { RegisterOptions } from "react-hook-form";
+import { FieldValues, RegisterOptions } from "react-hook-form";
 
 export const requiredField = "Поле не может быть пустым";
 
@@ -22,9 +22,9 @@ const loginPattern = /^(?!\d+$)[a-zA-Z0-9_-]{3,20}$/;
 const passwordPattern = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,40}$/;
 const phonePattern = /^\+?\d{10,15}$/;
 
-type RulesType = Record<
+export type RulesType = Record<
   "email" | "login" | "first_name" | "second_name" | "phone" | "password",
-  RegisterOptions
+  RegisterOptions | undefined
 >;
 export const rules: RulesType = {
   email: {

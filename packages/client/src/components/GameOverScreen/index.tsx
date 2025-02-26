@@ -1,8 +1,8 @@
 import { Box, Fab } from "@mui/material";
-import RefreshIcon from "@mui/icons-material/Refresh";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { GameTitle } from "@/components/GameTitle";
+import { Refresh } from "@mui/icons-material";
 
 export function GameOverScreen({
   setGameScreen,
@@ -14,7 +14,6 @@ export function GameOverScreen({
   return (
     <>
       <GameTitle />
-
       <Box
         sx={{
           fontSize: "60px",
@@ -48,7 +47,7 @@ export function GameOverScreen({
           width: "100px",
           border: "2px solid currentColor",
         }}>
-        <RefreshIcon fontSize="large" color="inherit" />
+        <Refresh fontSize="large" color="inherit" />
       </Fab>
     </>
   );

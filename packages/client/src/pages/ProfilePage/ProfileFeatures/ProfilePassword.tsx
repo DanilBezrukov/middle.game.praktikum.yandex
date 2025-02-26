@@ -1,13 +1,13 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { RegisterOptions, useForm } from "react-hook-form";
 import { IProfilePassword } from "@/types/profile.interface";
 import { useSetProfilePasswordMutation } from "@/api/profileApi";
 import { UiMessage } from "@/components/ui/UiMessage";
 import { UiButton } from "@/components/ui/UiButton";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { UiTextField } from "@/components/ui/UiTextField";
-import Grid from "@mui/material/Grid2";
 import { requiredField, rules } from "@/app/utils/validationUserFields";
+import { Box } from "@mui/material";
 
 export const ProfilePassword: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
   const [profilePassword, { isSuccess, isError }] = useSetProfilePasswordMutation();
@@ -30,8 +30,8 @@ export const ProfilePassword: React.FC<{ onSuccess: () => void }> = ({ onSuccess
 
   return (
     <UiPaper component="form" sx={{ padding: 4, width: 600, marginTop: 2 }} onSubmit={onSubmit}>
-      <Grid container spacing={4}>
-        <Grid size={6}>
+      <Box display={"grid"} gridTemplateColumns={"1fr 1fr"} gap={"30px"}>
+        <Box>
           <UiTextField
             label="Старый пароль"
             variant="standard"
@@ -42,18 +42,18 @@ export const ProfilePassword: React.FC<{ onSuccess: () => void }> = ({ onSuccess
               required: requiredField,
             })}
           />
-        </Grid>
-        <Grid size={6}>
+        </Box>
+        <Box>
           <UiTextField
             label="Новый пароль"
             variant="standard"
             type="password"
             error={Boolean(errors.newPassword)}
             helperText={errors.newPassword?.message}
-            {...register("newPassword", rules["password"])}
+            {...register("newPassword", rules.password as RegisterOptions<IProfilePassword>)}
           />
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
       <UiButton
         variant="contained"
         type="submit"

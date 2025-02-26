@@ -10,6 +10,12 @@ export default defineConfig({
     port: Number(process.env.CLIENT_PORT) || 3000,
   },
   define: {
+    __API_ENDPOINT__: process.env.SERVER_PORT || {
+      protocol: "http",
+      domain: "localhost",
+      port: 80,
+      url: "http://localhost",
+    },
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
   resolve: {
@@ -18,18 +24,20 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  ssr: {
+    format: "cjs",
+  },
   build: {
     outDir: path.join(__dirname, "dist/client"),
     manifest: true,
     rollupOptions: {
       input: {
-        app: "./index.html",
+        index: "./index.html",
         sw: "./sw.js",
       },
       output: {
         entryFileNames: assetInfo =>
           assetInfo.name === "sw" ? "[name].js" : "assets/js/[name]-[hash].js",
-        format: "cjs",
       },
     },
   },

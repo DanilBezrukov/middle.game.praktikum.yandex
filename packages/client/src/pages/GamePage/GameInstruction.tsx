@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import { Fullscreen, FullscreenExit, Mouse, Pause, VolumeUp } from "@mui/icons-material";
+import { Mouse, Pause, VolumeUp, FullscreenExit, Fullscreen } from "@mui/icons-material";
 
 export const GameInstruction = ({ isOpenFullScreen }: { isOpenFullScreen: boolean }) => (
   <Stack
