@@ -10,12 +10,6 @@ export default defineConfig({
     port: Number(process.env.CLIENT_PORT) || 3000,
   },
   define: {
-    __API_ENDPOINT__: process.env.SERVER_PORT || {
-      protocol: "http",
-      domain: "localhost",
-      port: 80,
-      url: "http://localhost",
-    },
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
   resolve: {

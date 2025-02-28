@@ -2,11 +2,11 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { BaseQueryFn } from "@reduxjs/toolkit/query";
 
 export const axiosInstance = axios.create({
-  baseURL: __API_ENDPOINT__.url,
+  baseURL: "http://localhost",
   timeout: 5000,
 });
 
-export const BASE_URL = __API_ENDPOINT__.url + "/api/v2";
+export const BASE_URL = `http://localhost/api/v2`;
 
 export const axiosBaseQuery =
   (

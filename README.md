@@ -85,3 +85,48 @@
    ```bash
    yarn dev:client
    ```
+   
+## Запуск Dev режима с Postgres
+1. Добавить .env файлы в client и server
+
+> # Server
+> CLIENT_PORT=3000
+>
+> SERVER_PORT=3001 POSTGRES_USER=postgres
+>
+> POSTGRES_PASSWORD=postgres
+>
+> POSTGRES_DB=developer_game
+>
+> POSTGRES_PORT=5432
+>
+> POSTGRES_HOST=postgres
+
+> # Client
+> 
+> SSR_PORT=80
+> 
+> OWNER_SERVER_POINT="/owner-server"
+> 
+> OWNER_SERVER_PROXY_HOST="http://localhost:3001"
+> 
+> YA_API_POINT="/api/v2"
+> 
+> YA_PROXY_HOST="https://ya-praktikum.tech"
+
+2. Скопировать все эти переменные в корневой .env
+3. Из корня проекта запустить команду docker compose up postgres
+4. После того как контейнер запуститься, зайти в базу данных(как это сделать, можно найти в интернете) и создать базу данных с названием "developer_game" 
+5. После этого запустить проект командой yarn dev из корня проект.
+
+
+
+
+
+
+
+SSR_PORT=80
+OWNER_SERVER_POINT="/owner-server"
+OWNER_SERVER_PROXY_HOST="http://localhost:3001"
+YA_API_POINT="/api/v2"
+YA_PROXY_HOST="https://ya-praktikum.tech"

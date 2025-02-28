@@ -12,6 +12,8 @@ services:
         restart: always
         ports:
             - "${CLIENT_PORT}:80"
+        env_file:
+          - .env
         environment:
           - CLIENT_PORT=${CLIENT_PORT}
           - SERVER_PORT=${SERVER_PORT}
@@ -26,8 +28,8 @@ services:
         restart: always
         ports:
             - "${SERVER_PORT}:${SERVER_PORT}"
-        environment:
-          SERVER_PORT: ${SERVER_PORT}
+        env_file:
+          .env
 
     postgres:
       image: postgres:14     
