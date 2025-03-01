@@ -1,4 +1,4 @@
-import { FieldValues, RegisterOptions } from "react-hook-form";
+import { RegisterOptions } from "react-hook-form";
 
 export const requiredField = "Поле не может быть пустым";
 
