@@ -10,7 +10,7 @@ import { createProxyMiddleware, fixRequestBody } from "http-proxy-middleware";
 import fs from "fs/promises";
 import { createServer as createViteServer, ViteDevServer } from "vite";
 
-const port = process.env.SSR_PORT || 80;
+const port = process.env.VITE_SSR_PORT || 80;
 const clientPath = path.join(__dirname, "..");
 const isDev = process.env.NODE_ENV === "development";
 

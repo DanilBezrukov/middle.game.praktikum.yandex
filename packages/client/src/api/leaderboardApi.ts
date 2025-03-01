@@ -1,9 +1,10 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "./baseApi";
+import { YA_ENDPOINT } from "@/app/constants/yandexService";
 
 export const leaderboardApi = createApi({
   reducerPath: "leaderboardApi",
-  baseQuery: axiosBaseQuery(),
+  baseQuery: axiosBaseQuery({ serverEndpoint: YA_ENDPOINT }),
   endpoints: builder => ({
     submitLeaderboard: builder.mutation<
       void,

@@ -7,10 +7,7 @@ import * as path from "path";
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    port: Number(process.env.CLIENT_PORT) || 3000,
-  },
-  define: {
-    __SERVER_PORT__: process.env.SERVER_PORT,
+    port: Number(process.env.VITE_CLIENT_PORT) || 80,
   },
   resolve: {
     alias: {

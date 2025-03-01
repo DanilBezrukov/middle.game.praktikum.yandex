@@ -3,10 +3,10 @@ import React, { ChangeEvent } from "react";
 import { Avatar, Box, IconButton } from "@mui/material";
 
 import { useSetProfileAvatarMutation } from "@/api/profileApi";
-import { BASE_URL } from "@/api/baseApi";
 import { useActions, useAppSelector } from "@/hooks";
 import { UiMessage } from "@/components/ui/UiMessage";
 import { RootState } from "@/store";
+import { YA_RESOURCES } from "@/app/constants/yandexService";
 
 export const ProfileAvatar: React.FC = () => {
   const [profileAvatar, { isSuccess, isError }] = useSetProfileAvatarMutation();
@@ -16,7 +16,7 @@ export const ProfileAvatar: React.FC = () => {
   const avatar = useAppSelector(selectProfileAvatar);
   const { setProfile } = useActions();
 
-  const AVATAR_URL = `${BASE_URL}/resources/${avatar}`;
+  const AVATAR_URL = `${YA_RESOURCES}/${avatar}`;
 
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target?.files;

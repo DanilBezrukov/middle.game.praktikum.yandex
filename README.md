@@ -85,7 +85,38 @@
    ```bash
    yarn dev:client
    ```
-   
+
+## Запуск проекта в докере
+   1. Добавить .env файл в корень проекта и создать переменные 
+
+> ## .env файл для запуска прокдакшена
+> 
+> ### Собственный сервер
+> 
+> SERVER_PORT - Порт на котором будет стартовать сервер
+> OWNER_SERVER_POINT - Пусть по которому клиенские сервер перенаправить запрос на сервер например "/owner-server"
+> OWNER_SERVER_PROXY_HOST - хост на котором будет работать сервер, указывать вместе с портом
+> ### База данных
+> 
+> POSTGRES_USER=postgres
+> POSTGRES_PASSWORD=postgres
+> POSTGRES_DB - название для базы
+> POSTGRES_PORT=5432
+> POSTGRES_HOST=postgres - оставить эту переменную. 
+> 
+> ### Реакт
+> VITE_CLIENT_PORT - порт на котором будет работать реакт
+> VITE_SSR_PORT - порт SSR сервера
+> VITE_SSR_HOST - хост на котором будет работать SSR сервер, указывать вместе с портом
+> 
+> ### Яндекс сервера
+> YA_API_POINT="/api/v2"
+> YA_PROXY_HOST="https://ya-praktikum.tech"
+> 
+ 2. Запустить команду ``docker compose up``
+ 3. Открыть браузер по указанному порту 
+
+
 ## Запуск Dev режима с Postgres
 1. Обновить зависимости
 2. Из корня проекта запустить команду docker compose up postgres

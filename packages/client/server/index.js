@@ -27,14 +27,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
+dotenv_1.default.config({ path: ".env.dev" });
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const http_proxy_middleware_1 = require("http-proxy-middleware");
 const promises_1 = __importDefault(require("fs/promises"));
 const vite_1 = require("vite");
-const port = process.env.SSR_PORT || 80;
+const port = process.env.VITE_SSR_PORT || 80;
 const clientPath = path_1.default.join(__dirname, "..");
 const isDev = process.env.NODE_ENV === "development";
 const manifestPath = path_1.default.join(clientPath, "dist", "server", "manifest.json");
