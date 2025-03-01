@@ -113,8 +113,10 @@
 > YA_API_POINT="/api/v2"
 > YA_PROXY_HOST="https://ya-praktikum.tech"
 > 
- 2. Запустить команду ``docker compose up``
- 3. Открыть браузер по указанному порту 
+ 2. Запустить команду ``docker compose build``
+ 3. Запустить команду ``docker compose up postgres``. Зайти в базу данных и создать базу данных с названием который указан в .env
+ 4. Запустить команду ``docker compose up``
+ 5. Окрыть браузер на localhost:VITE_CLIENT_PORT - который указал в .env файле
 
 
 ## Запуск Dev режима с Postgres
