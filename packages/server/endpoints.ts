@@ -3,4 +3,5 @@ export const ENDPOINTS = {
   COMMENT: "/comment",
   REPLY: "/reply",
   TOPIC_REACTION: "/topic-reaction",
+  THEME: "/theme",
 };
