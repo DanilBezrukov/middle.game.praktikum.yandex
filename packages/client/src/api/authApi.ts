@@ -1,6 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { ILoginData, IUser, IOAuthYandexLoginData } from "@/types/auth.interface";
 import { axiosBaseQuery } from "./baseApi";
+import { YA_ENDPOINT } from "@/app/constants/yandexService";
 
 export const devRedirectUri = "http://localhost:3000";
 export const getYandexRedirectUrl = (serverId: string): string => {
@@ -19,7 +20,7 @@ const oAuthUrl = "/oauth/yandex";
 
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: axiosBaseQuery(),
+  baseQuery: axiosBaseQuery({ serverEndpoint: YA_ENDPOINT }),
   endpoints: builder => ({
     createUser: builder.mutation<{ id: string }, Omit<IUser, "id">>({
       query: data => ({

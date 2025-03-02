@@ -1,21 +1,29 @@
 import dotenv from "dotenv";
 import cors from "cors";
-dotenv.config();
+dotenv.config({ path: ".env.dev" });
 
 import express from "express";
-import { createClientAndConnect } from "./db";
+import { db } from "./db";
+import routers from "./routes/index";
 
 const app = express();
 app.use(cors());
 const port = Number(process.env.SERVER_PORT) || 3001;
 
-createClientAndConnect();
+app.use("/own-server", routers);
 
-app.get("/", (_, res) => {
+app.get("/", async (_, res) => {
   res.json("👋 Howdy from the server :)");
 });
 
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
-});
+db.sync({ force: true })
+  .then(async () => {
+    app.listen(port, async () => {
+      // eslint-disable-next-line no-console
+      console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
+    });
+  })
+  .catch(err => {
+    // eslint-disable-next-line no-console
+    console.log(err);
+  });

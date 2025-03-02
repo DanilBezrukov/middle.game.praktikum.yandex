@@ -6,12 +6,12 @@ import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiLink } from "@/components/ui/UiLink";
 import { UiPaper } from "@/components/ui/UiPaper";
-import { BASE_URL } from "@/api/baseApi";
 import { useAppSelector } from "@/hooks";
 import gameIcon from "@/assets/game-icon.png";
 import { RootState } from "@/store";
 import { IProfile } from "@/types/profile.interface";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
+import { YA_RESOURCES } from "@/app/constants/yandexService";
 
 export const HomePage = withAuthGuard(() => {
   const navigate = useNavigate();
@@ -29,7 +29,7 @@ export const HomePage = withAuthGuard(() => {
 
   const selectProfileAvatar = (state: RootState) => state.profile.user?.avatar;
   const avatar = useAppSelector(selectProfileAvatar);
-  const AVATAR_URL = avatar ? `${BASE_URL}/resources/${avatar}` : "";
+  const AVATAR_URL = avatar ? `${YA_RESOURCES}/${avatar}` : "";
 
   const leaders = useAppSelector(state => state.leaderboard.leaders);
 

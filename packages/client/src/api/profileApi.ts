@@ -1,10 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "./baseApi";
 import { IProfile, IProfilePassword } from "@/types/profile.interface";
+import { YA_ENDPOINT } from "@/app/constants/yandexService";
 
 export const profileApi = createApi({
   reducerPath: "profileApi",
-  baseQuery: axiosBaseQuery(),
+  baseQuery: axiosBaseQuery({ serverEndpoint: YA_ENDPOINT }),
   endpoints: builder => ({
     setProfileInfo: builder.mutation<IProfile, IProfile>({
       query: data => ({

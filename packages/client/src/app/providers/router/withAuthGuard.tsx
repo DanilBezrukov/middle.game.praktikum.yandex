@@ -9,7 +9,7 @@ export const withAuthGuard = <Props extends object = object>(
   BaseComponent: React.ComponentType<Props>,
 ): React.ComponentType<Props> => {
   const WrappedComponent = (props: Props) => {
-    const [getUserInfo, { isSuccess, isFetching }] = useLazyGetUserInfoQuery();
+    const [getUserInfo] = useLazyGetUserInfoQuery();
     const { setProfile } = useActions();
     const [errorStatus, setErrorStatus] = useState<number | null>(null);
 

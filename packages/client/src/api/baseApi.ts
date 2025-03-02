@@ -1,17 +1,22 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { BaseQueryFn } from "@reduxjs/toolkit/query";
 
+let baseURL;
+
+if (import.meta.env.SSR) {
+  baseURL = process.env.VITE_SSR_HOST || "http://localhost";
+} else {
+  baseURL = window.location.origin;
+}
+
 export const axiosInstance = axios.create({
-  baseURL: __API_ENDPOINT__.url,
+  baseURL,
   timeout: 5000,
 });
-
-export const BASE_URL = __API_ENDPOINT__.url + "/api/v2";
-
 export const axiosBaseQuery =
   (
-    { baseUrl }: { baseUrl: string } = {
-      baseUrl: BASE_URL,
+    { serverEndpoint }: { serverEndpoint?: string } = {
+      serverEndpoint: "",
     },
   ): BaseQueryFn<
     {
@@ -28,7 +33,7 @@ export const axiosBaseQuery =
   async ({ url, method, data, params, headers, withCredentials }) => {
     try {
       const result = await axiosInstance({
-        url: baseUrl + url,
+        url: serverEndpoint + url,
         method,
         data,
         params,

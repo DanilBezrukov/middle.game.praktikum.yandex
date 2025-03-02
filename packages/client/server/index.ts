@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: ".env.dev" });
 
 import express from "express";
 import path from "path";
@@ -10,7 +10,7 @@ import { createProxyMiddleware, fixRequestBody } from "http-proxy-middleware";
 import fs from "fs/promises";
 import { createServer as createViteServer, ViteDevServer } from "vite";
 
-const port = process.env.PORT || 80;
+const port = process.env.VITE_SSR_PORT || 80;
 const clientPath = path.join(__dirname, "..");
 const isDev = process.env.NODE_ENV === "development";
 
@@ -33,7 +33,7 @@ async function createServer() {
   }
 
   app.use(
-    "/api/v2",
+    process.env.YA_API_POINT,
     createProxyMiddleware({
       changeOrigin: true,
       cookieDomainRewrite: {
@@ -42,7 +42,21 @@ async function createServer() {
       timeout: 5000,
       proxyTimeout: 5000,
       onProxyReq: fixRequestBody,
-      target: "https://ya-praktikum.tech",
+      target: process.env.YA_PROXY_HOST,
+    }),
+  );
+
+  app.use(
+    process.env.OWNER_SERVER_POINT,
+    createProxyMiddleware({
+      changeOrigin: true,
+      cookieDomainRewrite: {
+        "*": "",
+      },
+      timeout: 5000,
+      proxyTimeout: 5000,
+      onProxyReq: fixRequestBody,
+      target: process.env.OWNER_SERVER_PROXY_HOST,
     }),
   );
 
