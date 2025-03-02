@@ -6,7 +6,9 @@ import {
   Model,
   PrimaryKey,
   Table,
+  HasMany,
 } from "sequelize-typescript";
+import { TopicReactionModel } from "./TopicReactionModel";
 
 @Table
 export class TopicModels extends Model<TopicModels> {
@@ -38,4 +40,7 @@ export class TopicModels extends Model<TopicModels> {
     defaultValue: 0,
   })
   count = 0;
+
+  @HasMany(() => TopicReactionModel, "topic_id")
+  reactions!: TopicReactionModel[];
 }
