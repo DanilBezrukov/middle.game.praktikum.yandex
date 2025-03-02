@@ -1,3 +1,6 @@
 export const ENDPOINTS = {
-  FORM: "/forum",
+  TOPIC: "/topic",
+  COMMENT: "/comment",
+  REPLY: "/reply",
+  TOPIC_REACTION: "/topic-reaction",
 };
