@@ -18,7 +18,6 @@ export class CommentController {
       if (!text || !authorName || !topicId) {
         res.status(400).send("Bad Request");
       }
-      // @ts-ignore
       const comment = await CommentModels.create({
         text,
         authorName,

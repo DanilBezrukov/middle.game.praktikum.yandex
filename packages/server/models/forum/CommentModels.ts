@@ -11,8 +11,14 @@ import {
 import { TopicModels } from "./TopicModels";
 import { ReplyModels } from "./ReplyModels";
 
+interface ICommentAttributes {
+  text: string;
+  authorName: string;
+  topicId: number;
+}
+
 @Table
-export class CommentModels extends Model<CommentModels> {
+export class CommentModels extends Model<ICommentAttributes> {
   @AllowNull(false)
   @Column({
     type: DataType.TEXT,

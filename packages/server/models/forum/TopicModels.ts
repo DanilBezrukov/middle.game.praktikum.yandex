@@ -11,8 +11,14 @@ import {
 import { CommentModels } from "./CommentModels";
 import { TopicReactionModel } from "./TopicReactionModel";
 
+interface ITopicAttributes {
+  title: string;
+  description: string;
+  authorName: string;
+}
+
 @Table
-export class TopicModels extends Model<TopicModels> {
+export class TopicModels extends Model<ITopicAttributes> {
   @AutoIncrement
   @PrimaryKey
   @Column(DataType.INTEGER)

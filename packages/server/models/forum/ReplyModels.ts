@@ -9,8 +9,13 @@ import {
 } from "sequelize-typescript";
 import { CommentModels } from "./CommentModels";
 
+interface IReplyAttributes {
+  text: string;
+  authorName: string;
+}
+
 @Table
-export class ReplyModels extends Model<ReplyModels> {
+export class ReplyModels extends Model<IReplyAttributes> {
   @AllowNull(false)
   @Column({
     type: DataType.TEXT,

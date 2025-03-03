@@ -32,7 +32,6 @@ export class TopicController {
         res.status(400).send("Bad Request");
       }
 
-      // @ts-ignore
       const topics = await TopicModels.create({
         title,
         description,

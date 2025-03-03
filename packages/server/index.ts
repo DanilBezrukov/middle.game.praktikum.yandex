@@ -4,13 +4,13 @@ dotenv.config({ path: ".env.dev" });
 import cors from "cors";
 import express, { json } from "express";
 import { db } from "./db";
-import { forumRouter } from "./routes/forum.router";
 import helmet from "helmet";
-// @ts-ignore
 import xss from "xss-clean";
 import { initReactions } from "./services/initReactions";
+import { router } from "./routes/router";
 
 const port = Number(process.env.SERVER_PORT) || 3001;
+const apiPath = process.env.OWNER_SERVER_POINT || "/owner-server";
 
 function createServer() {
   const app = express();
@@ -20,7 +20,7 @@ function createServer() {
   app.use(xss());
   app.use(json());
 
-  app.use("/api", forumRouter);
+  app.use(apiPath, router);
 
   app.listen(port, async () => {
     await initReactions();

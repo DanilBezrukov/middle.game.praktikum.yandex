@@ -18,7 +18,7 @@ export class ReplyController {
       if (!text || !authorName) {
         res.status(400).send("Bad Request");
       }
-      // @ts-ignore
+
       const comment = await ReplyModels.create({
         text,
         authorName,
