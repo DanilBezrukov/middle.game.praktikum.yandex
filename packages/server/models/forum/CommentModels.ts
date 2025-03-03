@@ -1,4 +1,15 @@
-import { AllowNull, Column, DataType, Model, Table } from "sequelize-typescript";
+import {
+  AllowNull,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+  BelongsTo,
+  HasMany,
+} from "sequelize-typescript";
+import { TopicModels } from "./TopicModels";
+import { ReplyModels } from "./ReplyModels";
 
 @Table
 export class CommentModels extends Model<CommentModels> {
@@ -8,9 +19,20 @@ export class CommentModels extends Model<CommentModels> {
   })
   text!: string;
 
-  // @AllowNull(false)
+  @AllowNull(false)
+  @ForeignKey(() => TopicModels)
+  @Column({ type: DataType.INTEGER, onDelete: "CASCADE" })
+  topicId!: number;
+
+  @AllowNull(false)
   @Column({
     type: DataType.STRING,
   })
-  author!: string;
+  authorName!: string;
+
+  @BelongsTo(() => TopicModels)
+  topic!: TopicModels;
+
+  @HasMany(() => ReplyModels, { onDelete: "CASCADE" })
+  reply!: ReplyModels[];
 }
