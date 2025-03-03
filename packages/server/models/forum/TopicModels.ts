@@ -8,6 +8,7 @@ import {
   Table,
   HasMany,
 } from "sequelize-typescript";
+import { CommentModels } from "./CommentModels";
 import { TopicReactionModel } from "./TopicReactionModel";
 
 @Table
@@ -30,16 +31,12 @@ export class TopicModels extends Model<TopicModels> {
 
   @AllowNull(false)
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.STRING,
   })
-  authorId!: number;
+  authorName!: string;
 
-  @AllowNull(false)
-  @Column({
-    type: DataType.INTEGER,
-    defaultValue: 0,
-  })
-  count = 0;
+  @HasMany(() => CommentModels, { onDelete: "CASCADE" })
+  comments!: CommentModels[];
 
   @HasMany(() => TopicReactionModel, "topic_id")
   reactions!: TopicReactionModel[];

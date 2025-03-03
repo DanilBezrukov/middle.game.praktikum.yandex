@@ -14,13 +14,15 @@ export class CommentController {
 
   public static async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { text } = req.body || {};
-      if (!text) {
+      const { text, authorName, topicId } = req.body || {};
+      if (!text || !authorName || !topicId) {
         res.status(400).send("Bad Request");
       }
       // @ts-ignore
       const comment = await CommentModels.create({
         text,
+        authorName,
+        topicId,
       });
 
       res.status(201).json(comment);

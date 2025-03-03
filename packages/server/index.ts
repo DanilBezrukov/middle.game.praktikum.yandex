@@ -5,6 +5,9 @@ import cors from "cors";
 import express, { json } from "express";
 import { db } from "./db";
 import { forumRouter } from "./routes/forum.router";
+import helmet from "helmet";
+// @ts-ignore
+import xss from "xss-clean";
 import { initReactions } from "./services/initReactions";
 
 const port = Number(process.env.SERVER_PORT) || 3001;
@@ -13,8 +16,11 @@ function createServer() {
   const app = express();
 
   app.use(cors());
+  app.use(helmet());
+  app.use(xss());
   app.use(json());
-  app.use(forumRouter);
+
+  app.use("/api", forumRouter);
 
   app.listen(port, async () => {
     await initReactions();

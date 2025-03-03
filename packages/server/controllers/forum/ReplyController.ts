@@ -14,13 +14,14 @@ export class ReplyController {
 
   public static async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { text } = req.body || {};
-      if (!text) {
+      const { text, authorName } = req.body || {};
+      if (!text || !authorName) {
         res.status(400).send("Bad Request");
       }
       // @ts-ignore
       const comment = await ReplyModels.create({
         text,
+        authorName,
       });
 
       res.status(201).json(comment);
