@@ -4,11 +4,19 @@ import { CommentModels } from "./models/forum/CommentModels";
 import { ReplyModels } from "./models/forum/ReplyModels";
 import { TopicReactionModel } from "./models/forum/TopicReactionModel";
 import { UserReactionModel } from "./models/forum/UserReactionModel";
+import { ThemeModel } from "./models/ThemeModel";
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT, POSTGRES_HOST } = process.env;
 
 const options: SequelizeOptions = {
-  models: [TopicModels, CommentModels, ReplyModels, TopicReactionModel, UserReactionModel],
+  models: [
+    TopicModels,
+    CommentModels,
+    ReplyModels,
+    TopicReactionModel,
+    UserReactionModel,
+    ThemeModel,
+  ],
   dialect: "postgres",
   database: POSTGRES_DB,
   username: POSTGRES_USER,
