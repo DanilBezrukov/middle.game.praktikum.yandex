@@ -20,7 +20,7 @@ router.post(ENDPOINTS.REPLY, ReplyController.create);
 router.get(ENDPOINTS.TOPIC_REACTION, topicReactionController.getReactionDictionary);
 router.post(ENDPOINTS.TOPIC_REACTION, topicReactionController.toggleReaction);
 
-router.get(ENDPOINTS.THEME, ThemeController.get);
-router.post(ENDPOINTS.THEME, ThemeController.update);
+router.get(`${ENDPOINTS.THEME}/:userId`, ThemeController.get);
+router.post(`${ENDPOINTS.THEME}/:userId`, ThemeController.update);
 
 export { router };

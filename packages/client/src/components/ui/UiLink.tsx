@@ -23,7 +23,6 @@ export const UiLink: React.FC<UiLiProps> = ({ children, to, sx }) => (
     <Typography
       variant="body1"
       sx={{
-        color: "#000",
         fontWeight: "bold",
         textDecoration: "underline",
       }}>

@@ -20,7 +20,6 @@ export const ErrorPage400: React.FC = () => {
           width: 750,
           maxWidth: "100%",
           borderRadius: 3,
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
         }}>
         <Box
           sx={{

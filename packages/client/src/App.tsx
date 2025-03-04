@@ -6,14 +6,17 @@ import { Provider } from "react-redux";
 import { store } from "@/store";
 import ErrorBoundary from "@/ErrorBoundary";
 import { CssBaseline } from "@mui/material";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 function App() {
   return (
     <React.StrictMode>
       <ErrorBoundary>
         <Provider store={store}>
-          <CssBaseline />
-          <RouterProvider router={router} />
+          <ThemeProvider>
+            <CssBaseline />
+            <RouterProvider router={router} />
+          </ThemeProvider>
         </Provider>
       </ErrorBoundary>
     </React.StrictMode>

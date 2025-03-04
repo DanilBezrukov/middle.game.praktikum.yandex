@@ -71,7 +71,7 @@ export const HomePage = withAuthGuard(() => {
                   </Box>
                   <Box component="span">{profile?.second_name}</Box>
                 </Typography>
-                <Typography component="div" variant="body2" color="text.secondary">
+                <Typography component="div" variant="body2">
                   {profile?.login}
                 </Typography>
               </Box>
