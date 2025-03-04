@@ -16,11 +16,14 @@ import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { paths } from "@/app/constants/paths";
+import { useTheme } from "@/context/ThemeContext";
 import { useNavigate } from "react-router-dom";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 import { LeaderboardResponse, LeaderData } from "@/store/slices/leaderboard.slice";
 
 export const LeaderboardPage = withAuthGuard(() => {
+  const { tableTextColor, tableBorderColor } = useTheme();
+
   const data = useAppSelector(state => state.leaderboard.leaders);
 
   const leaders: LeaderData[] = data.map((entry, id) => ({
@@ -80,7 +83,7 @@ export const LeaderboardPage = withAuthGuard(() => {
             component={Paper}
             sx={{
               "backgroundColor": "transparent",
-              "border": "1px solid black",
+              "border": `1px solid ${tableBorderColor}`,
               "maxHeight": 500,
               "overflow": "auto",
               "&::-webkit-scrollbar": { width: "8px" },
@@ -94,20 +97,14 @@ export const LeaderboardPage = withAuthGuard(() => {
             }}>
             <Table>
               <TableHead>
-                <TableRow sx={{ borderBottom: "1px solid black" }}>
-                  <TableCell sx={{ fontWeight: "bold" }}>
-                    <TableSortLabel
-                      active={sortField === "name"}
-                      direction={order}
-                      onClick={() => handleSort("name")}>
+                <TableRow sx={{ borderBottom: `1px solid ${tableBorderColor}` }}>
+                  <TableCell sx={{ fontWeight: "bold", color: tableTextColor }}>
+                    <TableSortLabel active={false} direction="asc">
                       Имя
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }} align="right">
-                    <TableSortLabel
-                      active={sortField === "ppBirdScore"}
-                      direction={order}
-                      onClick={() => handleSort("ppBirdScore")}>
+                  <TableCell sx={{ fontWeight: "bold", color: tableTextColor }} align="right">
+                    <TableSortLabel active={false} direction="asc">
                       Баллы
                     </TableSortLabel>
                   </TableCell>
@@ -115,9 +112,11 @@ export const LeaderboardPage = withAuthGuard(() => {
               </TableHead>
               <TableBody>
                 {leaders.map((leader: LeaderData) => (
-                  <TableRow key={leader.id} sx={{ borderBottom: "1px solid black" }}>
-                    <TableCell>{leader.name}</TableCell>
-                    <TableCell align="right">{leader.ppBirdScore}</TableCell>
+                  <TableRow key={leader.id} sx={{ borderBottom: `1px solid ${tableBorderColor}` }}>
+                    <TableCell sx={{ color: tableTextColor }}>{leader.name}</TableCell>
+                    <TableCell sx={{ color: tableTextColor }} align="right">
+                      {leader.ppBirdScore}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

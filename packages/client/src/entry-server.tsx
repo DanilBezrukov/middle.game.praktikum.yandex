@@ -15,6 +15,7 @@ import { authApi } from "@/api/authApi";
 import { profileApi } from "@/api/profileApi";
 import { leaderboardApi } from "@/api/leaderboardApi";
 import { leaderboardActions, profileActions } from "@/store";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export const render = async (req: express.Request) => {
   const { query, dataRoutes } = createStaticHandler(routes);
@@ -62,8 +63,10 @@ export const render = async (req: express.Request) => {
   return {
     appHtml: ReactDOM.renderToString(
       <Provider store={store}>
-        <CssBaseline />
-        <StaticRouterProvider context={context} router={router} />
+        <ThemeProvider>
+          <CssBaseline />
+          <StaticRouterProvider context={context} router={router} />
+        </ThemeProvider>
       </Provider>,
     ),
     initialState: store.getState(),
