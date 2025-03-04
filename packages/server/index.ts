@@ -8,6 +8,7 @@ import helmet from "helmet";
 import xss from "xss-clean";
 import { initReactions } from "./services/initReactions";
 import { router } from "./routes/router";
+import cookieParser from "cookie-parser";
 
 const port = Number(process.env.SERVER_PORT) || 3001;
 const apiPath = process.env.OWNER_SERVER_POINT || "/owner-server";
@@ -19,6 +20,7 @@ function createServer() {
   app.use(helmet());
   app.use(xss());
   app.use(json());
+  app.use(cookieParser());
 
   app.use(apiPath, router);
 
