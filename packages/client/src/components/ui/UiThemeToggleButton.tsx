@@ -4,12 +4,19 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 
 export const ThemeToggleButton: FC = () => {
-  const { theme, toggleTheme, toggleLayoutBackground, togglePaperBackground } = useTheme();
+  const {
+    theme,
+    toggleTheme,
+    toggleLayoutBackground,
+    togglePaperBackground,
+    toggleGameBackground,
+  } = useTheme();
 
   const handleClick = () => {
     toggleTheme();
     toggleLayoutBackground();
     togglePaperBackground();
+    toggleGameBackground();
   };
 
   return (

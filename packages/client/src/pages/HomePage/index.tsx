@@ -107,33 +107,38 @@ export const HomePage = withAuthGuard(() => {
             </Box>
           </nav>
         </UiPaper>
-
         <UiPaper sx={{ mb: 2, p: { xs: 3, sm: 5 } }}>
           <Box
             sx={{
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
-              gap: 7,
+              alignItems: "start",
+              gap: 5,
             }}>
             <Box
               component="img"
               src={gameIcon}
               alt="Game icon Flappy Bird"
-              sx={{ maxWidth: "100px" }}
+              sx={{ maxWidth: "140px" }}
             />
-            <Typography component="h6" sx={{ mb: 2 }}>
-              <strong>Flappy Bird</strong> — это простая аркадная игра, разработанная в 2013 году
-              вьетнамским разработчиком Нгуен Ха Донг (Nguyen Ha Dong). Игра приобрела огромную
-              популярность благодаря своей простоте и сложным механикам, несмотря на минималистичную
-              графику и геймплей.
-            </Typography>
+
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "start", gap: 2 }}>
+              <Typography component="h6" sx={{ mb: 2 }}>
+                <strong>Flappy Bird</strong> — это простая аркадная игра, разработанная в 2013 году
+                вьетнамским разработчиком Нгуен Ха Донг (Nguyen Ha Dong). Игра приобрела огромную
+                популярность благодаря своей простоте и сложным механикам, несмотря на
+                минималистичную графику и геймплей.
+              </Typography>
+
+              <UiButton onClick={() => navigate(paths.game)} sx={{ width: "250px" }}>
+                Играть
+              </UiButton>
+            </Box>
           </Box>
-          <UiButton onClick={() => navigate(paths.game)}>Играть</UiButton>
         </UiPaper>
 
         <UiPaper sx={{ mb: 2, p: { xs: 3, sm: 5 } }}>
-          <Typography component="h4" variant="h6" sx={{ mb: 2 }}>
+          <Typography component="h4" variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
             Топ-3 Лидеров
           </Typography>
           <Box

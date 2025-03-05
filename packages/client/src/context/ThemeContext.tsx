@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import backgroundImage from "@/assets/background.png";
 import backgroundNightImage from "@/assets/background-night.png";
+import backgroundGameImage from "@/assets/background-game.png";
+import backgroundGameNightImage from "@/assets/background-game-night.png";
 import axios from "axios";
 import { useAppSelector } from "@/hooks";
 import { RootState } from "@/store";
@@ -13,44 +15,37 @@ interface ThemeContextProps {
   toggleTheme: () => void;
   layoutBackground: string;
   toggleLayoutBackground: () => void;
+  gameBackground: string;
+  toggleGameBackground: () => void;
   paperBackground: string;
   togglePaperBackground: () => void;
   paperTextColor: string;
   tableTextColor: string;
   tableBorderColor: string;
+  tableLinkColor: string;
 }
 
 const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>("light");
-  const [layoutBackground, setLayoutBackground] = useState(`url(${backgroundImage})`);
-  const [paperBackground, setPaperBackground] = useState("rgba(255, 255, 255, 0.8)");
-  const [paperTextColor, setPaperTextColor] = useState("black");
-  const [tableTextColor, setTableTextColor] = useState("black");
-  const [tableBorderColor, setTableBorderColor] = useState("black");
+  const [theme, setTheme] = useState<Theme | null>("light");
+  const [layoutBackground, setLayoutBackground] = useState<string>(`url(${backgroundImage})`);
+  const [gameBackground, setGameBackground] = useState<string>(`url(${backgroundGameImage})`);
+  const [paperBackground, setPaperBackground] = useState<string>("rgba(255, 255, 255, 0.8)");
+  const [paperTextColor, setPaperTextColor] = useState<string>("black");
+  const [tableTextColor, setTableTextColor] = useState<string>("black");
+  const [tableBorderColor, setTableBorderColor] = useState<string>("black");
+  const [tableLinkColor, setTableLinkColor] = useState<string>("black");
 
   const profile = useAppSelector((state: RootState) => state.profile.user as IProfile);
-  const userId = profile?.id;
-
-  const updateColorsBasedOnTheme = (newTheme: Theme) => {
-    if (newTheme === "light") {
-      setPaperTextColor("black");
-      setTableTextColor("black");
-      setTableBorderColor("black");
-    } else {
-      setPaperTextColor("#FFE993");
-      setTableTextColor("#FFE993");
-      setTableBorderColor("#FFE993");
-    }
-  };
+  const userId = profile?.id ? profile?.id : "0000";
 
   useEffect(() => {
-    if (userId !== null && theme === "light") {
+    if (userId) {
       const fetchTheme = async () => {
         try {
-          const { data } = await axios.get(`/theme/${userId}`);
-          if (data.theme && data.theme !== theme) {
+          const { data } = await axios.get(`/owner-server/theme/${userId}`);
+          if (data.theme) {
             setTheme(data.theme);
           }
         } catch (error) {
@@ -59,20 +54,39 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       };
       fetchTheme();
     }
-  }, [userId, theme]);
+  }, [userId]);
 
   useEffect(() => {
-    updateColorsBasedOnTheme(theme);
+    if (theme) {
+      updateColorsBasedOnTheme(theme);
+    }
   }, [theme]);
 
-  const toggleTheme = async () => {
-    if (userId === null) return;
+  const updateColorsBasedOnTheme = (currentTheme: Theme) => {
+    setPaperTextColor(currentTheme === "light" ? "black" : "#FFE993");
+    setTableTextColor(currentTheme === "light" ? "black" : "#FFE993");
+    setTableBorderColor(currentTheme === "light" ? "black" : "#FFE993");
+    setTableLinkColor(currentTheme === "light" ? "blue" : "#FE9925");
+    setLayoutBackground(
+      currentTheme === "light" ? `url(${backgroundImage})` : `url(${backgroundNightImage})`,
+    );
+    setGameBackground(
+      currentTheme === "light" ? `url(${backgroundGameImage})` : `url(${backgroundGameNightImage})`,
+    );
+    setPaperBackground(
+      currentTheme === "light" ? "rgba(255, 255, 255, 0.8)" : "rgba(31, 28, 63, 0.8)",
+    );
+  };
 
+  const toggleTheme = async () => {
+    if (!theme) return;
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
 
+    updateColorsBasedOnTheme(newTheme);
+
     try {
-      const response = await axios.post(`/theme/${userId}`, { theme: newTheme });
+      const response = await axios.post(`/owner-server/theme/${userId}`, { theme: newTheme });
       if (response.status === 200) {
         console.log("Тема обновлена на сервере");
       } else {
@@ -83,32 +97,21 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
-  const toggleLayoutBackground = () => {
-    setLayoutBackground(prev =>
-      prev === `url(${backgroundImage})`
-        ? `url(${backgroundNightImage})`
-        : `url(${backgroundImage})`,
-    );
-  };
-
-  const togglePaperBackground = () => {
-    setPaperBackground(prev =>
-      prev === "rgba(255, 255, 255, 0.8)" ? "rgba(31, 28, 63, 0.8)" : "rgba(255, 255, 255, 0.8)",
-    );
-  };
-
   return (
     <ThemeContext.Provider
       value={{
-        theme,
+        theme: theme || "light",
         toggleTheme,
         layoutBackground,
-        toggleLayoutBackground,
+        toggleLayoutBackground: () => updateColorsBasedOnTheme(theme || "light"),
         paperBackground,
-        togglePaperBackground,
+        togglePaperBackground: () => updateColorsBasedOnTheme(theme || "light"),
+        gameBackground,
+        toggleGameBackground: () => updateColorsBasedOnTheme(theme || "light"),
         paperTextColor,
         tableTextColor,
         tableBorderColor,
+        tableLinkColor,
       }}>
       {children}
     </ThemeContext.Provider>

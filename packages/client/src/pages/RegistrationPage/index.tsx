@@ -11,9 +11,11 @@ import { UiTextField } from "@/components/ui/UiTextField";
 import { REGISTRATION_FIELDS } from "@/pages/RegistrationPage/registrationFields";
 import { apiTranslateResponseErrors } from "@/app/utils/validationUserFields";
 import { useEffect } from "react";
+import { useTheme } from "@/context/ThemeContext";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 
 export const RegistrationPage: React.FC = () => {
+  const { paperTextColor, tableLinkColor, theme } = useTheme();
   const {
     register,
     handleSubmit,
@@ -68,8 +70,9 @@ export const RegistrationPage: React.FC = () => {
           component="h1"
           sx={{
             marginBottom: 3,
+            fontWeight: 600,
             textAlign: "center",
-            color: "#000",
+            color: paperTextColor,
             marginTop: "30px",
           }}>
           Регистрация
@@ -83,6 +86,20 @@ export const RegistrationPage: React.FC = () => {
                 error={Boolean(errors[name])}
                 helperText={errors[name]?.message}
                 {...register(name, options)}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: theme === "light" ? "#A8B1B0" : "rgba(255, 204, 86, 0.75)",
+                    },
+                    "&:hover fieldset": { borderColor: tableLinkColor },
+                    "&.Mui-focused fieldset": { borderColor: tableLinkColor },
+                  },
+                  "& .MuiInputLabel-root": {
+                    "color": paperTextColor,
+                    "&.Mui-focused": { color: tableLinkColor },
+                  },
+                  "input": { color: paperTextColor },
+                }}
               />
             </Box>
           ))}
@@ -92,14 +109,9 @@ export const RegistrationPage: React.FC = () => {
             {errors.root.message}
           </Typography>
         )}
-        <Box
-          width={"100%"}
-          sx={{
-            marginTop: "50px",
-          }}>
+        <Box width="100%" display="flex" justifyContent="center" sx={{ marginTop: "50px" }}>
           <UiButton
             sx={{
-              margin: "0 auto",
               width: 400,
               height: 55,
               borderRadius: 3,
@@ -107,13 +119,14 @@ export const RegistrationPage: React.FC = () => {
             Зарегистрироваться
           </UiButton>
         </Box>
+
         <Typography
           variant="body1"
           sx={{
             marginTop: 2,
             textAlign: "center",
             cursor: "pointer",
-            color: "#000000",
+            color: paperTextColor,
             fontWeight: "bold",
             textDecoration: "underline",
           }}

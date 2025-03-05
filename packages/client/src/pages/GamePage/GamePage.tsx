@@ -1,15 +1,16 @@
 import { UiLayout } from "@/components/ui/UiLayout";
 import { Box } from "@mui/material";
-import backgroundGame from "@/assets/background-game.png";
 import { GameScreen } from "@/components/GameScreen/GameScreen";
 import { useRef } from "react";
 import { useFullscreen } from "@/hooks";
+import { useTheme } from "@/context/ThemeContext";
 import { GameInstruction } from "@/pages/GamePage/GameInstruction";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 
 export const GamePage = withAuthGuard(() => {
   const ref = useRef<HTMLElement>(null);
   const { isOpenFullScreen } = useFullscreen({ refElement: ref });
+  const { gameBackground } = useTheme();
 
   return (
     <UiLayout
@@ -27,7 +28,7 @@ export const GamePage = withAuthGuard(() => {
           justifyContent: "center",
           gap: "30px",
           alignItems: "center",
-          backgroundImage: `url(${backgroundGame})`,
+          backgroundImage: gameBackground,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "right bottom",

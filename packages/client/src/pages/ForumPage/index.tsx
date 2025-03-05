@@ -19,6 +19,7 @@ import { UiFormattingToolbar } from "@/components/ui/UiFormattingToolbar";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@/context/ThemeContext";
 import { useAppSelector } from "@/hooks";
 import { selectProfileInfo } from "@/store/selectors/profileSelectors";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
@@ -40,7 +41,7 @@ type CreateTopicModalProps = {
 
 const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCreate }) => {
   const profile = useAppSelector(selectProfileInfo);
-
+  const { tableTextColor, tableBorderColor } = useTheme();
   const [formatting, setFormatting] = useState({ bold: false, italic: false, underline: false });
 
   const [title, setTitle] = useState("");
@@ -87,11 +88,12 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
             sx={{
               "mb": 2,
               "& .MuiOutlinedInput-root": {
+                color: tableTextColor,
                 borderRadius: "12px",
                 borderColor: "gray",
               },
               "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "gray",
+                borderColor: tableBorderColor,
               },
             }}
           />
@@ -109,11 +111,12 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
                 "mb": 2,
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "12px",
-                  borderColor: "gray",
+                  color: tableTextColor,
+                  borderColor: tableBorderColor,
                   backgroundColor: "transparent",
                 },
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "gray",
+                  borderColor: tableBorderColor,
                 },
               }}
             />
@@ -130,7 +133,7 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
 export const ForumPage = withAuthGuard(() => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const { tableTextColor, tableBorderColor, tableLinkColor } = useTheme();
   const [topics, setTopics] = useState<Topic[]>([
     {
       id: 1,
@@ -204,10 +207,11 @@ export const ForumPage = withAuthGuard(() => {
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "12px",
                   backgroundColor: "transparent",
-                  borderColor: "gray",
+                  borderColor: tableBorderColor,
+                  color: tableTextColor,
                 },
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "gray",
+                  borderColor: tableBorderColor,
                 },
               }}
             />
@@ -216,7 +220,7 @@ export const ForumPage = withAuthGuard(() => {
             component={Paper}
             sx={{
               "backgroundColor": "transparent",
-              "border": "1px solid black",
+              "border": `1px solid ${tableBorderColor}`,
               "maxHeight": 500,
               "overflow": "auto",
               "&::-webkit-scrollbar": {
@@ -232,26 +236,30 @@ export const ForumPage = withAuthGuard(() => {
             }}>
             <Table>
               <TableHead>
-                <TableRow sx={{ borderBottom: "1px solid black" }}>
-                  <TableCell sx={{ fontWeight: "bold" }}>Заголовок</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Автор</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }} align="right">
+                <TableRow sx={{ borderBottom: `1px solid ${tableBorderColor}` }}>
+                  <TableCell sx={{ fontWeight: "bold", color: tableTextColor }}>
+                    Заголовок
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "bold", color: tableTextColor }}>Автор</TableCell>
+                  <TableCell sx={{ fontWeight: "bold", color: tableTextColor }} align="right">
                     Сообщений
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Дата</TableCell>
+                  <TableCell sx={{ fontWeight: "bold", color: tableTextColor }}>Дата</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {topics.map(topic => (
                   <TableRow key={topic.id} hover>
                     <TableCell
-                      sx={{ cursor: "pointer", color: "blue" }}
+                      sx={{ cursor: "pointer", color: tableLinkColor }}
                       onClick={() => handleTopicClick(topic.id)}>
                       {topic.title}
                     </TableCell>
-                    <TableCell>{topic.author}</TableCell>
-                    <TableCell align="right">{topic.messages}</TableCell>
-                    <TableCell>{topic.date}</TableCell>
+                    <TableCell sx={{ color: tableTextColor }}>{topic.author}</TableCell>
+                    <TableCell sx={{ color: tableTextColor }} align="right">
+                      {topic.messages}
+                    </TableCell>
+                    <TableCell sx={{ color: tableTextColor }}>{topic.date}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

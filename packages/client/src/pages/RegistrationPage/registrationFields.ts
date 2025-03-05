@@ -31,7 +31,7 @@ export const REGISTRATION_FIELDS: IRegistrationFields[] = [
     options: rules.second_name as RegisterOptions<Omit<IUser, "id">>,
   },
   {
-    label: "Телофон",
+    label: "Телефон",
     name: "phone",
     options: rules.phone as RegisterOptions<Omit<IUser, "id">>,
   },

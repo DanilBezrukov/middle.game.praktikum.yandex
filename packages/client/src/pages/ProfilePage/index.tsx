@@ -6,19 +6,23 @@ import { ProfilePassword } from "./ProfileFeatures";
 import { UiButton } from "@/components/ui/UiButton";
 import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@/context/ThemeContext";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 
 export const ProfilePage = withAuthGuard(() => {
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const navigate = useNavigate();
-
+  const { paperTextColor } = useTheme();
   return (
     <UiLayout
       sx={{
         flexDirection: "column",
         padding: 4,
       }}>
-      <Typography sx={{ fontWeight: "bold", marginTop: 4 }} variant="h4" component="h1">
+      <Typography
+        sx={{ fontWeight: "bold", marginTop: 4, color: paperTextColor }}
+        variant="h4"
+        component="h1">
         Профиль
       </Typography>
 
