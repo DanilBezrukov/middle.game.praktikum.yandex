@@ -43,4 +43,4 @@ export const leaderboardApi = createApi({
   }),
 });
 
-export const { useSubmitLeaderboardMutation, useGetLeaderboardQuery } = leaderboardApi;
+export const { useSubmitLeaderboardMutation, useLazyGetLeaderboardQuery } = leaderboardApi;

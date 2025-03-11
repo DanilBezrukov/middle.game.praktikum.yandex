@@ -24,8 +24,8 @@ import obstacleImgPath from "@/assets/obstacle-to-game.png";
 import { birdSkins } from "@/components/Game/birdSkins";
 import useSound from "@/hooks/useSound";
 import windsSound from "@/assets/sounds/wing-flap-1-6434_a3LUleD4.mp3";
-import { useSubmitLeaderboardMutation, useGetLeaderboardQuery } from "@/api/leaderboardApi";
-import { useAppSelector } from "@/hooks";
+import { useLazyGetLeaderboardQuery, useSubmitLeaderboardMutation } from "@/api/leaderboardApi";
+import { useActions, useAppSelector } from "@/hooks";
 import { selectProfileInfo } from "@/store/selectors/profileSelectors";
 
 type GameOptionsType = {
@@ -51,11 +51,8 @@ export function Game({
 
   const profile = useAppSelector(selectProfileInfo);
   const [submitLeaderboard] = useSubmitLeaderboardMutation();
-  const { data: leaderboard } = useGetLeaderboardQuery({
-    ratingFieldName: "ppBirdScore",
-    cursor: 0,
-    limit: 10,
-  });
+  const [getLeaders] = useLazyGetLeaderboardQuery();
+  const { setLeaders } = useActions();
 
   let initBirdData: IBird;
   let bird: IBird;
@@ -82,13 +79,21 @@ export function Game({
     windSound();
   }, []);
 
-  const handleGameOver = (score: number) => {
-    submitLeaderboard({
+  const handleGameOver = async (score: number) => {
+    endGame(score);
+    await submitLeaderboard({
       data: { name: profile.first_name, ppBirdScore: score },
       ratingFieldName: "ppBirdScore",
       teamName: "pixelPioneers",
     });
-    endGame(score);
+
+    const { data: leaders } = await getLeaders({
+      ratingFieldName: "ppBirdScore",
+      cursor: 0,
+      limit: 50,
+    });
+
+    setLeaders(leaders);
   };
 
   function changeSpeed(start: number) {

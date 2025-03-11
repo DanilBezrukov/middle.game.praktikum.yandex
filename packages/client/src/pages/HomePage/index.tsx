@@ -6,16 +6,20 @@ import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiLink } from "@/components/ui/UiLink";
 import { UiPaper } from "@/components/ui/UiPaper";
-import { useAppSelector } from "@/hooks";
+import { useActions, useAppSelector } from "@/hooks";
 import gameIcon from "@/assets/game-icon.png";
 import { RootState } from "@/store";
 import { IProfile } from "@/types/profile.interface";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 import { YA_RESOURCES } from "@/app/constants/yandexService";
+import { useLazyGetLeaderboardQuery } from "@/api/leaderboardApi";
+import { useEffect } from "react";
 
 export const HomePage = withAuthGuard(() => {
   const navigate = useNavigate();
   const [logout] = useLogoutMutation();
+  const [getLeadBoard, { isLoading: isLoadingLeaders }] = useLazyGetLeaderboardQuery();
+  const { setLeaders } = useActions();
 
   const handleLogout = () => {
     logout()
@@ -39,6 +43,16 @@ export const HomePage = withAuthGuard(() => {
       name: entry.data.name,
       points: entry.data.ppBirdScore,
     }));
+
+  useEffect(() => {
+    if (!leaders.length) {
+      getLeadBoard({
+        ratingFieldName: "ppBirdScore",
+        cursor: 0,
+        limit: 50,
+      }).then(({ data: leaders }) => setLeaders(leaders));
+    }
+  }, []);
 
   return (
     <UiLayout>
@@ -136,6 +150,7 @@ export const HomePage = withAuthGuard(() => {
           <Typography component="h4" variant="h6" sx={{ mb: 2 }}>
             Топ-3 Лидеров
           </Typography>
+          {isLoadingLeaders && <Typography>Загрузка</Typography>}
           <Box
             sx={{
               display: "flex",
