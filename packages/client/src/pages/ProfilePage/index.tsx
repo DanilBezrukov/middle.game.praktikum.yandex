@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { Typography } from "@mui/material";
 import { UiLayout } from "@/components/ui/UiLayout";
-import { ProfileAvatar, ProfileInfo } from "./ProfileFeatures";
-import { ProfilePassword } from "./ProfileFeatures";
+import { ProfileAvatar, ProfileInfo, ProfilePassword } from "./ProfileFeatures";
 import { UiButton } from "@/components/ui/UiButton";
 import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "@/context/ThemeContext";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export const ProfilePage = withAuthGuard(() => {
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const navigate = useNavigate();
-  const { paperTextColor } = useTheme();
+  const { paperTextColor } = useSelector((state: RootState) => state.theme);
+
   return (
     <UiLayout
       sx={{

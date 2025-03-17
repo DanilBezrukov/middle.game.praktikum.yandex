@@ -2,22 +2,26 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { authApi } from "@/api/authApi";
 import { profileApi } from "@/api/profileApi";
+import { leaderboardApi } from "@/api/leaderboardApi";
 import { profileReducer } from "./slices/profile.slice";
 import { leaderboardReducer } from "./slices/leaderboard.slice";
-import { leaderboardApi } from "@/api/leaderboardApi";
+import { themeReducer } from "./slices/theme.slice";
 
 declare global {
   interface Window {
     APP_INITIAL_STATE: RootState;
   }
 }
+
 export const reducer = combineReducers({
   profile: profileReducer,
   leaderboard: leaderboardReducer,
+  theme: themeReducer, // Подключаем редьюсер темы
   [authApi.reducerPath]: authApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
   [leaderboardApi.reducerPath]: leaderboardApi.reducer,
 });
+
 export const store = configureStore({
   reducer,
   preloadedState: typeof window === "undefined" ? undefined : window.APP_INITIAL_STATE,

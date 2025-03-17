@@ -15,11 +15,13 @@ import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { UiButton } from "@/components/ui/UiButton";
 import { UiTextField } from "@/components/ui/UiTextField";
-import { useTheme } from "@/context/ThemeContext";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 import { requiredField } from "@/app/utils/validationUserFields";
 
 export const LoginPage: React.FC = () => {
-  const { paperTextColor, tableLinkColor, theme } = useTheme();
+  const { paperTextColor, tableLinkColor, theme } = useSelector((state: RootState) => state.theme);
+
   const {
     register,
     handleSubmit,
@@ -28,6 +30,7 @@ export const LoginPage: React.FC = () => {
   } = useForm<ILoginData>({
     mode: "onBlur",
   });
+
   const navigate = useNavigate();
   const [loginByLogin, { isError: isResponseError }] = useLoginByLoginMutation();
   const [getUserInfo] = useLazyGetUserInfoQuery();
@@ -62,7 +65,6 @@ export const LoginPage: React.FC = () => {
         window.open(getYandexRedirectUrl(res.service_id), "_blank");
       })
       .catch(error => {
-        // eslint-disable-next-line no-console
         console.error("Error during Yandex login:", error);
       });
   };

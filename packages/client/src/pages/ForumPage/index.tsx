@@ -19,10 +19,11 @@ import { UiFormattingToolbar } from "@/components/ui/UiFormattingToolbar";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "@/context/ThemeContext";
 import { useAppSelector } from "@/hooks";
 import { selectProfileInfo } from "@/store/selectors/profileSelectors";
+import { RootState } from "@/store";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
+import { useSelector } from "react-redux";
 
 type Topic = {
   id: number;
@@ -41,9 +42,11 @@ type CreateTopicModalProps = {
 
 const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCreate }) => {
   const profile = useAppSelector(selectProfileInfo);
-  const { tableTextColor, tableBorderColor } = useTheme();
-  const [formatting, setFormatting] = useState({ bold: false, italic: false, underline: false });
+  const theme = useSelector((state: RootState) => state.theme.theme);
+  const tableTextColor = theme === "light" ? "#000" : "#FFE993";
+  const tableBorderColor = theme === "light" ? "#000" : "#555";
 
+  const [formatting, setFormatting] = useState({ bold: false, italic: false, underline: false });
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -90,7 +93,6 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
               "& .MuiOutlinedInput-root": {
                 color: tableTextColor,
                 borderRadius: "12px",
-                borderColor: "gray",
               },
               "& .MuiOutlinedInput-notchedOutline": {
                 borderColor: tableBorderColor,
@@ -98,7 +100,7 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
             }}
           />
           <Box sx={{ mt: 3 }}>
-            <UiFormattingToolbar formatting={formatting} setFormatting={setFormatting} />{" "}
+            <UiFormattingToolbar formatting={formatting} setFormatting={setFormatting} />
             <TextField
               fullWidth
               placeholder="Описание"
@@ -133,7 +135,12 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
 export const ForumPage = withAuthGuard(() => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { tableTextColor, tableBorderColor, tableLinkColor } = useTheme();
+  const theme = useSelector((state: RootState) => state.theme.theme);
+
+  const tableTextColor = theme === "light" ? "#000" : "#FFE993";
+  const tableBorderColor = theme === "light" ? "#ccc" : "#555";
+  const tableLinkColor = theme === "light" ? "#1976d2" : "#FFCC56";
+
   const [topics, setTopics] = useState<Topic[]>([
     {
       id: 1,
@@ -168,6 +175,7 @@ export const ForumPage = withAuthGuard(() => {
       description: "",
     },
   ]);
+
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
@@ -192,12 +200,7 @@ export const ForumPage = withAuthGuard(() => {
             sx={{ mb: 2, fontWeight: "bold", textAlign: "center" }}>
             Форум
           </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              mb: 2,
-            }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
             <TextField
               placeholder="Поиск..."
               variant="outlined"
@@ -219,20 +222,10 @@ export const ForumPage = withAuthGuard(() => {
           <TableContainer
             component={Paper}
             sx={{
-              "backgroundColor": "transparent",
-              "border": `1px solid ${tableBorderColor}`,
-              "maxHeight": 500,
-              "overflow": "auto",
-              "&::-webkit-scrollbar": {
-                width: "8px",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-                borderRadius: "4px",
-              },
-              "&::-webkit-scrollbar-thumb:hover": {
-                backgroundColor: "rgba(0, 0, 0, 0.7)",
-              },
+              backgroundColor: "transparent",
+              border: `1px solid ${tableBorderColor}`,
+              maxHeight: 500,
+              overflow: "auto",
             }}>
             <Table>
               <TableHead>

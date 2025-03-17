@@ -3,14 +3,15 @@ import { Box } from "@mui/material";
 import { GameScreen } from "@/components/GameScreen/GameScreen";
 import { useRef } from "react";
 import { useFullscreen } from "@/hooks";
-import { useTheme } from "@/context/ThemeContext";
 import { GameInstruction } from "@/pages/GamePage/GameInstruction";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export const GamePage = withAuthGuard(() => {
   const ref = useRef<HTMLElement>(null);
   const { isOpenFullScreen } = useFullscreen({ refElement: ref });
-  const { gameBackground } = useTheme();
+  const gameWindowBackground = useSelector((state: RootState) => state.theme.gameWindowBackground);
 
   return (
     <UiLayout
@@ -28,7 +29,7 @@ export const GamePage = withAuthGuard(() => {
           justifyContent: "center",
           gap: "30px",
           alignItems: "center",
-          backgroundImage: gameBackground,
+          backgroundImage: gameWindowBackground,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "right bottom",

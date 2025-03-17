@@ -1,9 +1,10 @@
 import { FC } from "react";
 import { Button, ButtonProps } from "@mui/material";
-import { useTheme } from "@/context/ThemeContext";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export const UiButton: FC<ButtonProps> = ({ children, sx, ...otherProps }) => {
-  const { theme } = useTheme();
+  const theme = useSelector((state: RootState) => state.theme.theme);
 
   return (
     <Button

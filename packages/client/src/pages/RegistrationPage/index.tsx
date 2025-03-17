@@ -11,11 +11,13 @@ import { UiTextField } from "@/components/ui/UiTextField";
 import { REGISTRATION_FIELDS } from "@/pages/RegistrationPage/registrationFields";
 import { apiTranslateResponseErrors } from "@/app/utils/validationUserFields";
 import { useEffect } from "react";
-import { useTheme } from "@/context/ThemeContext";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export const RegistrationPage: React.FC = () => {
-  const { paperTextColor, tableLinkColor, theme } = useTheme();
+  const { paperTextColor, tableLinkColor, theme } = useSelector((state: RootState) => state.theme);
+
   const {
     register,
     handleSubmit,
@@ -25,6 +27,7 @@ export const RegistrationPage: React.FC = () => {
   } = useForm<Omit<IUser, "id">>({
     mode: "onBlur",
   });
+
   const navigate = useNavigate();
   const [createUser, { error: responseError }] = useCreateUserMutation();
 

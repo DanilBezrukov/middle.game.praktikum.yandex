@@ -1,9 +1,14 @@
 import { forwardRef } from "react";
 import { TextField, TextFieldProps } from "@mui/material";
-import { useTheme } from "@/context/ThemeContext";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export const UiTextField = forwardRef<HTMLDivElement, TextFieldProps>((props, ref) => {
-  const { tableLinkColor, paperTextColor } = useTheme();
+  const theme = useSelector((state: RootState) => state.theme.theme);
+
+  const paperTextColor = theme === "light" ? "black" : "#FFE993";
+  const tableLinkColor = theme === "light" ? "#1976d2" : "#FFCC56";
+
   return (
     <TextField
       ref={ref}
