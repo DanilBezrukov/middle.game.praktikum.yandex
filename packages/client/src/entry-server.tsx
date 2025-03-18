@@ -14,8 +14,10 @@ import { CssBaseline } from "@mui/material";
 import { authApi } from "@/api/authApi";
 import { profileApi } from "@/api/profileApi";
 import { leaderboardApi } from "@/api/leaderboardApi";
-import { leaderboardActions, profileActions } from "@/store";
+import { leaderboardActions, profileActions, themeActions } from "@/store";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { IProfile } from "@/types/profile.interface";
+import { themeApi } from "@/api/themeApi";
 
 export const render = async (req: express.Request) => {
   const { query, dataRoutes } = createStaticHandler(routes);
@@ -35,19 +37,29 @@ export const render = async (req: express.Request) => {
       getDefaultMiddleware()
         .concat(authApi.middleware)
         .concat(profileApi.middleware)
-        .concat(leaderboardApi.middleware),
+        .concat(leaderboardApi.middleware)
+        .concat(themeApi.middleware),
   });
 
   const { setProfile } = profileActions;
   const { setLeaders } = leaderboardActions;
+  const { setTheme } = themeActions;
 
   const cookie = Object.entries(req.cookies)
     .map(([key, val]) => `${key}=${val}`)
     .join(";");
 
-  await store
+  const user = await store
     .dispatch(authApi.endpoints.getUserInfo.initiate({ cookie }))
-    .then(res => res.data && store.dispatch(setProfile(res.data)));
+    .then(res => res.data);
+
+  store.dispatch(setProfile((user as IProfile) || null));
+
+  if (user) {
+    await store
+      .dispatch(themeApi.endpoints.getThemeApi.initiate(user.id))
+      .then(res => res.data && store.dispatch(setTheme(res.data.theme)));
+  }
 
   await store
     .dispatch(

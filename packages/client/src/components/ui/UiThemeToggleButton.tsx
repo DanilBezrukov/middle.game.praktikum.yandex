@@ -1,16 +1,27 @@
 import { FC } from "react";
 import { IconButton } from "@mui/material";
 import { Moon, Sun } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { toggleTheme } from "@/store/slices/theme.slice";
+import { useActions } from "@/hooks";
+import { useSetThemeApiMutation } from "@/api/themeApi";
 
 export const ThemeToggleButton: FC = () => {
-  const dispatch = useDispatch();
   const theme = useSelector((state: RootState) => state.theme.theme);
+  const profile = useSelector((state: RootState) => state.profile.user);
+  const [setTheme] = useSetThemeApiMutation();
 
-  const handleClick = () => {
-    dispatch(toggleTheme());
+  const { toggleTheme } = useActions();
+
+  const handleClick = async () => {
+    if (profile) {
+      await setTheme({
+        userId: profile.id,
+        theme: theme === "light" ? "dark" : "light",
+      })
+        .then(() => toggleTheme())
+        .catch(e => console.log(e));
+    }
   };
 
   return (
