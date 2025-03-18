@@ -56,9 +56,14 @@ export const render = async (req: express.Request) => {
   store.dispatch(setProfile((user as IProfile) || null));
 
   if (user) {
-    await store
-      .dispatch(themeApi.endpoints.getThemeApi.initiate(user.id))
-      .then(res => res.data && store.dispatch(setTheme(res.data.theme)));
+    await store.dispatch(themeApi.endpoints.getThemeApi.initiate(user.id)).then(res => {
+      if (res.isError) {
+        store.dispatch(setTheme("light"));
+        return;
+      }
+
+      res.data && store.dispatch(setTheme(res.data.theme));
+    });
   }
 
   await store

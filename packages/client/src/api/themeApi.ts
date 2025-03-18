@@ -2,11 +2,12 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "@/api/baseApi";
 
 type UserIdType = number | string;
+export type ThemeVariantType = "light" | "dark";
 
 type ThemeResponseApi = {
   id: number;
   userId: number;
-  theme: "light" | "dark";
+  theme: ThemeVariantType;
   createdAt: string;
   updatedAt: string;
 };

@@ -5,15 +5,28 @@ import { useActions } from "@/hooks";
 import { useLazyGetThemeApiQuery } from "@/api/themeApi";
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const theme = useSelector((state: RootState) => state.theme.theme);
   const profile = useSelector((state: RootState) => state.profile.user);
   const { setTheme } = useActions();
   const [getThemeTrigger] = useLazyGetThemeApiQuery();
 
   useEffect(() => {
-    if (!profile) return;
+    const theme = localStorage.getItem("user-theme") || "light";
+    const isThemCorrect = theme === "light" || theme === "dark";
+    if (!profile) {
+      if (isThemCorrect) setTheme(theme);
 
-    getThemeTrigger(profile.id).then(res => res.data && setTheme(res.data.theme));
+      return;
+    }
+
+    getThemeTrigger(profile.id).then(res => {
+      if (res.isError && isThemCorrect) {
+        setTheme(theme);
+
+        return;
+      }
+
+      res.data && setTheme(res.data.theme);
+    });
   }, [profile]);
 
   return <>{children}</>;

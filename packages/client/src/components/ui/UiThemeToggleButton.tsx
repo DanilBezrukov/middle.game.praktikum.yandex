@@ -14,14 +14,23 @@ export const ThemeToggleButton: FC = () => {
   const { toggleTheme } = useActions();
 
   const handleClick = async () => {
+    const oppositeTheme = theme === "light" ? "dark" : "light";
+
     if (profile) {
       await setTheme({
         userId: profile.id,
-        theme: theme === "light" ? "dark" : "light",
+        theme: oppositeTheme,
       })
-        .then(() => toggleTheme())
+        .then(() => onChangeTheme(oppositeTheme))
         .catch(e => console.log(e));
+    } else {
+      onChangeTheme(oppositeTheme);
     }
+  };
+
+  const onChangeTheme = (theme: string) => {
+    localStorage.setItem("user-theme", theme);
+    toggleTheme();
   };
 
   return (
