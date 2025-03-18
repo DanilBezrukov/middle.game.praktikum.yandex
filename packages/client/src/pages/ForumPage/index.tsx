@@ -21,7 +21,9 @@ import { paths } from "@/app/constants/paths";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "@/hooks";
 import { selectProfileInfo } from "@/store/selectors/profileSelectors";
+import { RootState } from "@/store";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
+import { useSelector } from "react-redux";
 
 type Topic = {
   id: number;
@@ -40,9 +42,11 @@ type CreateTopicModalProps = {
 
 const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCreate }) => {
   const profile = useAppSelector(selectProfileInfo);
+  const theme = useSelector((state: RootState) => state.theme.theme);
+  const tableTextColor = theme === "light" ? "#000" : "#FFE993";
+  const tableBorderColor = theme === "light" ? "#000" : "#555";
 
   const [formatting, setFormatting] = useState({ bold: false, italic: false, underline: false });
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -87,16 +91,16 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
             sx={{
               "mb": 2,
               "& .MuiOutlinedInput-root": {
+                color: tableTextColor,
                 borderRadius: "12px",
-                borderColor: "gray",
               },
               "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "gray",
+                borderColor: tableBorderColor,
               },
             }}
           />
           <Box sx={{ mt: 3 }}>
-            <UiFormattingToolbar formatting={formatting} setFormatting={setFormatting} />{" "}
+            <UiFormattingToolbar formatting={formatting} setFormatting={setFormatting} />
             <TextField
               fullWidth
               placeholder="Описание"
@@ -109,11 +113,12 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
                 "mb": 2,
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "12px",
-                  borderColor: "gray",
+                  color: tableTextColor,
+                  borderColor: tableBorderColor,
                   backgroundColor: "transparent",
                 },
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "gray",
+                  borderColor: tableBorderColor,
                 },
               }}
             />
@@ -130,6 +135,11 @@ const CreateTopicModal: React.FC<CreateTopicModalProps> = ({ open, onClose, onCr
 export const ForumPage = withAuthGuard(() => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const theme = useSelector((state: RootState) => state.theme.theme);
+
+  const tableTextColor = theme === "light" ? "#000" : "#FFE993";
+  const tableBorderColor = theme === "light" ? "#ccc" : "#555";
+  const tableLinkColor = theme === "light" ? "#1976d2" : "#FFCC56";
 
   const [topics, setTopics] = useState<Topic[]>([
     {
@@ -165,6 +175,7 @@ export const ForumPage = withAuthGuard(() => {
       description: "",
     },
   ]);
+
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
@@ -189,12 +200,7 @@ export const ForumPage = withAuthGuard(() => {
             sx={{ mb: 2, fontWeight: "bold", textAlign: "center" }}>
             Форум
           </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              mb: 2,
-            }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
             <TextField
               placeholder="Поиск..."
               variant="outlined"
@@ -204,10 +210,11 @@ export const ForumPage = withAuthGuard(() => {
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "12px",
                   backgroundColor: "transparent",
-                  borderColor: "gray",
+                  borderColor: tableBorderColor,
+                  color: tableTextColor,
                 },
                 "& .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "gray",
+                  borderColor: tableBorderColor,
                 },
               }}
             />
@@ -215,43 +222,37 @@ export const ForumPage = withAuthGuard(() => {
           <TableContainer
             component={Paper}
             sx={{
-              "backgroundColor": "transparent",
-              "border": "1px solid black",
-              "maxHeight": 500,
-              "overflow": "auto",
-              "&::-webkit-scrollbar": {
-                width: "8px",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                backgroundColor: "rgba(0, 0, 0, 0.5)",
-                borderRadius: "4px",
-              },
-              "&::-webkit-scrollbar-thumb:hover": {
-                backgroundColor: "rgba(0, 0, 0, 0.7)",
-              },
+              backgroundColor: "transparent",
+              border: `1px solid ${tableBorderColor}`,
+              maxHeight: 500,
+              overflow: "auto",
             }}>
             <Table>
               <TableHead>
-                <TableRow sx={{ borderBottom: "1px solid black" }}>
-                  <TableCell sx={{ fontWeight: "bold" }}>Заголовок</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Автор</TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }} align="right">
+                <TableRow sx={{ borderBottom: `1px solid ${tableBorderColor}` }}>
+                  <TableCell sx={{ fontWeight: "bold", color: tableTextColor }}>
+                    Заголовок
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: "bold", color: tableTextColor }}>Автор</TableCell>
+                  <TableCell sx={{ fontWeight: "bold", color: tableTextColor }} align="right">
                     Сообщений
                   </TableCell>
-                  <TableCell sx={{ fontWeight: "bold" }}>Дата</TableCell>
+                  <TableCell sx={{ fontWeight: "bold", color: tableTextColor }}>Дата</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {topics.map(topic => (
                   <TableRow key={topic.id} hover>
                     <TableCell
-                      sx={{ cursor: "pointer", color: "blue" }}
+                      sx={{ cursor: "pointer", color: tableLinkColor }}
                       onClick={() => handleTopicClick(topic.id)}>
                       {topic.title}
                     </TableCell>
-                    <TableCell>{topic.author}</TableCell>
-                    <TableCell align="right">{topic.messages}</TableCell>
-                    <TableCell>{topic.date}</TableCell>
+                    <TableCell sx={{ color: tableTextColor }}>{topic.author}</TableCell>
+                    <TableCell sx={{ color: tableTextColor }} align="right">
+                      {topic.messages}
+                    </TableCell>
+                    <TableCell sx={{ color: tableTextColor }}>{topic.date}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

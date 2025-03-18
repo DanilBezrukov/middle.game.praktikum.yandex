@@ -16,13 +16,14 @@ import { UiButton } from "@/components/ui/UiButton";
 import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { paths } from "@/app/constants/paths";
-import { useTheme } from "@/context/ThemeContext";
 import { useNavigate } from "react-router-dom";
 import { withAuthGuard } from "@/app/providers/router/withAuthGuard";
 import { LeaderboardResponse, LeaderData } from "@/store/slices/leaderboard.slice";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export const LeaderboardPage = withAuthGuard(() => {
-  const { tableTextColor, tableBorderColor } = useTheme();
+  const { tableTextColor, tableBorderColor } = useSelector((state: RootState) => state.theme);
 
   const data = useAppSelector(state => state.leaderboard.leaders);
 

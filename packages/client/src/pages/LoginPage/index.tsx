@@ -15,9 +15,13 @@ import { UiLayout } from "@/components/ui/UiLayout";
 import { UiPaper } from "@/components/ui/UiPaper";
 import { UiButton } from "@/components/ui/UiButton";
 import { UiTextField } from "@/components/ui/UiTextField";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 import { requiredField } from "@/app/utils/validationUserFields";
 
 export const LoginPage: React.FC = () => {
+  const { paperTextColor, tableLinkColor, theme } = useSelector((state: RootState) => state.theme);
+
   const {
     register,
     handleSubmit,
@@ -26,6 +30,7 @@ export const LoginPage: React.FC = () => {
   } = useForm<ILoginData>({
     mode: "onBlur",
   });
+
   const navigate = useNavigate();
   const [loginByLogin, { isError: isResponseError }] = useLoginByLoginMutation();
   const [getUserInfo] = useLazyGetUserInfoQuery();
@@ -60,7 +65,6 @@ export const LoginPage: React.FC = () => {
         window.open(getYandexRedirectUrl(res.service_id), "_blank");
       })
       .catch(error => {
-        // eslint-disable-next-line no-console
         console.error("Error during Yandex login:", error);
       });
   };
@@ -79,7 +83,7 @@ export const LoginPage: React.FC = () => {
         }}
         component="form"
         onSubmit={handleSubmit(onSubmit)}>
-        <Typography variant="h3" component="h1" sx={{ margin: "30px" }}>
+        <Typography variant="h3" component="h1" sx={{ margin: "30px", fontWeight: 600 }}>
           Авторизация
         </Typography>
         <UiTextField
@@ -89,6 +93,20 @@ export const LoginPage: React.FC = () => {
           {...register("login", {
             required: requiredField,
           })}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: theme === "light" ? "#A8B1B0" : "rgba(255, 204, 86, 0.75)",
+              },
+              "&:hover fieldset": { borderColor: tableLinkColor },
+              "&.Mui-focused fieldset": { borderColor: tableLinkColor },
+            },
+            "& .MuiInputLabel-root": {
+              "color": paperTextColor,
+              "&.Mui-focused": { color: tableLinkColor },
+            },
+            "input": { color: paperTextColor },
+          }}
         />
         <UiTextField
           label="Пароль"
@@ -98,6 +116,20 @@ export const LoginPage: React.FC = () => {
           {...register("password", {
             required: requiredField,
           })}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: theme === "light" ? "#A8B1B0" : "rgba(255, 204, 86, 0.75)",
+              },
+              "&:hover fieldset": { borderColor: tableLinkColor },
+              "&.Mui-focused fieldset": { borderColor: tableLinkColor },
+            },
+            "& .MuiInputLabel-root": {
+              "color": paperTextColor,
+              "&.Mui-focused": { color: tableLinkColor },
+            },
+            "input": { color: paperTextColor },
+          }}
         />
         {isResponseError && (
           <Typography variant="body2" color="error">
@@ -132,7 +164,7 @@ export const LoginPage: React.FC = () => {
             marginTop: 2,
             textAlign: "center",
             cursor: "pointer",
-            color: "#000000",
+            color: paperTextColor,
             fontWeight: "bold",
             textDecoration: "underline",
           }}

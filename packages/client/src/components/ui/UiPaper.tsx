@@ -1,6 +1,7 @@
 import { FC, ReactNode, ElementType, HTMLAttributes } from "react";
 import { Paper, SxProps } from "@mui/material";
-import { useTheme } from "@/context/ThemeContext";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 type UiPaperProps = {
   children: ReactNode;
@@ -9,7 +10,10 @@ type UiPaperProps = {
 } & HTMLAttributes<HTMLFormElement>;
 
 export const UiPaper: FC<UiPaperProps> = ({ children, sx, component = "div", ...props }) => {
-  const { paperBackground, paperTextColor, theme } = useTheme();
+  const theme = useSelector((state: RootState) => state.theme.theme);
+
+  const paperBackground = theme === "light" ? "rgba(255, 255, 255, 0.8)" : "rgba(31, 28, 63, 0.8)";
+  const paperTextColor = theme === "light" ? "black" : "#FFE993";
 
   return (
     <Paper

@@ -1,15 +1,16 @@
 import { FC } from "react";
 import { IconButton } from "@mui/material";
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "@/context/ThemeContext";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { toggleTheme } from "@/store/slices/theme.slice";
 
 export const ThemeToggleButton: FC = () => {
-  const { theme, toggleTheme, toggleLayoutBackground, togglePaperBackground } = useTheme();
+  const dispatch = useDispatch();
+  const theme = useSelector((state: RootState) => state.theme.theme);
 
   const handleClick = () => {
-    toggleTheme();
-    toggleLayoutBackground();
-    togglePaperBackground();
+    dispatch(toggleTheme());
   };
 
   return (
