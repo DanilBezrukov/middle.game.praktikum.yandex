@@ -6,6 +6,7 @@ import { leaderboardApi } from "@/api/leaderboardApi";
 import { profileReducer } from "./slices/profile.slice";
 import { leaderboardReducer } from "./slices/leaderboard.slice";
 import { themeReducer } from "./slices/theme.slice";
+import { themeApi } from "@/api/themeApi";
 
 declare global {
   interface Window {
@@ -20,6 +21,7 @@ export const reducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
   [leaderboardApi.reducerPath]: leaderboardApi.reducer,
+  [themeApi.reducerPath]: themeApi.reducer,
 });
 
 export const store = configureStore({
@@ -29,7 +31,8 @@ export const store = configureStore({
     getDefaultMiddleware()
       .concat(authApi.middleware)
       .concat(profileApi.middleware)
-      .concat(leaderboardApi.middleware),
+      .concat(leaderboardApi.middleware)
+      .concat(themeApi.middleware),
 });
 
 setupListeners(store.dispatch);

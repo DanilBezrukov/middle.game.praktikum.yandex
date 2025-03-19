@@ -3,11 +3,12 @@ import { useDispatch } from "react-redux";
 
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { AppDispatch } from "@/store";
-import { profileActions, leaderboardActions } from "@/store";
+import { profileActions, leaderboardActions, themeActions } from "@/store";
 
 const rootActions = {
   ...profileActions,
   ...leaderboardActions,
+  ...themeActions,
 };
 
 const useAppDispatch: () => AppDispatch = useDispatch;

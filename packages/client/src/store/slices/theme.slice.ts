@@ -4,9 +4,10 @@ import backgroundLight from "@/assets/background.png";
 import backgroundDark from "@/assets/background-night.png";
 import backgroundGameLight from "@/assets/background-game.png";
 import backgroundGameDark from "@/assets/background-game-night.png";
+import { ThemeVariantType } from "@/api/themeApi";
 
 type ThemeState = {
-  theme: "light" | "dark";
+  theme: ThemeVariantType;
   gameBackground: string;
   gameWindowBackground: string;
   paperTextColor: string;
@@ -29,7 +30,7 @@ const themeSlice = createSlice({
   name: "theme",
   initialState,
   reducers: {
-    setTheme: (state, action: PayloadAction<"light" | "dark">) => {
+    setTheme: (state, action: PayloadAction<ThemeVariantType>) => {
       state.theme = action.payload;
       state.gameBackground =
         action.payload === "light" ? `url(${backgroundLight})` : `url(${backgroundDark})`;
@@ -55,5 +56,5 @@ const themeSlice = createSlice({
   },
 });
 
-export const { setTheme, toggleTheme } = themeSlice.actions;
+export const themeActions = themeSlice.actions;
 export const themeReducer = themeSlice.reducer;
