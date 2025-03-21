@@ -1,28 +1,30 @@
-import { Client } from 'pg'
+import { Sequelize, SequelizeOptions } from "sequelize-typescript";
+import { TopicModels } from "./models/forum/TopicModels";
+import { CommentModels } from "./models/forum/CommentModels";
+import { ReplyModels } from "./models/forum/ReplyModels";
+import { TopicReactionModel } from "./models/forum/TopicReactionModel";
+import { UserReactionModel } from "./models/forum/UserReactionModel";
+import { ThemeModel } from "./models/ThemeModel";
 
-const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } =
-  process.env
+const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT, POSTGRES_HOST } = process.env;
 
-export const createClientAndConnect = async (): Promise<Client | null> => {
-  try {
-    const client = new Client({
-      user: POSTGRES_USER,
-      host: 'localhost',
-      database: POSTGRES_DB,
-      password: POSTGRES_PASSWORD,
-      port: Number(POSTGRES_PORT),
-    })
+const options: SequelizeOptions = {
+  models: [
+    TopicModels,
+    CommentModels,
+    ReplyModels,
+    TopicReactionModel,
+    UserReactionModel,
+    ThemeModel,
+  ],
+  dialect: "postgres",
+  database: POSTGRES_DB,
+  username: POSTGRES_USER,
+  password: POSTGRES_PASSWORD,
+  port: Number(POSTGRES_PORT) || 5432,
+  host: POSTGRES_HOST,
+};
 
-    await client.connect()
+const db = new Sequelize(options);
 
-    const res = await client.query('SELECT NOW()')
-    console.log('  ➜ 🎸 Connected to the database at:', res?.rows?.[0].now)
-    client.end()
-
-    return client
-  } catch (e) {
-    console.error(e)
-  }
-
-  return null
-}
+export { db };

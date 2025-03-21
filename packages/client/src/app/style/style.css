@@ -1,0 +1,18 @@
+@font-face {
+  font-family: Jolly Lodger;
+  src: url("../../assets/fonts/JollyLodger-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+html {
+  height: 100%;
+}
+
+body,
+#root,
+#app {
+  height: 100%;
+  min-height: 1px;
+  font-family: Inter, sans-serif;
+}

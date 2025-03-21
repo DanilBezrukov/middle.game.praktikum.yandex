@@ -1,18 +1,26 @@
-import { useEffect } from 'react'
-import './App.css'
+import { RouterProvider } from "react-router-dom";
+import { router } from "@/app/providers";
+import "@/app/style/style.css";
+import React from "react";
+import { Provider } from "react-redux";
+import { store } from "@/store";
+import ErrorBoundary from "@/ErrorBoundary";
+import { CssBaseline } from "@mui/material";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 function App() {
-  useEffect(() => {
-    const fetchServerData = async () => {
-      const url = `http://localhost:${__SERVER_PORT__}`
-      const response = await fetch(url)
-      const data = await response.json()
-      console.log(data)
-    }
-
-    fetchServerData()
-  }, [])
-  return <div className="App">Вот тут будет жить ваше приложение :)</div>
+  return (
+    <React.StrictMode>
+      <ErrorBoundary>
+        <Provider store={store}>
+          <ThemeProvider>
+            <CssBaseline />
+            <RouterProvider router={router} />
+          </ThemeProvider>
+        </Provider>
+      </ErrorBoundary>
+    </React.StrictMode>
+  );
 }
 
-export default App
+export default App;
