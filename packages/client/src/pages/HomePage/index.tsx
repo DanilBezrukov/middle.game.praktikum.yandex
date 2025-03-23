@@ -37,12 +37,14 @@ export const HomePage = withAuthGuard(() => {
 
   const leaders = useAppSelector(state => state.leaderboard.leaders);
 
-  const topLeaders = leaders
-    .filter((_, idx) => idx < 3)
-    .map(entry => ({
-      name: entry.data.name,
-      points: entry.data.ppBirdScore,
-    }));
+  const topLeaders = Array.isArray(leaders)
+    ? leaders
+        .filter((_, idx) => idx < 3)
+        .map(entry => ({
+          name: entry.data.name,
+          points: entry.data.ppBirdScore,
+        }))
+    : [];
 
   useEffect(() => {
     if (!leaders.length) {
