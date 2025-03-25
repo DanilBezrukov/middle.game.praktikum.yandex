@@ -64,18 +64,18 @@ export const render = async (req: express.Request) => {
 
       res.data && store.dispatch(setTheme(res.data.theme));
     });
-  }
 
-  await store
-    .dispatch(
-      leaderboardApi.endpoints.getLeaderboard.initiate({
-        cookie,
-        ratingFieldName: "ppBirdScore",
-        cursor: 0,
-        limit: 50,
-      }),
-    )
-    .then(res => res.data && store.dispatch(setLeaders(res.data)));
+    await store
+      .dispatch(
+        leaderboardApi.endpoints.getLeaderboard.initiate({
+          cookie,
+          ratingFieldName: "ppBirdScore",
+          cursor: 0,
+          limit: 50,
+        }),
+      )
+      .then(res => res.data && store.dispatch(setLeaders(res.data)));
+  }
 
   return {
     appHtml: ReactDOM.renderToString(
