@@ -3,7 +3,12 @@ import { ILoginData, IUser, IOAuthYandexLoginData } from "@/types/auth.interface
 import { axiosBaseQuery } from "./baseApi";
 import { YA_ENDPOINT } from "@/app/constants/yandexService";
 
-export const devRedirectUri = "http://localhost:3000";
+export let devRedirectUri = "";
+
+if (!import.meta.env.SSR) {
+  devRedirectUri = `${window.location.origin}/oauth`;
+}
+
 export const getYandexRedirectUrl = (serverId: string): string => {
   const params = new URLSearchParams({
     // eslint-disable-next-line camelcase

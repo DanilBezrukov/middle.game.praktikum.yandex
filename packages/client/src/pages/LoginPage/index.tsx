@@ -62,7 +62,7 @@ export const LoginPage: React.FC = () => {
     loginByYandex()
       .unwrap()
       .then(res => {
-        window.open(getYandexRedirectUrl(res.service_id), "_blank");
+        window.location.replace(getYandexRedirectUrl(res.service_id));
       })
       .catch(error => {
         console.error("Error during Yandex login:", error);
@@ -145,6 +145,7 @@ export const LoginPage: React.FC = () => {
           Авторизация
         </UiButton>
         <UiButton
+          type={"button"}
           sx={{
             width: 400,
             height: 55,
