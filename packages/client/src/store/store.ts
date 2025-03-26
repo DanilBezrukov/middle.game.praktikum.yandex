@@ -7,6 +7,8 @@ import { profileReducer } from "./slices/profile.slice";
 import { leaderboardReducer } from "./slices/leaderboard.slice";
 import { themeReducer } from "./slices/theme.slice";
 import { themeApi } from "@/api/themeApi";
+import { forumReducer } from "@/store/slices/forum.slice";
+import { forumApi } from "@/api/forumApi";
 
 declare global {
   interface Window {
@@ -18,10 +20,12 @@ export const reducer = combineReducers({
   profile: profileReducer,
   leaderboard: leaderboardReducer,
   theme: themeReducer, // Подключаем редьюсер темы
+  forum: forumReducer,
   [authApi.reducerPath]: authApi.reducer,
   [profileApi.reducerPath]: profileApi.reducer,
   [leaderboardApi.reducerPath]: leaderboardApi.reducer,
   [themeApi.reducerPath]: themeApi.reducer,
+  [forumApi.reducerPath]: forumApi.reducer,
 });
 
 export const store = configureStore({
@@ -32,7 +36,8 @@ export const store = configureStore({
       .concat(authApi.middleware)
       .concat(profileApi.middleware)
       .concat(leaderboardApi.middleware)
-      .concat(themeApi.middleware),
+      .concat(themeApi.middleware)
+      .concat(forumApi.middleware),
 });
 
 setupListeners(store.dispatch);

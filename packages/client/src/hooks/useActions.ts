@@ -1,14 +1,20 @@
 import { useMemo } from "react";
 import { useDispatch } from "react-redux";
-
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { AppDispatch } from "@/store";
-import { profileActions, leaderboardActions, themeActions } from "@/store";
+
+import {
+  profileActions,
+  leaderboardActions,
+  themeActions,
+  AppDispatch,
+  forumActions,
+} from "@/store";
 
 const rootActions = {
   ...profileActions,
   ...leaderboardActions,
   ...themeActions,
+  ...forumActions,
 };
 
 const useAppDispatch: () => AppDispatch = useDispatch;
