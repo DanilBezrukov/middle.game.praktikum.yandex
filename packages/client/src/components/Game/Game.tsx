@@ -94,6 +94,11 @@ export function Game({
     });
 
     setLeaders(leaders);
+    if (Notification.permission === "granted") {
+      new Notification("Поздравляем!", {
+        body: `Вы набрали ${score} очков!`,
+      });
+    }
   };
 
   function changeSpeed(start: number) {
