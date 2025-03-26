@@ -1,39 +1,28 @@
-import { devRedirectUri, useIsLoginYandexMutation, useLazyGetUserInfoQuery } from "@/api/authApi";
-import { useActions } from "@/hooks";
+import { devRedirectUri, useIsLoginYandexMutation } from "@/api/authApi";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
-import { HomePage } from "../HomePage";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { paths } from "@/app/constants/paths";
 
 export const SocialAuthPage = () => {
-  const [getUserInfo] = useLazyGetUserInfoQuery();
-  const [checkIsUserLoggedIn, { isLoading, isUninitialized }] = useIsLoginYandexMutation();
-  const { setProfile } = useActions();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checkIsUserLoggedIn] = useIsLoginYandexMutation();
+  const navigate = useNavigate();
+  const [isRenderPage, setRenderPage] = useState(false);
 
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const code = searchParams.get("code");
-    if (code) {
+    if (code && !isRenderPage) {
       checkIsUserLoggedIn({
         code,
         // eslint-disable-next-line camelcase
         redirect_uri: devRedirectUri,
       }).then(() => {
-        setIsLoggedIn(true);
-        getUserInfo()
-          .unwrap()
-          .then(data => {
-            setProfile(data);
-          });
+        setRenderPage(true);
+        navigate(paths.homePage);
       });
     }
   }, []);
 
-  return (
-    <>
-      {isLoading || (isUninitialized && <div>Loading...</div>)}
-      {isLoggedIn && <HomePage />}
-    </>
-  );
+  return null;
 };
