@@ -5,7 +5,7 @@ import "@/app/style/style.css";
 
 import { registerServiceWorker, unregisterServiceWorker } from "@/app/utils/serviceWorker";
 
-if (import.meta.env.PROD) {
+if (import.meta.env.PROD && window.location.pathname.startsWith("/game")) {
   registerServiceWorker();
 } else {
   unregisterServiceWorker();
