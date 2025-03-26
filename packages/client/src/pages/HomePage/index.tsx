@@ -47,7 +47,7 @@ export const HomePage = withAuthGuard(() => {
     : [];
 
   useEffect(() => {
-    if (!leaders.length) {
+    if (!Array.isArray(leaders)) {
       getLeadBoard({
         ratingFieldName: "ppBirdScore",
         cursor: 0,
