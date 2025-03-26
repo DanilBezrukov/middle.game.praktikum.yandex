@@ -18,6 +18,7 @@ import { leaderboardActions, profileActions, themeActions } from "@/store";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { IProfile } from "@/types/profile.interface";
 import { themeApi } from "@/api/themeApi";
+import { forumApi } from "@/api/forumApi";
 
 export const render = async (req: express.Request) => {
   const { query, dataRoutes } = createStaticHandler(routes);
@@ -38,7 +39,8 @@ export const render = async (req: express.Request) => {
         .concat(authApi.middleware)
         .concat(profileApi.middleware)
         .concat(leaderboardApi.middleware)
-        .concat(themeApi.middleware),
+        .concat(themeApi.middleware)
+        .concat(forumApi.middleware),
   });
 
   const { setProfile } = profileActions;

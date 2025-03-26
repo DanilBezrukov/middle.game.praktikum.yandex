@@ -1,7 +1,7 @@
-import { UserReactionModel } from "../models/forum/UserReactionModel";
+import { ReactionTypeModel } from "../models/forum/ReactionTypeModel";
 
 export function initReactions() {
-  return UserReactionModel.bulkCreate([
+  return ReactionTypeModel.bulkCreate([
     {
       name: "Нравится",
       emoji: "👍",

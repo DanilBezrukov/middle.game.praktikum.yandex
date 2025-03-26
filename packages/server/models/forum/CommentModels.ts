@@ -1,17 +1,18 @@
 import {
   AllowNull,
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
-  BelongsTo,
-  HasMany,
 } from "sequelize-typescript";
 import { TopicModels } from "./TopicModels";
-import { ReplyModels } from "./ReplyModels";
+import { CommentReactionModel } from "./CommentReactionModel";
 
 interface ICommentAttributes {
+  id?: number;
   text: string;
   authorName: string;
   topicId: number;
@@ -39,6 +40,6 @@ export class CommentModels extends Model<ICommentAttributes> {
   @BelongsTo(() => TopicModels)
   topic!: TopicModels;
 
-  @HasMany(() => ReplyModels, { onDelete: "CASCADE" })
-  reply!: ReplyModels[];
+  @HasMany(() => CommentReactionModel, "commentId")
+  reactions!: CommentReactionModel;
 }

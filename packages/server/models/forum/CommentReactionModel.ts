@@ -2,25 +2,25 @@ import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize
 import { TopicModels } from "./TopicModels";
 import { ReactionTypeModel } from "./ReactionTypeModel";
 
-export type TopicReactionModelType = {
-  topicId: number;
+export type CommentReactionModelType = {
+  commentId: number;
   reactionTypeId: number;
 };
 
 @Table({
   timestamps: false,
 })
-export class TopicReactionModel extends Model<TopicReactionModelType> {
+export class CommentReactionModel extends Model<CommentReactionModelType> {
   @ForeignKey(() => TopicModels)
   @Column(DataType.INTEGER)
-  topicId!: number;
+  commentId!: number;
 
   @ForeignKey(() => ReactionTypeModel)
   @Column(DataType.INTEGER)
   reactionTypeId!: number;
 
   @BelongsTo(() => TopicModels)
-  topic!: TopicModels;
+  comments!: TopicModels;
 
   @BelongsTo(() => ReactionTypeModel)
   reactionType!: ReactionTypeModel;

@@ -3,15 +3,16 @@ import {
   AutoIncrement,
   Column,
   DataType,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
-  HasMany,
 } from "sequelize-typescript";
 import { CommentModels } from "./CommentModels";
 import { TopicReactionModel } from "./TopicReactionModel";
 
 interface ITopicAttributes {
+  id?: number;
   title: string;
   description: string;
   authorName: string;
@@ -44,6 +45,6 @@ export class TopicModels extends Model<ITopicAttributes> {
   @HasMany(() => CommentModels, { onDelete: "CASCADE" })
   comments!: CommentModels[];
 
-  @HasMany(() => TopicReactionModel, "topic_id")
+  @HasMany(() => TopicReactionModel, { onDelete: "CASCADE", foreignKey: "topicId" })
   reactions!: TopicReactionModel[];
 }

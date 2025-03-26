@@ -1,10 +1,10 @@
 import { Sequelize, SequelizeOptions } from "sequelize-typescript";
 import { TopicModels } from "./models/forum/TopicModels";
 import { CommentModels } from "./models/forum/CommentModels";
-import { ReplyModels } from "./models/forum/ReplyModels";
 import { TopicReactionModel } from "./models/forum/TopicReactionModel";
-import { UserReactionModel } from "./models/forum/UserReactionModel";
+import { ReactionTypeModel } from "./models/forum/ReactionTypeModel";
 import { ThemeModel } from "./models/ThemeModel";
+import { CommentReactionModel } from "./models/forum/CommentReactionModel";
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT, POSTGRES_HOST } = process.env;
 
@@ -12,9 +12,9 @@ const options: SequelizeOptions = {
   models: [
     TopicModels,
     CommentModels,
-    ReplyModels,
     TopicReactionModel,
-    UserReactionModel,
+    ReactionTypeModel,
+    CommentReactionModel,
     ThemeModel,
   ],
   dialect: "postgres",
